@@ -202,6 +202,78 @@
         .card-simplified-slider { position: relative; }
 
         /* ============================================
+           ROOM CARDS — match prep.outrigger.com/rooms-suites
+           ============================================ */
+        .destination-selection .card.swiper-slide {
+            background: #fff !important; border: 1px solid #e8e5de; border-radius: 0;
+            overflow: hidden; display: flex; flex-direction: column;
+        }
+        .destination-selection .card-simplified-slider {
+            position: relative; overflow: hidden;
+        }
+        .destination-selection .card-simplified-slider img {
+            width: 100%; height: auto; display: block; aspect-ratio: 3/2; object-fit: cover;
+        }
+        .destination-selection .card-body {
+            padding: 24px 28px 32px !important; background: #fff !important;
+            flex: 1; display: flex; flex-direction: column;
+        }
+        .destination-selection .card-body h4 {
+            margin: 0 0 12px !important; font-family: 'DuplicateIonic-Bold', Georgia, serif !important;
+            font-size: 24px !important; font-weight: 700 !important; line-height: 1.3 !important;
+        }
+        .destination-selection .card-body h4 a {
+            color: #1a1a1a !important; text-decoration: underline !important;
+            text-underline-offset: 4px; text-decoration-thickness: 1.5px;
+        }
+        .destination-selection .card-body h4 a:hover { color: #0F4A5A !important; }
+        .destination-selection .card-text {
+            font-family: 'DuplicateSans-Regular', sans-serif !important;
+            font-size: 16px !important; line-height: 1.6 !important; color: #444 !important;
+            margin-bottom: 24px !important; flex: 1;
+        }
+        .destination-selection .card-cta-info {
+            margin-top: auto;
+        }
+        .destination-selection .card-cta-info .button {
+            display: inline-flex !important; align-items: center; gap: 6px;
+            border: 2px solid #1a1a1a !important; color: #1a1a1a !important;
+            background: transparent !important; padding: 14px 24px !important;
+            font-family: 'DuplicateSans-Medium', sans-serif !important;
+            font-size: 16px !important; font-weight: 600; text-decoration: none !important;
+            letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s;
+        }
+        .destination-selection .card-cta-info .button:hover {
+            background: #1a1a1a !important; color: #fff !important;
+        }
+        /* Image dots overlay (decorative) */
+        .room-img-dots {
+            position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 6px; z-index: 2;
+        }
+        .room-img-dots span {
+            width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+        .room-img-dots span.active { background: #fff; }
+        /* Image nav arrows (decorative) */
+        .room-img-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.7);
+            border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            z-index: 2; transition: background 0.2s;
+        }
+        .room-img-nav:hover { background: rgba(255,255,255,0.95); }
+        .room-img-nav.prev { left: 12px; }
+        .room-img-nav.next { right: 12px; }
+        /* Gallery icon */
+        .room-gallery-icon {
+            position: absolute; bottom: 12px; right: 12px; z-index: 2;
+            width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.7);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ============================================
            EMAIL CAPTURE MODAL
            ============================================ */
         .modal-overlay {
@@ -1044,45 +1116,57 @@
             <div class="row destination-selection-slider">
                 <div class="col swiper card-slider-swiper swiper-initialized swiper-horizontal swiper-pointer-events">
                     <div class="card-slider-wrapper swiper-wrapper" style="display:flex;gap:0;">
-                        <!-- Room card 1 -->
+                        <!-- Room card 1: Pacific Tower Ocean View -->
                         <div class="card swiper-slide swiper-slide-visible swiper-slide-active" style="flex:0 0 33.33%;max-width:33.33%;">
                             <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
-                                <button class="favorite-btn" data-id="room-standard" data-type="Room" data-name="Standard" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/68b2ac23-d06b-4ad7-9bbc-13b0ee49b7f1/outrigger-reef-waikiki-beach-resort-voyager47-40.jpg?quality=100&width=700&height=467&stamp=122a0dd0c65ffc20ad2ace4a304f4b1b54535099&format=webp" onclick="onHeartClick(this)">
+                                <button class="favorite-btn" data-id="room-pacific-ocean" data-type="Room" data-name="Pacific Tower Ocean View" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/68b2ac23-d06b-4ad7-9bbc-13b0ee49b7f1/outrigger-reef-waikiki-beach-resort-voyager47-40.jpg?quality=100&width=700&height=467&format=webp" onclick="onHeartClick(this)">
                                     <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                                 </button>
-                                <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/68b2ac23-d06b-4ad7-9bbc-13b0ee49b7f1/outrigger-reef-waikiki-beach-resort-voyager47-40.jpg?quality=100&width=700&height=467&stamp=122a0dd0c65ffc20ad2ace4a304f4b1b54535099&format=webp" alt="Standard Room">
+                                <button class="room-img-nav prev"><svg width="10" height="16" viewBox="0 0 12 16" fill="none"><path d="m7.5,12.51l-4-4l4-4" stroke="#333" stroke-width="2"/></svg></button>
+                                <button class="room-img-nav next"><svg width="10" height="16" viewBox="0 0 12 16" fill="none"><path d="m4.5,3.49l4,4-4,4" stroke="#333" stroke-width="2"/></svg></button>
+                                <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/68b2ac23-d06b-4ad7-9bbc-13b0ee49b7f1/outrigger-reef-waikiki-beach-resort-voyager47-40.jpg?quality=100&width=700&height=467&format=webp" alt="Pacific Tower Ocean View">
+                                <div class="room-img-dots"><span class="active"></span><span></span><span></span><span></span><span></span></div>
+                                <div class="room-gallery-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
                             </div>
                             <div class="card-body">
-                                <h4><a href="#">Standard</a></h4>
-                                <div class="card-text">Create memories with the entire ohana (family) and stay in this quiet room on the side of the hotel.</div>
+                                <h4><a href="#">Pacific Tower Ocean View</a></h4>
+                                <div class="card-text">A spacious hideaway furnished with warm p&#257; &#699;ana a ka l&#257; (sunlight).</div>
                                 <div class="card-cta-info"><a href="#" class="button">Check Availability &rsaquo;</a></div>
                             </div>
                         </div>
-                        <!-- Room card 2 -->
+                        <!-- Room card 2: Ocean Tower Ocean View -->
                         <div class="card swiper-slide swiper-slide-visible swiper-slide-next" style="flex:0 0 33.33%;max-width:33.33%;">
                             <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
-                                <button class="favorite-btn" data-id="room-resort-view" data-type="Room" data-name="Resort View" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/a94d61af-ec28-41ec-af20-83fd727e567b/outrigger-reef-waikiki-beach-resort-exterior-sunrise2.jpg?quality=100&width=700&height=473&stamp=2f06a06f1139b8d892ae0805bf7a6855926e5197&format=webp" onclick="onHeartClick(this)">
+                                <button class="favorite-btn" data-id="room-ocean-tower" data-type="Room" data-name="Ocean Tower Ocean View" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/a94d61af-ec28-41ec-af20-83fd727e567b/outrigger-reef-waikiki-beach-resort-exterior-sunrise2.jpg?quality=100&width=700&height=473&format=webp" onclick="onHeartClick(this)">
                                     <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                                 </button>
-                                <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/a94d61af-ec28-41ec-af20-83fd727e567b/outrigger-reef-waikiki-beach-resort-exterior-sunrise2.jpg?quality=100&width=700&height=473&stamp=2f06a06f1139b8d892ae0805bf7a6855926e5197&format=webp" alt="Resort View">
+                                <button class="room-img-nav prev"><svg width="10" height="16" viewBox="0 0 12 16" fill="none"><path d="m7.5,12.51l-4-4l4-4" stroke="#333" stroke-width="2"/></svg></button>
+                                <button class="room-img-nav next"><svg width="10" height="16" viewBox="0 0 12 16" fill="none"><path d="m4.5,3.49l4,4-4,4" stroke="#333" stroke-width="2"/></svg></button>
+                                <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/a94d61af-ec28-41ec-af20-83fd727e567b/outrigger-reef-waikiki-beach-resort-exterior-sunrise2.jpg?quality=100&width=700&height=473&format=webp" alt="Ocean Tower Ocean View">
+                                <div class="room-img-dots"><span class="active"></span><span></span><span></span><span></span><span></span><span></span></div>
+                                <div class="room-gallery-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
                             </div>
                             <div class="card-body">
-                                <h4><a href="#">Resort View</a></h4>
-                                <div class="card-text">A tranquil Hawaii haven with striking views of ancient green mountains.</div>
+                                <h4><a href="#">Ocean Tower Ocean View</a></h4>
+                                <div class="card-text">A serene, ocean view haven with a grand view of moana kai&#699;lua - the clear blue sea.</div>
                                 <div class="card-cta-info"><a href="#" class="button">Check Availability &rsaquo;</a></div>
                             </div>
                         </div>
-                        <!-- Room card 3 -->
+                        <!-- Room card 3: Club 1BR Oceanfront Suite -->
                         <div class="card swiper-slide swiper-slide-visible" style="flex:0 0 33.33%;max-width:33.33%;">
                             <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
-                                <button class="favorite-btn" data-id="room-club-suite" data-type="Room" data-name="Club 1BR Oceanfront Suite" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/35db8bff-1364-44e0-9423-ae0ddb4d9afd/outrigger-reef-waikiki-beach-resort-aerial-1.jpg?quality=100&width=700&height=424&stamp=0c4b71706d3f18532958ef295842c5a7ea0c991b&format=webp" onclick="onHeartClick(this)">
+                                <button class="favorite-btn" data-id="room-club-suite" data-type="Room" data-name="Club 1BR Oceanfront Suite" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/35db8bff-1364-44e0-9423-ae0ddb4d9afd/outrigger-reef-waikiki-beach-resort-aerial-1.jpg?quality=100&width=700&height=424&format=webp" onclick="onHeartClick(this)">
                                     <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                                 </button>
-                                <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/35db8bff-1364-44e0-9423-ae0ddb4d9afd/outrigger-reef-waikiki-beach-resort-aerial-1.jpg?quality=100&width=700&height=424&stamp=0c4b71706d3f18532958ef295842c5a7ea0c991b&format=webp" alt="Club Suite">
+                                <button class="room-img-nav prev"><svg width="10" height="16" viewBox="0 0 12 16" fill="none"><path d="m7.5,12.51l-4-4l4-4" stroke="#333" stroke-width="2"/></svg></button>
+                                <button class="room-img-nav next"><svg width="10" height="16" viewBox="0 0 12 16" fill="none"><path d="m4.5,3.49l4,4-4,4" stroke="#333" stroke-width="2"/></svg></button>
+                                <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/35db8bff-1364-44e0-9423-ae0ddb4d9afd/outrigger-reef-waikiki-beach-resort-aerial-1.jpg?quality=100&width=700&height=424&format=webp" alt="Club Suite">
+                                <div class="room-img-dots"><span class="active"></span><span></span><span></span><span></span></div>
+                                <div class="room-gallery-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
                             </div>
                             <div class="card-body">
                                 <h4><a href="#">Club 1BR Oceanfront Suite</a></h4>
-                                <div class="card-text">A vacation haven where the sky meets the sea.</div>
+                                <div class="card-text">A vacation haven where the sky meets the sea with breathtaking oceanfront views.</div>
                                 <div class="card-cta-info"><a href="#" class="button">Check Availability &rsaquo;</a></div>
                             </div>
                         </div>
