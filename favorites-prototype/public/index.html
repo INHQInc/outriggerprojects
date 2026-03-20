@@ -729,13 +729,36 @@
         }
         .fav-tray__section-header svg { flex-shrink: 0; }
 
-        /* Tray empty inline state */
-        .fav-tray__empty-inline {
-            padding: 20px; text-align: center;
+        /* Tray signup CTA (no RIID state) */
+        .fav-tray__signup-cta {
+            padding: 28px 24px; text-align: center;
         }
+        .fav-tray__signup-icon { margin-bottom: 12px; }
+        .fav-tray__signup-title {
+            font-family: 'DuplicateIonic-Bold', Georgia, serif;
+            font-size: 20px; color: #1a1a1a; margin-bottom: 8px; line-height: 1.3;
+        }
+        .fav-tray__signup-desc {
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            font-size: 13px; color: #666; line-height: 1.6; margin-bottom: 20px;
+        }
+        .fav-tray__signup-btn {
+            display: inline-block; width: 100%; padding: 14px 20px;
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
+            font-size: 14px; color: #fff; background: #0F4A5A;
+            border: none; border-radius: 6px; cursor: pointer;
+            transition: background 0.2s; text-align: center;
+        }
+        .fav-tray__signup-btn:hover { background: #004561; }
+
+        /* Tray empty inline state (signed up, no items) */
+        .fav-tray__empty-inline {
+            padding: 28px 24px; text-align: center;
+        }
+        .fav-tray__empty-icon { margin-bottom: 10px; }
         .fav-tray__empty-inline .fav-tray__empty-text {
             font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
-            font-size: 13px; color: #999; line-height: 1.5;
+            font-size: 13px; color: #999; line-height: 1.6;
         }
 
         /* View All Favorites button */
@@ -1677,9 +1700,23 @@ function renderTray() {
     /* ── SECTION 1: MY FAVORITES ── */
     html += '<div class="fav-tray__section-header"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> My Favorites</div>';
 
-    if (allItems.length === 0) {
-        html += '<div class="fav-tray__empty-inline"><div class="fav-tray__empty-text">Tap the heart icon on any resort or room to save it here.</div></div>';
+    if (!state.hasRIID) {
+        /* ── STATE 1: Not signed up — entice them to create an account ── */
+        html += '<div class="fav-tray__signup-cta">';
+        html += '<div class="fav-tray__signup-icon"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0F4A5A" stroke-width="1.2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>';
+        html += '<div class="fav-tray__signup-title">Save your dream getaway</div>';
+        html += '<div class="fav-tray__signup-desc">Sign up to save your favorite resorts and rooms across devices. Build collections and plan your perfect Hawaiian escape.</div>';
+        html += '<button class="fav-tray__signup-btn" onclick="closeTray();openModal(\'emailModal\');">Sign Up to Save Favorites &rsaquo;</button>';
+        html += '</div>';
+    } else if (allItems.length === 0) {
+        /* ── STATE 2: Signed up but no saved items ── */
+        html += '<div class="fav-tray__empty-inline">';
+        html += '<div class="fav-tray__empty-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>';
+        html += '<div class="fav-tray__empty-text">You haven\'t saved any favorites yet. Browse resorts and rooms, then tap the heart icon to start building your collection.</div>';
+        html += '</div>';
+        html += '<button class="fav-tray__view-all-btn" onclick="switchView(\'view-favorites\');closeTray();">View All Favorites</button>';
     } else {
+        /* ── STATE 3: Signed up with saved items ── */
         /* Group items by resort */
         var trayResorts = {};
         var trayResortOrder = [];
@@ -1710,8 +1747,8 @@ function renderTray() {
             html += '<div class="fav-tray__collection-count">' + t.items.length + ' saved</div>';
             html += '</div>';
         });
+        html += '<button class="fav-tray__view-all-btn" onclick="switchView(\'view-favorites\');closeTray();">View All Favorites</button>';
     }
-    html += '<button class="fav-tray__view-all-btn" onclick="switchView(\'view-favorites\');closeTray();">View All Favorites</button>';
 
     /* ── SECTION 2: TRIP PLANNER QUIZ ── */
     html += '<div class="fav-tray__section-header" style="margin-top:8px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Trip Planner Quiz</div>';
