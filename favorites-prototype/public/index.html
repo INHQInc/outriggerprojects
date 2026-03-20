@@ -49,6 +49,7 @@
         }
         header.header .navbar-utility button { background: none; border: none; color: #fff; cursor: pointer; }
         header.header .navbar-utility-item button span { color: #fff; }
+        header.header .nav-icon { color: #fff; }
         header.header .header-booknow {
             border: 1px solid #fff !important;
             color: #fff !important;
@@ -80,12 +81,13 @@
         header.header.header-light .navbar-hamburger-more svg path { stroke: #252525 !important; }
         header.header.header-light .navbar-utility button { color: #252525; }
         header.header.header-light .navbar-utility-item button span { color: #252525 !important; }
-        header.header.header-light .navbar-utility-item svg { color: #252525; }
+        header.header.header-light .nav-icon { color: #252525 !important; }
+        header.header.header-light .navbar-utility-item svg { color: #252525 !important; }
         header.header.header-light .navbar-utility-item svg path { stroke: #252525 !important; }
-        header.header.header-light .favorites-link svg { color: #252525 !important; }
+        header.header.header-light .navbar-utility-item svg circle { stroke: #252525 !important; }
+        header.header.header-light .navbar-utility-item svg line { stroke: #252525 !important; }
+        header.header.header-light .navbar-utility-item svg rect { stroke: #252525 !important; }
         header.header.header-light .favorites-link svg path[fill="currentColor"] { fill: #252525 !important; }
-        header.header.header-light .favorites-link svg rect,
-        header.header.header-light .favorites-link svg path:not([fill="currentColor"]) { stroke: #252525 !important; }
         header.header.header-light .header-booknow {
             border: 1px solid #252525 !important;
             color: #252525 !important;
@@ -638,6 +640,68 @@
             font-size: 12px; color: #999;
         }
 
+        /* Tray section headers */
+        .fav-tray__section-header {
+            display: flex; align-items: center; gap: 8px;
+            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
+            font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px;
+            color: #1a1a1a; padding: 16px 20px 10px; border-bottom: 1px solid #f0f0f0;
+        }
+        .fav-tray__section-header svg { flex-shrink: 0; }
+
+        /* Tray empty inline state */
+        .fav-tray__empty-inline {
+            padding: 20px; text-align: center;
+        }
+        .fav-tray__empty-inline .fav-tray__empty-text {
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            font-size: 13px; color: #999; line-height: 1.5;
+        }
+
+        /* View All Favorites button */
+        .fav-tray__view-all-btn {
+            display: block; width: calc(100% - 40px); margin: 12px 20px;
+            padding: 12px; text-align: center;
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
+            font-size: 13px; color: #0F4A5A; background: #f4f4f2;
+            border: 1px solid #e0ddd6; border-radius: 6px; cursor: pointer;
+            transition: background 0.2s;
+        }
+        .fav-tray__view-all-btn:hover { background: #e8e6de; }
+
+        /* Trip Planner Quiz CTA card */
+        .fav-tray__quiz-cta { padding: 12px 20px 20px; }
+        .fav-tray__quiz-card {
+            display: block; text-decoration: none; color: inherit;
+            border-radius: 8px; overflow: hidden;
+            border: 1px solid #e8e5de; transition: box-shadow 0.2s;
+        }
+        .fav-tray__quiz-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .fav-tray__quiz-img {
+            width: 100%; height: 140px; overflow: hidden;
+        }
+        .fav-tray__quiz-img img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+        .fav-tray__quiz-content { padding: 14px 16px 16px; }
+        .fav-tray__quiz-eyebrow {
+            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
+            font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+            color: #999; margin-bottom: 4px;
+        }
+        .fav-tray__quiz-title {
+            font-family: 'DuplicateIonic-Bold', Georgia, serif;
+            font-size: 18px; color: #1a1a1a; margin-bottom: 6px; line-height: 1.3;
+        }
+        .fav-tray__quiz-desc {
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 10px;
+        }
+        .fav-tray__quiz-btn {
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
+            font-size: 13px; color: #0F4A5A; font-weight: 600;
+        }
+
         /* Header badge */
         .header-fav-badge {
             position: absolute; top: -4px; right: -6px;
@@ -721,19 +785,19 @@
                     <ul class="navbar-utility d-flex justify-content-end align-items-center mb-0">
                         <li class="navbar-utility-item language-switch">
                             <button type="button" class="d-flex flex-column align-items-center text-decoration-none">
-                                <img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/language.svg" alt="" style="width:24px;height:24px;">
+                                <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                                 <span style="font-size:10px;margin-top:2px;">EN</span>
                             </button>
                         </li>
                         <li class="navbar-utility-item members-link">
                             <button type="button" class="d-flex flex-column align-items-center text-decoration-none">
-                                <img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/members.svg" alt="" style="width:24px;height:24px;">
+                                <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3C7.58 3 4 5.69 4 9c0 2.17 1.58 4.06 4 5.13V21l4-3 4 3v-6.87c2.42-1.07 4-2.96 4-5.13 0-3.31-3.58-6-8-6z"/></svg>
                                 <span style="font-size:10px;margin-top:2px;">Loyalty</span>
                             </button>
                         </li>
                         <li class="navbar-utility-item favorites-link">
                             <button type="button" class="d-flex flex-column align-items-center text-decoration-none" data-bs-toggle="offcanvas" data-bs-target="#favoritesOffcanvas" aria-controls="favoritesOffcanvas" onclick="toggleTray()">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#fff;"><rect x="3" y="8" width="22" height="16" rx="2"/><path d="M10 8V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3"/><path d="M14 18.5l-2.5-2.3a1.8 1.8 0 0 1 0-2.6 1.8 1.8 0 0 1 2.5 0l0 0a1.8 1.8 0 0 1 2.5 0 1.8 1.8 0 0 1 0 2.6L14 18.5z" fill="currentColor" stroke="none"/></svg>
+                                <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="22" height="16" rx="2"/><path d="M10 8V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3"/><path d="M14 18.5l-2.5-2.3a1.8 1.8 0 0 1 0-2.6 1.8 1.8 0 0 1 2.5 0l0 0a1.8 1.8 0 0 1 2.5 0 1.8 1.8 0 0 1 0 2.6L14 18.5z" fill="currentColor" stroke="none"/></svg>
                                 <span style="font-size:10px;margin-top:2px;">Trip Planner</span>
                                 <span class="header-fav-badge" id="headerBadge" style="position:absolute;top:-4px;right:-4px;background:#E04F5F;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;display:none;align-items:center;justify-content:center;">0</span>
                             </button>
@@ -984,6 +1048,17 @@
     </div>
 </div>
 
+<!-- Create Collection -->
+<div class="modal-overlay create-collection-modal" id="createCollectionModal">
+    <div class="modal-overlay__bg" onclick="closeModal('createCollectionModal')"></div>
+    <div class="modal-card">
+        <button class="modal-card__close" onclick="closeModal('createCollectionModal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <h2>New collection</h2>
+        <input type="text" id="createCollectionInput" placeholder="e.g. Summer Hawaii 2026">
+        <button class="rename-modal__save" onclick="confirmCreateCollection()">Create</button>
+    </div>
+</div>
+
 <!-- Confirm Delete -->
 <div class="modal-overlay confirm-modal" id="deleteModal">
     <div class="modal-overlay__bg" onclick="closeModal('deleteModal')"></div>
@@ -1003,7 +1078,7 @@
 <div class="fav-tray" id="favTray">
     <div class="fav-tray__header">
         <div class="fav-tray__header-left">
-            <img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/members-dark.svg" style="width:18px;height:18px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 28 28" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="22" height="16" rx="2"/><path d="M10 8V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3"/><path d="M14 18.5l-2.5-2.3a1.8 1.8 0 0 1 0-2.6 1.8 1.8 0 0 1 2.5 0l0 0a1.8 1.8 0 0 1 2.5 0 1.8 1.8 0 0 1 0 2.6L14 18.5z" fill="#1a1a1a" stroke="none"/></svg>
             <span class="fav-tray__header-title">Trip Planner</span>
             <span class="fav-tray__badge" id="trayBadge" style="display:none;">0</span>
         </div>
@@ -1237,13 +1312,18 @@ function removeItemFromTrip(tripId, itemId) {
 }
 
 function createTripFromPage() {
-    const name = prompt('Collection name:');
-    if (name && name.trim()) {
-        state.trips.push({ id: 'trip-' + Date.now(), name: name.trim(), items: [] });
-        toast('Collection "' + name.trim() + '" created');
-        syncUI();
-        renderFavoritesPage();
-    }
+    document.getElementById('createCollectionInput').value = '';
+    openModal('createCollectionModal');
+    setTimeout(function() { document.getElementById('createCollectionInput').focus(); }, 100);
+}
+function confirmCreateCollection() {
+    const name = document.getElementById('createCollectionInput').value.trim();
+    if (!name) return;
+    state.trips.push({ id: 'trip-' + Date.now(), name: name, items: [] });
+    closeModal('createCollectionModal');
+    toast('Collection "' + name + '" created');
+    syncUI();
+    renderFavoritesPage();
 }
 
 // ============================
@@ -1312,35 +1392,54 @@ function closeTray() {
 function renderTray() {
     const body = document.getElementById('trayBody');
     const allItems = state.trips.flatMap(t => t.items.map(i => ({ ...i, tripName: t.name, tripId: t.id })));
+    let html = '';
+
+    /* ── SECTION 1: MY FAVORITES ── */
+    html += '<div class="fav-tray__section-header"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> My Favorites</div>';
+
     if (allItems.length === 0) {
-        body.innerHTML = '<div class="fav-tray__empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><div class="fav-tray__empty-title">No favorites yet</div><div class="fav-tray__empty-text">Tap the heart icon on any resort or room to save it here.</div></div>';
-        document.getElementById('trayFooter').style.display = 'none';
-        document.getElementById('trayBadge').style.display = 'none';
-        return;
+        html += '<div class="fav-tray__empty-inline"><div class="fav-tray__empty-text">Tap the heart icon on any resort or room to save it here.</div></div>';
+    } else {
+        const MAX_RECENT = 5;
+        html += '<div class="fav-tray__recents-label">Recently saved</div>';
+        const recentItems = allItems.slice(-MAX_RECENT).reverse();
+        recentItems.forEach(item => {
+            html += '<div class="fav-tray__item"><img class="fav-tray__item-img" src="' + item.img + '"><div class="fav-tray__item-content"><div class="fav-tray__item-name">' + item.name + '</div><div class="fav-tray__item-sub">' + item.type + ' &middot; ' + item.tripName + '</div></div>';
+            html += '<button class="fav-tray__item-remove" onclick="removeTrayItem(\'' + item.tripId + '\',\'' + item.id + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
+        });
+        if (allItems.length > MAX_RECENT) {
+            const remaining = allItems.length - MAX_RECENT;
+            html += '<button class="fav-tray__view-more" onclick="switchView(\'view-favorites\');closeTray();">+ ' + remaining + ' more &middot; View all favorites</button>';
+        }
+        html += '<div class="fav-tray__collections-label">Collections (' + state.trips.length + ')</div>';
+        state.trips.forEach(t => {
+            html += '<div class="fav-tray__collection-row" onclick="switchView(\'view-favorites\');setTimeout(function(){viewTrip(\'' + t.id + '\')},100);">';
+            html += '<div class="fav-tray__collection-name">' + t.name + '</div>';
+            html += '<div class="fav-tray__collection-count">' + t.items.length + ' saved</div>';
+            html += '</div>';
+        });
     }
-    const MAX_RECENT = 5;
-    let html = '<div class="fav-tray__heading">My Favorites</div>';
-    html += '<div class="fav-tray__recents-label">Recently saved</div>';
-    const recentItems = allItems.slice(-MAX_RECENT).reverse();
-    recentItems.forEach(item => {
-        html += '<div class="fav-tray__item"><img class="fav-tray__item-img" src="' + item.img + '"><div class="fav-tray__item-content"><div class="fav-tray__item-name">' + item.name + '</div><div class="fav-tray__item-sub">' + item.type + ' &middot; ' + item.tripName + '</div></div>';
-        html += '<button class="fav-tray__item-remove" onclick="removeTrayItem(\'' + item.tripId + '\',\'' + item.id + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
-    });
-    if (allItems.length > MAX_RECENT) {
-        const remaining = allItems.length - MAX_RECENT;
-        html += '<button class="fav-tray__view-more" onclick="switchView(\'view-favorites\');closeTray();">+ ' + remaining + ' more &middot; View all favorites</button>';
-    }
-    html += '<div class="fav-tray__collections-label">Collections (' + state.trips.length + ')</div>';
-    state.trips.forEach(t => {
-        html += '<div class="fav-tray__collection-row" onclick="switchView(\'view-favorites\');setTimeout(function(){viewTrip(\'' + t.id + '\')},100);">';
-        html += '<div class="fav-tray__collection-name">' + t.name + '</div>';
-        html += '<div class="fav-tray__collection-count">' + t.items.length + ' saved</div>';
-        html += '</div>';
-    });
+    html += '<button class="fav-tray__view-all-btn" onclick="switchView(\'view-favorites\');closeTray();">View All Favorites</button>';
+
+    /* ── SECTION 2: TRIP PLANNER QUIZ ── */
+    html += '<div class="fav-tray__section-header" style="margin-top:8px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Trip Planner Quiz</div>';
+    html += '<div class="fav-tray__quiz-cta">';
+    html += '<a href="https://www.outrigger.com/travel-quiz" target="_blank" class="fav-tray__quiz-card">';
+    html += '<div class="fav-tray__quiz-img"><img src="https://www.outrigger.com/AdaptiveImages/optimizely/b15b5ac3-0235-411f-b85f-99eb22de78fa/shutterstock-2191013583.jpg?quality=80&width=400&height=300&format=webp" alt="Travel Quiz"></div>';
+    html += '<div class="fav-tray__quiz-content">';
+    html += '<div class="fav-tray__quiz-eyebrow">OUTRIGGER TRAVEL QUIZ</div>';
+    html += '<div class="fav-tray__quiz-title">Where should you go next?</div>';
+    html += '<div class="fav-tray__quiz-desc">Take our quick, five-question quiz to see which tropical destination fits your travel dreams.</div>';
+    html += '<div class="fav-tray__quiz-btn">Take the quiz &rsaquo;</div>';
+    html += '</div></a></div>';
+
     body.innerHTML = html;
-    document.getElementById('trayFooter').style.display = 'block';
-    document.getElementById('trayBadge').textContent = allItems.length;
-    document.getElementById('trayBadge').style.display = 'inline-flex';
+    // Update footer and badge
+    document.getElementById('trayFooter').style.display = 'none'; // Footer no longer needed, CTA is inline
+    const total = allItems.length;
+    const badge = document.getElementById('trayBadge');
+    badge.textContent = total;
+    badge.style.display = total > 0 ? 'inline-flex' : 'none';
 }
 function removeTrayItem(tripId, itemId) {
     const trip = state.trips.find(t => t.id === tripId);
