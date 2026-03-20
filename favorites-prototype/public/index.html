@@ -832,6 +832,32 @@
         .mobile-nav__bottom-item:hover { color: #fff; }
         .mobile-nav__bottom-item svg { color: rgba(255,255,255,0.85); }
 
+        /* Tray resort grouping */
+        .fav-tray__resort-group {
+            padding-bottom: 4px; border-bottom: 1px solid #f0f0f0;
+        }
+        .fav-tray__resort-name {
+            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
+            font-size: 12px; color: #0F4A5A; padding: 12px 20px 4px;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* Favorites page resort grouping */
+        .fav-resort-group { margin-bottom: 32px; }
+        .fav-resort-group__header {
+            display: flex; justify-content: space-between; align-items: baseline;
+            padding: 0 0 12px; margin-bottom: 16px;
+            border-bottom: 2px solid #0F4A5A;
+        }
+        .fav-resort-group__name {
+            font-family: 'DuplicateIonic-Bold', Georgia, serif;
+            font-size: 22px; color: #1a1a1a;
+        }
+        .fav-resort-group__count {
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            font-size: 14px; color: #888;
+        }
+
         /* Header badge */
         .header-fav-badge {
             position: absolute; top: -4px; right: -6px;
@@ -1474,14 +1500,30 @@ function renderTripDetail(el) {
     if (trip.items.length === 0) {
         html += '<div class="trip-detail__empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><h3>No items yet</h3><p>Browse resorts and rooms, then tap the heart icon to save items to this collection.</p></div>';
     } else {
-        html += '<div class="fav-items-grid">';
-        trip.items.forEach(item => {
-            html += '<div class="fav-item-card"><div class="fav-item-card__img-wrap"><img class="fav-item-card__img" src="' + item.img + '"><span class="fav-item-card__type">' + item.type + '</span>';
-            html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + item.id + '\')"><svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div>';
-            html += '<div class="fav-item-card__body"><div class="fav-item-card__title">' + item.name + '</div><div class="fav-item-card__subtitle">' + item.sub + '</div>';
-            html += '<div class="fav-item-card__cta"><a href="#" class="fav-item-card__book">Book Now &rsaquo;</a><button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + item.id + '\')">Remove</button></div></div></div>';
+        /* Group items by resort (sub field) */
+        var resortGroups = {};
+        var resortOrder = [];
+        trip.items.forEach(function(item) {
+            var key = item.sub || 'Other';
+            if (!resortGroups[key]) { resortGroups[key] = []; resortOrder.push(key); }
+            resortGroups[key].push(item);
         });
-        html += '</div>';
+        resortOrder.forEach(function(resortName) {
+            var items = resortGroups[resortName];
+            html += '<div class="fav-resort-group">';
+            html += '<div class="fav-resort-group__header">';
+            html += '<div class="fav-resort-group__name">' + resortName + '</div>';
+            html += '<div class="fav-resort-group__count">' + items.length + ' room' + (items.length !== 1 ? 's' : '') + ' saved</div>';
+            html += '</div>';
+            html += '<div class="fav-items-grid">';
+            items.forEach(function(item) {
+                html += '<div class="fav-item-card"><div class="fav-item-card__img-wrap"><img class="fav-item-card__img" src="' + item.img + '"><span class="fav-item-card__type">' + item.type + '</span>';
+                html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + item.id + '\')"><svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div>';
+                html += '<div class="fav-item-card__body"><div class="fav-item-card__title">' + item.name + '</div>';
+                html += '<div class="fav-item-card__cta"><a href="#" class="fav-item-card__book">Book Now &rsaquo;</a><button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + item.id + '\')">Remove</button></div></div></div>';
+            });
+            html += '</div></div>';
+        });
     }
     html += '</div>';
     el.innerHTML = html;
@@ -1602,17 +1644,29 @@ function renderTray() {
     if (allItems.length === 0) {
         html += '<div class="fav-tray__empty-inline"><div class="fav-tray__empty-text">Tap the heart icon on any resort or room to save it here.</div></div>';
     } else {
-        const MAX_RECENT = 5;
-        html += '<div class="fav-tray__recents-label">Recently saved</div>';
-        const recentItems = allItems.slice(-MAX_RECENT).reverse();
-        recentItems.forEach(item => {
-            html += '<div class="fav-tray__item"><img class="fav-tray__item-img" src="' + item.img + '"><div class="fav-tray__item-content"><div class="fav-tray__item-name">' + item.name + '</div><div class="fav-tray__item-sub">' + item.type + ' &middot; ' + item.tripName + '</div></div>';
-            html += '<button class="fav-tray__item-remove" onclick="removeTrayItem(\'' + item.tripId + '\',\'' + item.id + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
+        /* Group items by resort */
+        var trayResorts = {};
+        var trayResortOrder = [];
+        allItems.forEach(function(item) {
+            var key = item.sub || 'Other';
+            if (!trayResorts[key]) { trayResorts[key] = []; trayResortOrder.push(key); }
+            trayResorts[key].push(item);
         });
-        if (allItems.length > MAX_RECENT) {
-            const remaining = allItems.length - MAX_RECENT;
-            html += '<button class="fav-tray__view-more" onclick="switchView(\'view-favorites\');closeTray();">+ ' + remaining + ' more &middot; View all favorites</button>';
-        }
+        trayResortOrder.forEach(function(resortName) {
+            var items = trayResorts[resortName];
+            html += '<div class="fav-tray__resort-group">';
+            html += '<div class="fav-tray__resort-name">' + resortName + '</div>';
+            var showItems = items.slice(0, 3);
+            showItems.forEach(function(item) {
+                html += '<div class="fav-tray__item"><img class="fav-tray__item-img" src="' + item.img + '"><div class="fav-tray__item-content"><div class="fav-tray__item-name">' + item.name + '</div><div class="fav-tray__item-sub">' + item.type + ' &middot; ' + item.tripName + '</div></div>';
+                html += '<button class="fav-tray__item-remove" onclick="removeTrayItem(\'' + item.tripId + '\',\'' + item.id + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
+            });
+            if (items.length > 3) {
+                html += '<button class="fav-tray__view-more" onclick="switchView(\'view-favorites\');closeTray();">+ ' + (items.length - 3) + ' more rooms</button>';
+            }
+            html += '</div>';
+        });
+        /* Collections list */
         html += '<div class="fav-tray__collections-label">Collections (' + state.trips.length + ')</div>';
         state.trips.forEach(t => {
             html += '<div class="fav-tray__collection-row" onclick="switchView(\'view-favorites\');setTimeout(function(){viewTrip(\'' + t.id + '\')},100);">';
