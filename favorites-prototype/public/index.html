@@ -513,108 +513,159 @@
 <body>
 
 <!-- ==========================================
-     HEADER
+     HEADER (matches outrigger.com DOM structure)
      ========================================== -->
-<header class="ae-page-header">
-    <nav class="navbar" role="navigation" aria-label="Main">
-        <button type="button" class="ae-hamburger-menu">
-            <svg xmlns="http://www.w3.org/2000/svg" width="27" height="18" role="presentation"><path d="M0 .9h27M0 9h27M0 17.1h27" stroke="white" stroke-width="1.8"></path></svg>
-            <span class="ae-hamburger-text--explore">Explore</span>
-            <span class="ae-hamburger-text--menu">Menu</span>
-        </button>
-        <a href="#" class="ae-header-logo--mobile"><img src="https://www.outrigger.com/globalassets/outrigger/images/logo/outrigger-logo-only-white.svg" alt="outrigger logo" class="logo-only"></a>
-        <a href="#" class="ae-header-logo"><img src="https://www.outrigger.com/globalassets/outrigger/images/logo/outrigger-logo-only-white.svg" alt="Outrigger" class="logo-full"></a>
-        <ul class="ae-header-utilities">
-            <li class="ae-utility-item"><button type="button"><img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/language.svg" alt="" class="ae-utility-icon--light"><img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/language-dark.svg" alt="" class="ae-utility-icon--dark"></button></li>
-            <li class="ae-utility-item"><button type="button"><img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/members.svg" alt="" class="ae-utility-icon--light"><img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/members-dark.svg" alt="" class="ae-utility-icon--dark"><span class="ae-utility-text">Loyalty</span></button></li>
-            <li class="ae-utility-item" style="position:relative;">
-                <button type="button" onclick="toggleTray()"><img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/members-dark.svg" alt="" class="ae-utility-icon--dark" style="width:20px;height:20px;"><span class="ae-utility-text">Trip Planner</span><span class="header-fav-badge" id="headerBadge">0</span></button>
-            </li>
-            <li class="ae-utility-item"><button type="button" class="button ae-book-now">Book Now</button></li>
-        </ul>
+<header class="header">
+    <nav class="navbar navigation">
+        <div id="widget-status"></div>
+        <div class="container-fluid">
+            <div class="row w-100 align-items-center">
+                <!-- Left col: hamburger -->
+                <div class="col-sm-4 col-md-4 col-lg-4 d-flex align-items-center">
+                    <button class="navbar-hamburger-more" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="18" role="presentation" class="hamburger-icon"><path d="M0 .9h27M0 9h27M0 17.1h27" stroke="currentColor" stroke-width="1.8" fill="none"></path></svg>
+                        <span class="hamburger-text">Explore</span>
+                    </button>
+                </div>
+                <!-- Center col: logo -->
+                <div class="col-sm-8 col-md-4 col-lg-4 text-center">
+                    <a href="https://www.outrigger.com/" class="header-logo-dark-bg">
+                        <img class="header-logo" src="https://www.outrigger.com/globalassets/outrigger/images/logo/outrigger-logo-only-white.svg" alt="outrigger logo only white">
+                    </a>
+                    <a href="https://www.outrigger.com/" class="header-logo-light-bg">
+                        <img class="header-logo" src="https://www.outrigger.com/globalassets/outrigger/images/logo/outrigger-logo-only-sig-blue-rgb.svg" alt="Outrigger Homepage Logo">
+                    </a>
+                </div>
+                <!-- Right col: utility -->
+                <div class="col-sm-3 col-md-4 col-lg-4 utility">
+                    <ul class="navbar-utility d-flex justify-content-end align-items-center mb-0">
+                        <li class="navbar-utility-item language-switch">
+                            <button type="button" class="d-flex flex-column align-items-center text-decoration-none">
+                                <img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/language.svg" alt="" style="width:24px;height:24px;">
+                                <span style="font-size:10px;margin-top:2px;">EN</span>
+                            </button>
+                        </li>
+                        <li class="navbar-utility-item members-link">
+                            <button type="button" class="d-flex flex-column align-items-center text-decoration-none">
+                                <img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/members.svg" alt="" style="width:24px;height:24px;">
+                                <span style="font-size:10px;margin-top:2px;">Loyalty</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="navbar-menu-link navbar-utility-btn bw-magic-link header-booknow" type="button">BOOK NOW</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </nav>
 </header>
 
 <!-- ==========================================
-     VIEW 1: HOMEPAGE — EXPLORE HAWAII
+     VIEW 1: HOMEPAGE
      ========================================== -->
+<main class="out-content">
 <div class="proto-view active" id="view-home">
-    <section class="destination-selection" style="padding:60px 0;">
+
+    <!-- HERO SECTION (matches outrigger.com) -->
+    <div class="hero">
+        <div class="hero-media-container">
+            <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
+                <source src="https://www.outrigger.com/globalassets/outrigger/videos/orh/24-1362-orh-homepage-hero-video.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="container hero-text-container">
+            <div class="hero-eyebrow">OUTRIGGER RESORTS &amp; HOTELS</div>
+            <h1 class="hero-title">Ocean views on sale</h1>
+            <div class="hero-valueproposition">40% off front-row views of paradise</div>
+            <div class="hero-description"><p>Don't let the #FOMO (Fear of Missing OUTRIGGER) catch you</p></div>
+            <a href="#" class="button hero-cta"><span>Learn more</span></a>
+        </div>
+    </div>
+
+    <!-- EXPLORE HAWAII / DESTINATION SELECTION (matches outrigger.com) -->
+    <section class="destination-selection">
         <div class="container">
-            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:30px;">
-                <div>
-                    <span style="font-family:'DuplicateSans-Regular',sans-serif;font-size:14px;letter-spacing:2px;text-transform:uppercase;color:#004561;">Explore</span>
-                    <h2 style="font-family:'DuplicateIonic-Light',Georgia,serif;font-size:48px;color:#1a1a1a;margin:0;line-height:1.1;">Hawaii</h2>
+            <!-- Tabs row -->
+            <div class="row destination-selection-tabs-row">
+                <div class="col-md-8">
+                    <h4 class="m-0 d-none d-md-block">Explore</h4>
+                    <div class="destination-selection-tabs">
+                        <h2>Hawaii</h2>
+                        <div class="destination-selection-tabs-list" role="tablist">
+                            <div class="destination-selection-tabs-lists"><button type="button" role="tab" aria-selected="true" class="active">Oahu</button></div>
+                            <div class="destination-selection-tabs-lists"><button type="button" role="tab" aria-selected="false">Maui</button></div>
+                            <div class="destination-selection-tabs-lists"><button type="button" role="tab" aria-selected="false">Hawaii Island</button></div>
+                            <div class="destination-selection-tabs-lists"><button type="button" role="tab" aria-selected="false">Kauai</button></div>
+                        </div>
+                    </div>
                 </div>
-                <div style="display:flex;gap:20px;">
-                    <span style="font-family:'Montserrat',sans-serif;font-size:14px;color:#333;border-bottom:2px solid #004561;padding-bottom:2px;cursor:pointer;">Oahu</span>
-                    <span style="font-family:'Montserrat',sans-serif;font-size:14px;color:#666;cursor:pointer;">Maui</span>
-                    <span style="font-family:'Montserrat',sans-serif;font-size:14px;color:#666;cursor:pointer;">Hawaii Island</span>
-                    <span style="font-family:'Montserrat',sans-serif;font-size:14px;color:#666;cursor:pointer;">Kauai</span>
+                <div class="col-md-4 d-flex">
                 </div>
             </div>
-            <div style="display:flex;gap:15px;">
-                <!-- Destination card -->
-                <div style="flex:0 0 33%;position:relative;min-height:460px;border-radius:0;overflow:hidden;">
-                    <img src="https://www.outrigger.com/globalassets/packages-promos/destinations/oahu/oahu_destination_702x626.jpg" style="width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;">
-                    <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to top,rgba(0,0,0,0.55) 0%,rgba(0,0,0,0.05) 60%,transparent 100%);"></div>
-                    <div style="position:absolute;bottom:30px;left:30px;right:30px;z-index:1;">
-                        <span style="font-family:'DuplicateSans-Bold',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#fff;opacity:.8;">Explore Oahu</span>
-                        <div style="font-family:'DuplicateIonic-Light',Georgia,serif;font-size:42px;color:#fff;margin:6px 0;">Oahu</div>
-                        <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#fff;line-height:1.6;margin-bottom:18px;opacity:.9;">World-renowned beaches, iconic views, vibrant local culture, Oahu is home to some seriously awe-inspiring experiences.</div>
-                        <a href="#" style="display:inline-block;border:1px solid #fff;color:#fff;padding:10px 20px;font-family:'DuplicateSans-Regular',sans-serif;font-size:13px;text-decoration:none;">Oahu highlights &rsaquo;</a>
-                    </div>
-                </div>
-                <!-- Resort Card 1 -->
-                <div style="flex:0 0 calc(33% - 8px);">
-                    <div class="card" style="border:none;border-radius:0;">
-                        <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
-                            <button class="favorite-btn" data-id="resort-reef" data-type="Resort" data-name="OUTRIGGER Reef Waikiki Beach Resort" data-sub="Oahu, Hawaii" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/753dec1f-a09b-42b5-85f5-44a03e3c5b4a/outrigger-reef-waikiki-beach-resort-coral-reef-penthouse-2-bedroom-suite-11.jpg?quality=100&width=700&height=393&stamp=cf85c663435ead22a0f47d4bec2162a1466a4886&format=webp" onclick="onHeartClick(this)">
-                                <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                            </button>
-                            <div id="c1" class="carousel slide" data-bs-ride="false">
-                                <div class="carousel-indicators"><button data-bs-target="#c1" data-bs-slide-to="0" class="active"></button><button data-bs-target="#c1" data-bs-slide-to="1"></button><button data-bs-target="#c1" data-bs-slide-to="2"></button></div>
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active"><img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/753dec1f-a09b-42b5-85f5-44a03e3c5b4a/outrigger-reef-waikiki-beach-resort-coral-reef-penthouse-2-bedroom-suite-11.jpg?quality=100&width=700&height=393&stamp=cf85c663435ead22a0f47d4bec2162a1466a4886&format=webp" alt="Reef Resort"></div>
-                                    <div class="carousel-item"><img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/d2cdcf54-c724-40b0-af6d-d7a3c1686547/outrigger-reef-waikiki-beach-resort-dining-monkeypod-kitchen-29.jpg?quality=100&width=700&height=482&stamp=ff436c1c6e3419c8954ac84af2a731462caa6294&format=webp" alt="Dining"></div>
-                                    <div class="carousel-item"><img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/35db8bff-1364-44e0-9423-ae0ddb4d9afd/outrigger-reef-waikiki-beach-resort-aerial-1.jpg?quality=100&width=700&height=424&stamp=0c4b71706d3f18532958ef295842c5a7ea0c991b&format=webp" alt="Aerial"></div>
+            <!-- Card slider row -->
+            <div class="row destination-selection-slider">
+                <div class="col swiper card-slider-swiper swiper-initialized swiper-horizontal swiper-pointer-events swiper-watch-progress">
+                    <div class="card-slider-wrapper swiper-wrapper" style="display:flex;gap:0;">
+                        <!-- Promo / Destination Card -->
+                        <div class="card swiper-slide card-image-overlay promo-card swiper-slide-visible swiper-slide-active" style="flex:0 0 33.33%;max-width:33.33%;">
+                            <div class="card-body">
+                                <div class="card-slider-eyebrow">Explore Oahu</div>
+                                <div class="card-title">Oahu</div>
+                                <div class="card-text">World-renowned beaches, iconic views, vibrant local culture, Oahu is home to some seriously awe-inspiring experiences.</div>
+                                <div class="card-cta-info"><a href="#" class="button">Oahu highlights &rsaquo;</a></div>
+                            </div>
+                        </div>
+                        <!-- Resort Card 1: Reef -->
+                        <div class="card swiper-slide swiper-slide-visible swiper-slide-next" style="flex:0 0 33.33%;max-width:33.33%;">
+                            <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
+                                <button class="favorite-btn" data-id="resort-reef" data-type="Resort" data-name="OUTRIGGER Reef Waikiki Beach Resort" data-sub="Oahu, Hawaii" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/753dec1f-a09b-42b5-85f5-44a03e3c5b4a/outrigger-reef-waikiki-beach-resort-coral-reef-penthouse-2-bedroom-suite-11.jpg?quality=100&width=700&height=393&stamp=cf85c663435ead22a0f47d4bec2162a1466a4886&format=webp" onclick="onHeartClick(this)">
+                                    <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                                </button>
+                                <div id="c1" class="carousel slide" data-bs-ride="false">
+                                    <div class="carousel-indicators"><button data-bs-target="#c1" data-bs-slide-to="0" class="active"></button><button data-bs-target="#c1" data-bs-slide-to="1"></button><button data-bs-target="#c1" data-bs-slide-to="2"></button></div>
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active"><img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/753dec1f-a09b-42b5-85f5-44a03e3c5b4a/outrigger-reef-waikiki-beach-resort-coral-reef-penthouse-2-bedroom-suite-11.jpg?quality=100&width=700&height=393&stamp=cf85c663435ead22a0f47d4bec2162a1466a4886&format=webp" alt="Reef Resort"></div>
+                                        <div class="carousel-item"><img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/d2cdcf54-c724-40b0-af6d-d7a3c1686547/outrigger-reef-waikiki-beach-resort-dining-monkeypod-kitchen-29.jpg?quality=100&width=700&height=482&stamp=ff436c1c6e3419c8954ac84af2a731462caa6294&format=webp" alt="Dining"></div>
+                                        <div class="carousel-item"><img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/35db8bff-1364-44e0-9423-ae0ddb4d9afd/outrigger-reef-waikiki-beach-resort-aerial-1.jpg?quality=100&width=700&height=424&stamp=0c4b71706d3f18532958ef295842c5a7ea0c991b&format=webp" alt="Aerial"></div>
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#c1" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></a>
+                                <a class="carousel-control-next" href="#c1" data-bs-slide="next"><span class="carousel-control-next-icon"></span></a>
+                            </div>
+                            <div class="card-body">
+                                <h4>OUTRIGGER Reef Waikiki Beach Resort</h4>
+                                <div class="card-text">Contemporary Hawaiian retreat rooted in cultural activities, local artwork and world-renowned restaurant Monkeypod Kitchen by Merriman.</div>
+                                <div class="card-price-block"></div>
+                                <div class="card-cta-info">
+                                    <a href="#" class="button">Book Now &rsaquo;</a>
+                                    <a href="#" class="card-link">Learn More</a>
                                 </div>
                             </div>
-                            <a class="carousel-control-prev" href="#c1" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></a>
-                            <a class="carousel-control-next" href="#c1" data-bs-slide="next"><span class="carousel-control-next-icon"></span></a>
                         </div>
-                        <div class="card-body" style="padding:14px 0;">
-                            <h4 style="font-family:'DuplicateSans-Bold',sans-serif;font-size:17px;color:#1a1a1a;margin:0 0 6px;">OUTRIGGER Reef Waikiki Beach Resort</h4>
-                            <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#555;line-height:1.5;margin-bottom:14px;">Contemporary Hawaiian retreat rooted in cultural activities, local artwork and world-renowned restaurant Monkeypod Kitchen by Merriman.</div>
-                            <div style="display:flex;gap:14px;align-items:center;">
-                                <a href="#" style="display:inline-block;border:1px solid #1a1a1a;color:#1a1a1a;padding:9px 18px;font-family:'DuplicateSans-Regular',sans-serif;font-size:12px;text-decoration:none;">Book Now &rsaquo;</a>
-                                <a href="#" style="font-family:'Montserrat',sans-serif;font-size:12px;color:#1a1a1a;text-decoration:underline;">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Resort Card 2 -->
-                <div style="flex:0 0 calc(33% - 8px);">
-                    <div class="card" style="border:none;border-radius:0;">
-                        <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
-                            <button class="favorite-btn" data-id="resort-waikiki" data-type="Resort" data-name="OUTRIGGER Waikiki Beach Resort" data-sub="Oahu, Hawaii" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/b1c81086-a2b1-46b2-96c8-064a18400d6f/outrigger-waikiki-beach-resort-exterior-1.jpg?quality=100&width=700&height=391&stamp=3d81afea29f058bbf289dade28b1b2355b22d0b3&format=webp" onclick="onHeartClick(this)">
-                                <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                            </button>
-                            <div id="c2" class="carousel slide" data-bs-ride="false">
-                                <div class="carousel-indicators"><button data-bs-target="#c2" data-bs-slide-to="0" class="active"></button></div>
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active"><img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/b1c81086-a2b1-46b2-96c8-064a18400d6f/outrigger-waikiki-beach-resort-exterior-1.jpg?quality=100&width=700&height=391&stamp=3d81afea29f058bbf289dade28b1b2355b22d0b3&format=webp" alt="Waikiki Resort"></div>
+                        <!-- Resort Card 2: Waikiki -->
+                        <div class="card swiper-slide swiper-slide-visible" style="flex:0 0 33.33%;max-width:33.33%;">
+                            <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
+                                <button class="favorite-btn" data-id="resort-waikiki" data-type="Resort" data-name="OUTRIGGER Waikiki Beach Resort" data-sub="Oahu, Hawaii" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/b1c81086-a2b1-46b2-96c8-064a18400d6f/outrigger-waikiki-beach-resort-exterior-1.jpg?quality=100&width=700&height=391&stamp=3d81afea29f058bbf289dade28b1b2355b22d0b3&format=webp" onclick="onHeartClick(this)">
+                                    <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                                </button>
+                                <div id="c2" class="carousel slide" data-bs-ride="false">
+                                    <div class="carousel-indicators"><button data-bs-target="#c2" data-bs-slide-to="0" class="active"></button></div>
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active"><img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/b1c81086-a2b1-46b2-96c8-064a18400d6f/outrigger-waikiki-beach-resort-exterior-1.jpg?quality=100&width=700&height=391&stamp=3d81afea29f058bbf289dade28b1b2355b22d0b3&format=webp" alt="Waikiki Resort"></div>
+                                    </div>
                                 </div>
+                                <a class="carousel-control-prev" href="#c2" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></a>
+                                <a class="carousel-control-next" href="#c2" data-bs-slide="next"><span class="carousel-control-next-icon"></span></a>
                             </div>
-                            <a class="carousel-control-prev" href="#c2" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></a>
-                            <a class="carousel-control-next" href="#c2" data-bs-slide="next"><span class="carousel-control-next-icon"></span></a>
-                        </div>
-                        <div class="card-body" style="padding:14px 0;">
-                            <h4 style="font-family:'DuplicateSans-Bold',sans-serif;font-size:17px;color:#1a1a1a;margin:0 0 6px;">OUTRIGGER Waikiki Beach Resort</h4>
-                            <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#555;line-height:1.5;margin-bottom:14px;">Home to spectacular sunsets, surf lessons, and the legendary Duke's Waikiki, this resort is made for soaking up the sun.</div>
-                            <div style="display:flex;gap:14px;align-items:center;">
-                                <a href="#" style="display:inline-block;border:1px solid #1a1a1a;color:#1a1a1a;padding:9px 18px;font-family:'DuplicateSans-Regular',sans-serif;font-size:12px;text-decoration:none;">Book Now &rsaquo;</a>
-                                <a href="#" style="font-family:'Montserrat',sans-serif;font-size:12px;color:#1a1a1a;text-decoration:underline;">Learn More</a>
+                            <div class="card-body">
+                                <h4>OUTRIGGER Waikiki Beach Resort</h4>
+                                <div class="card-text">Home to spectacular sunsets, surf lessons, and the legendary Duke's Waikiki, this resort is made for soaking up the sun.</div>
+                                <div class="card-price-block"></div>
+                                <div class="card-cta-info">
+                                    <a href="#" class="button">Book Now &rsaquo;</a>
+                                    <a href="#" class="card-link">Learn More</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -623,56 +674,60 @@
         </div>
     </section>
 
-    <!-- ROOMS SECTION -->
-    <section style="padding:40px 0 60px;">
+    <!-- ROOMS & SUITES SECTION -->
+    <section class="destination-selection" style="background:#fff;">
         <div class="container">
-            <h2 style="font-family:'DuplicateIonic-Light',Georgia,serif;font-size:40px;color:#1a1a1a;margin-bottom:28px;">Rooms &amp; Suites</h2>
-            <div style="display:flex;gap:15px;">
-                <!-- Room card 1 -->
-                <div style="flex:1;">
-                    <div class="card" style="border:none;border-radius:0;">
-                        <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
-                            <button class="favorite-btn" data-id="room-standard" data-type="Room" data-name="Standard" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/68b2ac23-d06b-4ad7-9bbc-13b0ee49b7f1/outrigger-reef-waikiki-beach-resort-voyager47-40.jpg?quality=100&width=700&height=467&stamp=122a0dd0c65ffc20ad2ace4a304f4b1b54535099&format=webp" onclick="onHeartClick(this)">
-                                <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                            </button>
-                            <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/68b2ac23-d06b-4ad7-9bbc-13b0ee49b7f1/outrigger-reef-waikiki-beach-resort-voyager47-40.jpg?quality=100&width=700&height=467&stamp=122a0dd0c65ffc20ad2ace4a304f4b1b54535099&format=webp" alt="Standard Room">
-                        </div>
-                        <div class="card-body" style="padding:14px 0;">
-                            <a href="#" style="font-family:'DuplicateSans-Bold',sans-serif;font-size:17px;color:#1a1a1a;text-decoration:underline;display:block;margin-bottom:6px;">Standard</a>
-                            <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#555;line-height:1.5;margin-bottom:14px;">Create memories with the entire ohana (family) and stay in this quiet room on the side of the hotel.</div>
-                            <a href="#" style="display:inline-block;border:1px solid #1a1a1a;color:#1a1a1a;padding:9px 18px;font-family:'DuplicateSans-Regular',sans-serif;font-size:12px;text-decoration:none;">Check Availability &rsaquo;</a>
-                        </div>
+            <div class="row destination-selection-tabs-row">
+                <div class="col-md-8">
+                    <div class="destination-selection-tabs">
+                        <h2>Rooms &amp; Suites</h2>
                     </div>
                 </div>
-                <!-- Room card 2 -->
-                <div style="flex:1;">
-                    <div class="card" style="border:none;border-radius:0;">
-                        <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
-                            <button class="favorite-btn" data-id="room-resort-view" data-type="Room" data-name="Resort View" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/a94d61af-ec28-41ec-af20-83fd727e567b/outrigger-reef-waikiki-beach-resort-exterior-sunrise2.jpg?quality=100&width=700&height=473&stamp=2f06a06f1139b8d892ae0805bf7a6855926e5197&format=webp" onclick="onHeartClick(this)">
-                                <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                            </button>
-                            <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/a94d61af-ec28-41ec-af20-83fd727e567b/outrigger-reef-waikiki-beach-resort-exterior-sunrise2.jpg?quality=100&width=700&height=473&stamp=2f06a06f1139b8d892ae0805bf7a6855926e5197&format=webp" alt="Resort View">
+            </div>
+            <div class="row destination-selection-slider">
+                <div class="col swiper card-slider-swiper swiper-initialized swiper-horizontal swiper-pointer-events">
+                    <div class="card-slider-wrapper swiper-wrapper" style="display:flex;gap:0;">
+                        <!-- Room card 1 -->
+                        <div class="card swiper-slide swiper-slide-visible swiper-slide-active" style="flex:0 0 33.33%;max-width:33.33%;">
+                            <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
+                                <button class="favorite-btn" data-id="room-standard" data-type="Room" data-name="Standard" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/68b2ac23-d06b-4ad7-9bbc-13b0ee49b7f1/outrigger-reef-waikiki-beach-resort-voyager47-40.jpg?quality=100&width=700&height=467&stamp=122a0dd0c65ffc20ad2ace4a304f4b1b54535099&format=webp" onclick="onHeartClick(this)">
+                                    <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                                </button>
+                                <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/68b2ac23-d06b-4ad7-9bbc-13b0ee49b7f1/outrigger-reef-waikiki-beach-resort-voyager47-40.jpg?quality=100&width=700&height=467&stamp=122a0dd0c65ffc20ad2ace4a304f4b1b54535099&format=webp" alt="Standard Room">
+                            </div>
+                            <div class="card-body">
+                                <h4><a href="#">Standard</a></h4>
+                                <div class="card-text">Create memories with the entire ohana (family) and stay in this quiet room on the side of the hotel.</div>
+                                <div class="card-cta-info"><a href="#" class="button">Check Availability &rsaquo;</a></div>
+                            </div>
                         </div>
-                        <div class="card-body" style="padding:14px 0;">
-                            <a href="#" style="font-family:'DuplicateSans-Bold',sans-serif;font-size:17px;color:#1a1a1a;text-decoration:underline;display:block;margin-bottom:6px;">Resort View</a>
-                            <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#555;line-height:1.5;margin-bottom:14px;">A tranquil Hawaii haven with striking views of ancient green mountains.</div>
-                            <a href="#" style="display:inline-block;border:1px solid #1a1a1a;color:#1a1a1a;padding:9px 18px;font-family:'DuplicateSans-Regular',sans-serif;font-size:12px;text-decoration:none;">Check Availability &rsaquo;</a>
+                        <!-- Room card 2 -->
+                        <div class="card swiper-slide swiper-slide-visible swiper-slide-next" style="flex:0 0 33.33%;max-width:33.33%;">
+                            <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
+                                <button class="favorite-btn" data-id="room-resort-view" data-type="Room" data-name="Resort View" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/a94d61af-ec28-41ec-af20-83fd727e567b/outrigger-reef-waikiki-beach-resort-exterior-sunrise2.jpg?quality=100&width=700&height=473&stamp=2f06a06f1139b8d892ae0805bf7a6855926e5197&format=webp" onclick="onHeartClick(this)">
+                                    <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                                </button>
+                                <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/a94d61af-ec28-41ec-af20-83fd727e567b/outrigger-reef-waikiki-beach-resort-exterior-sunrise2.jpg?quality=100&width=700&height=473&stamp=2f06a06f1139b8d892ae0805bf7a6855926e5197&format=webp" alt="Resort View">
+                            </div>
+                            <div class="card-body">
+                                <h4><a href="#">Resort View</a></h4>
+                                <div class="card-text">A tranquil Hawaii haven with striking views of ancient green mountains.</div>
+                                <div class="card-cta-info"><a href="#" class="button">Check Availability &rsaquo;</a></div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <!-- Room card 3 -->
-                <div style="flex:1;">
-                    <div class="card" style="border:none;border-radius:0;">
-                        <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
-                            <button class="favorite-btn" data-id="room-club-suite" data-type="Room" data-name="Club 1BR Oceanfront Suite" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/35db8bff-1364-44e0-9423-ae0ddb4d9afd/outrigger-reef-waikiki-beach-resort-aerial-1.jpg?quality=100&width=700&height=424&stamp=0c4b71706d3f18532958ef295842c5a7ea0c991b&format=webp" onclick="onHeartClick(this)">
-                                <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                            </button>
-                            <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/35db8bff-1364-44e0-9423-ae0ddb4d9afd/outrigger-reef-waikiki-beach-resort-aerial-1.jpg?quality=100&width=700&height=424&stamp=0c4b71706d3f18532958ef295842c5a7ea0c991b&format=webp" alt="Club Suite">
-                        </div>
-                        <div class="card-body" style="padding:14px 0;">
-                            <a href="#" style="font-family:'DuplicateSans-Bold',sans-serif;font-size:17px;color:#1a1a1a;text-decoration:underline;display:block;margin-bottom:6px;">Club 1BR Oceanfront Suite</a>
-                            <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#555;line-height:1.5;margin-bottom:14px;">A vacation haven where the sky meets the sea.</div>
-                            <a href="#" style="display:inline-block;border:1px solid #1a1a1a;color:#1a1a1a;padding:9px 18px;font-family:'DuplicateSans-Regular',sans-serif;font-size:12px;text-decoration:none;">Check Availability &rsaquo;</a>
+                        <!-- Room card 3 -->
+                        <div class="card swiper-slide swiper-slide-visible" style="flex:0 0 33.33%;max-width:33.33%;">
+                            <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
+                                <button class="favorite-btn" data-id="room-club-suite" data-type="Room" data-name="Club 1BR Oceanfront Suite" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/35db8bff-1364-44e0-9423-ae0ddb4d9afd/outrigger-reef-waikiki-beach-resort-aerial-1.jpg?quality=100&width=700&height=424&stamp=0c4b71706d3f18532958ef295842c5a7ea0c991b&format=webp" onclick="onHeartClick(this)">
+                                    <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                                </button>
+                                <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/35db8bff-1364-44e0-9423-ae0ddb4d9afd/outrigger-reef-waikiki-beach-resort-aerial-1.jpg?quality=100&width=700&height=424&stamp=0c4b71706d3f18532958ef295842c5a7ea0c991b&format=webp" alt="Club Suite">
+                            </div>
+                            <div class="card-body">
+                                <h4><a href="#">Club 1BR Oceanfront Suite</a></h4>
+                                <div class="card-text">A vacation haven where the sky meets the sea.</div>
+                                <div class="card-cta-info"><a href="#" class="button">Check Availability &rsaquo;</a></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -685,6 +740,7 @@
      VIEW 2: MY FAVORITES PAGE
      ========================================== -->
 <div class="proto-view" id="view-favorites"></div>
+</main>
 
 <!-- ==========================================
      MODALS
