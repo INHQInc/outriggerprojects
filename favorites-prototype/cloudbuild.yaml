@@ -1,0 +1,10 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/outrigger-favorites-prototype', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/outrigger-favorites-prototype']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: ['run', 'deploy', 'outrigger-favorites-prototype', '--image', 'gcr.io/$PROJECT_ID/outrigger-favorites-prototype', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated', '--port', '8080']
+images:
+  - 'gcr.io/$PROJECT_ID/outrigger-favorites-prototype'
