@@ -84,6 +84,9 @@
         /* Favorites link position relative for badge */
         .favorites-link { position: relative; }
 
+        /* Force out-content to not have top padding that pushes hero down */
+        .out-content { padding-top: 0 !important; margin-top: 0 !important; }
+
         /* Hero section sizing */
         .hero { position: relative; width: 100%; height: 100vh; overflow: hidden; }
         .hero-media-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
@@ -638,7 +641,7 @@
                         </li>
                         <li class="navbar-utility-item favorites-link">
                             <button type="button" class="d-flex flex-column align-items-center text-decoration-none" data-bs-toggle="offcanvas" data-bs-target="#favoritesOffcanvas" aria-controls="favoritesOffcanvas" onclick="toggleTray()">
-                                <img src="https://prep.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/header/light.svg" alt="Trip Planner" class="fav-icon-light" style="width:24px;height:24px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#fff;"><rect x="3" y="8" width="22" height="16" rx="2"/><path d="M10 8V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3"/><path d="M14 18.5l-2.5-2.3a1.8 1.8 0 0 1 0-2.6 1.8 1.8 0 0 1 2.5 0l0 0a1.8 1.8 0 0 1 2.5 0 1.8 1.8 0 0 1 0 2.6L14 18.5z" fill="currentColor" stroke="none"/></svg>
                                 <span style="font-size:10px;margin-top:2px;">Trip Planner</span>
                                 <span class="header-fav-badge" id="headerBadge" style="position:absolute;top:-4px;right:-4px;background:#E04F5F;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;display:none;align-items:center;justify-content:center;">0</span>
                             </button>
