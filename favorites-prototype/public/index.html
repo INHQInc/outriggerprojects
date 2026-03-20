@@ -63,6 +63,38 @@
         header.header .navbar-utility-item { list-style: none; }
         header.header .navbar { padding: 15px 0; }
 
+        /* ============================================
+           HEADER LIGHT MODE — for inner pages (My Favorites)
+           ============================================ */
+        header.header.header-light {
+            position: fixed !important;
+            background: #fff !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        }
+        header.header.header-light .navbar.navigation { background: #fff !important; }
+        header.header.header-light .container-fluid { background: #fff !important; }
+        header.header.header-light .header-logo-light-bg { display: inline-block !important; }
+        header.header.header-light .header-logo-dark-bg { display: none !important; }
+        header.header.header-light .navbar-hamburger-more { color: #252525; }
+        header.header.header-light .navbar-hamburger-more span { color: #252525 !important; }
+        header.header.header-light .navbar-hamburger-more svg path { stroke: #252525 !important; }
+        header.header.header-light .navbar-utility button { color: #252525; }
+        header.header.header-light .navbar-utility-item button span { color: #252525 !important; }
+        header.header.header-light .navbar-utility-item svg { color: #252525; }
+        header.header.header-light .navbar-utility-item svg path { stroke: #252525 !important; }
+        header.header.header-light .favorites-link svg { color: #252525 !important; }
+        header.header.header-light .favorites-link svg path[fill="currentColor"] { fill: #252525 !important; }
+        header.header.header-light .favorites-link svg rect,
+        header.header.header-light .favorites-link svg path:not([fill="currentColor"]) { stroke: #252525 !important; }
+        header.header.header-light .header-booknow {
+            border: 1px solid #252525 !important;
+            color: #252525 !important;
+            background: transparent !important;
+        }
+
+        /* Favorites page — white background, content offset below fixed header */
+        #view-favorites.active { background: #fff; padding-top: 100px; min-height: 100vh; }
+
         /* Promo card background image */
         .card-image-overlay.promo-card {
             background: url('https://www.outrigger.com/AdaptiveImages/optimizely/d0063e25-6520-466f-ab15-a13d5a5c009b/outriggerreef2.6.jpg?quality=100&width=930&height=620&stamp=e368e1da7dab254a742475a4edac827123a48716&format=webp') center / cover no-repeat !important;
@@ -569,6 +601,43 @@
             font-size: 13px; color: #888; line-height: 1.5;
         }
 
+        /* Tray heading & recents */
+        .fav-tray__heading {
+            font-family: 'DuplicateIonic-Light', Georgia, serif;
+            font-size: 22px; color: #1a1a1a; padding: 16px 20px 4px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .fav-tray__recents-label {
+            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
+            font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+            color: #999; padding: 14px 20px 6px;
+        }
+        .fav-tray__view-more {
+            display: block; width: 100%; text-align: left; padding: 12px 20px;
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            font-size: 13px; color: #0F4A5A; background: none; border: none;
+            border-bottom: 1px solid #f0f0f0; cursor: pointer;
+        }
+        .fav-tray__view-more:hover { background: #f8f8f8; }
+        .fav-tray__collections-label {
+            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
+            font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+            color: #999; padding: 14px 20px 6px; border-bottom: 1px solid #f0f0f0;
+        }
+        .fav-tray__collection-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 20px; border-bottom: 1px solid #f5f5f5; cursor: pointer;
+        }
+        .fav-tray__collection-row:hover { background: #fafafa; }
+        .fav-tray__collection-name {
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            font-size: 14px; color: #1a1a1a; font-weight: 600;
+        }
+        .fav-tray__collection-count {
+            font-family: 'Montserrat', system-ui, sans-serif;
+            font-size: 12px; color: #999;
+        }
+
         /* Header badge */
         .header-fav-badge {
             position: absolute; top: -4px; right: -6px;
@@ -887,10 +956,10 @@
     <div class="modal-overlay__bg" onclick="closeModal('tripModal')"></div>
     <div class="modal-card">
         <button class="modal-card__close" onclick="closeModal('tripModal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-        <h2>Save to a trip</h2>
+        <h2>Save to a collection</h2>
         <div class="trip-list" id="tripList"></div>
         <div class="create-trip-form" id="createTripForm">
-            <input type="text" id="newTripName" placeholder="e.g. Summer Hawaii 2026">
+            <input type="text" id="newTripName" placeholder="e.g. Summer Hawaii 2026 Collection">
             <div class="create-trip-form__actions">
                 <button class="create-trip-form__save" onclick="createTrip()">Create</button>
                 <button class="create-trip-form__cancel" onclick="hideCreateTrip()">Cancel</button>
@@ -898,7 +967,7 @@
         </div>
         <button class="trip-modal__create" onclick="showCreateTrip()">
             <div class="trip-modal__create-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-            <span>Create new trip</span>
+            <span>Create new collection</span>
         </button>
         <button class="trip-modal__save" id="tripSaveBtn" onclick="saveToTrip()" disabled>Done</button>
     </div>
@@ -909,7 +978,7 @@
     <div class="modal-overlay__bg" onclick="closeModal('renameModal')"></div>
     <div class="modal-card">
         <button class="modal-card__close" onclick="closeModal('renameModal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-        <h2>Rename trip</h2>
+        <h2>Rename collection</h2>
         <input type="text" id="renameInput">
         <button class="rename-modal__save" onclick="confirmRename()">Save</button>
     </div>
@@ -920,8 +989,8 @@
     <div class="modal-overlay__bg" onclick="closeModal('deleteModal')"></div>
     <div class="modal-card">
         <button class="modal-card__close" onclick="closeModal('deleteModal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-        <h2>Delete trip?</h2>
-        <p id="deleteMsg">This will remove the trip and all its saved items. This can't be undone.</p>
+        <h2>Delete collection?</h2>
+        <p id="deleteMsg">This will remove the collection and all its saved items. This can't be undone.</p>
         <div class="confirm-modal__btns">
             <button class="confirm-modal__delete" onclick="confirmDelete()">Delete</button>
             <button class="confirm-modal__cancel" onclick="closeModal('deleteModal')">Cancel</button>
@@ -1089,7 +1158,7 @@ function createTrip() {
     state.selectedTripId = id;
     renderTripList();
     document.getElementById('tripSaveBtn').disabled = false;
-    toast('Trip "' + name + '" created');
+    toast('Collection "' + name + '" created');
 }
 
 // ============================
@@ -1106,7 +1175,7 @@ function renderFavoritesPage() {
 
 function renderTripsGrid(el) {
     const totalItems = state.trips.reduce((s, t) => s + t.items.length, 0);
-    let html = '<div class="fav-page"><div class="fav-page__header"><div><h1 class="fav-page__title">My Favorites</h1><div class="fav-page__subtitle">' + state.trips.length + ' trips &middot; ' + totalItems + ' saved items</div></div></div>';
+    let html = '<div class="fav-page"><div class="fav-page__header"><div><h1 class="fav-page__title">My Favorites</h1><div class="fav-page__subtitle">' + state.trips.length + ' collection' + (state.trips.length !== 1 ? 's' : '') + ' &middot; ' + totalItems + ' saved items</div></div></div>';
     html += '<div class="trips-grid">';
     state.trips.forEach(t => {
         const imgs = t.items.slice(0, 4);
@@ -1124,7 +1193,7 @@ function renderTripsGrid(el) {
         html += '</div></div>';
     });
     // Create trip card
-    html += '<div class="trip-card--create" onclick="createTripFromPage()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span>Create new trip</span></div>';
+    html += '<div class="trip-card--create" onclick="createTripFromPage()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span>Create new collection</span></div>';
     html += '</div></div>';
     el.innerHTML = html;
 }
@@ -1133,12 +1202,12 @@ function renderTripDetail(el) {
     const trip = state.trips.find(t => t.id === state.currentTripView);
     if (!trip) { state.currentTripView = null; renderTripsGrid(el); return; }
     let html = '<div class="fav-page">';
-    html += '<button class="trip-detail__back" onclick="backToTrips()">&larr; Back to all trips</button>';
+    html += '<button class="trip-detail__back" onclick="backToTrips()">&larr; Back to all collections</button>';
     html += '<div class="trip-detail__header"><div><h1 class="trip-detail__name">' + trip.name + '</h1><div class="trip-detail__count">' + trip.items.length + ' saved items</div></div>';
-    html += '<div class="trip-detail__actions"><button class="trip-detail__action" onclick="renameTrip(\'' + trip.id + '\')">Rename</button><button class="trip-detail__action danger" onclick="deleteTrip(\'' + trip.id + '\')">Delete trip</button></div></div>';
+    html += '<div class="trip-detail__actions"><button class="trip-detail__action" onclick="renameTrip(\'' + trip.id + '\')">Rename</button><button class="trip-detail__action danger" onclick="deleteTrip(\'' + trip.id + '\')">Delete collection</button></div></div>';
 
     if (trip.items.length === 0) {
-        html += '<div class="trip-detail__empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><h3>No items yet</h3><p>Browse resorts and rooms, then tap the heart icon to save items to this trip.</p></div>';
+        html += '<div class="trip-detail__empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><h3>No items yet</h3><p>Browse resorts and rooms, then tap the heart icon to save items to this collection.</p></div>';
     } else {
         html += '<div class="fav-items-grid">';
         trip.items.forEach(item => {
@@ -1162,16 +1231,16 @@ function removeItemFromTrip(tripId, itemId) {
     // Also un-heart on the page
     const btn = document.querySelector('.favorite-btn[data-id="' + itemId + '"]');
     if (btn) btn.classList.remove('is-favorited');
-    toast('Removed from "' + (trip ? trip.name : 'trip') + '"');
+    toast('Removed from "' + (trip ? trip.name : 'collection') + '"');
     syncUI();
     renderFavoritesPage();
 }
 
 function createTripFromPage() {
-    const name = prompt('Trip name:');
+    const name = prompt('Collection name:');
     if (name && name.trim()) {
         state.trips.push({ id: 'trip-' + Date.now(), name: name.trim(), items: [] });
-        toast('Trip "' + name.trim() + '" created');
+        toast('Collection "' + name.trim() + '" created');
         syncUI();
         renderFavoritesPage();
     }
@@ -1193,7 +1262,7 @@ function confirmRename() {
     const trip = state.trips.find(t => t.id === state.renamingTripId);
     if (trip) trip.name = name;
     closeModal('renameModal');
-    toast('Trip renamed');
+    toast('Collection renamed');
     syncUI();
     renderFavoritesPage();
 }
@@ -1249,14 +1318,24 @@ function renderTray() {
         document.getElementById('trayBadge').style.display = 'none';
         return;
     }
-    let html = '';
+    const MAX_RECENT = 5;
+    let html = '<div class="fav-tray__heading">My Favorites</div>';
+    html += '<div class="fav-tray__recents-label">Recently saved</div>';
+    const recentItems = allItems.slice(-MAX_RECENT).reverse();
+    recentItems.forEach(item => {
+        html += '<div class="fav-tray__item"><img class="fav-tray__item-img" src="' + item.img + '"><div class="fav-tray__item-content"><div class="fav-tray__item-name">' + item.name + '</div><div class="fav-tray__item-sub">' + item.type + ' &middot; ' + item.tripName + '</div></div>';
+        html += '<button class="fav-tray__item-remove" onclick="removeTrayItem(\'' + item.tripId + '\',\'' + item.id + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
+    });
+    if (allItems.length > MAX_RECENT) {
+        const remaining = allItems.length - MAX_RECENT;
+        html += '<button class="fav-tray__view-more" onclick="switchView(\'view-favorites\');closeTray();">+ ' + remaining + ' more &middot; View all favorites</button>';
+    }
+    html += '<div class="fav-tray__collections-label">Collections (' + state.trips.length + ')</div>';
     state.trips.forEach(t => {
-        if (t.items.length === 0) return;
-        html += '<div class="fav-tray__section">' + t.name + ' (' + t.items.length + ')</div>';
-        t.items.forEach(item => {
-            html += '<div class="fav-tray__item"><img class="fav-tray__item-img" src="' + item.img + '"><div class="fav-tray__item-content"><div class="fav-tray__item-name">' + item.name + '</div><div class="fav-tray__item-sub">' + item.type + '</div></div>';
-            html += '<button class="fav-tray__item-remove" onclick="removeTrayItem(\'' + t.id + '\',\'' + item.id + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
-        });
+        html += '<div class="fav-tray__collection-row" onclick="switchView(\'view-favorites\');setTimeout(function(){viewTrip(\'' + t.id + '\')},100);">';
+        html += '<div class="fav-tray__collection-name">' + t.name + '</div>';
+        html += '<div class="fav-tray__collection-count">' + t.items.length + ' saved</div>';
+        html += '</div>';
     });
     body.innerHTML = html;
     document.getElementById('trayFooter').style.display = 'block';
@@ -1284,7 +1363,14 @@ function switchView(id) {
     document.getElementById(id).classList.add('active');
     document.querySelectorAll('.proto-nav__btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.proto-nav__btn').forEach(b => { if (b.textContent.includes(id === 'view-home' ? 'Homepage' : 'Favorites')) b.classList.add('active'); });
-    if (id === 'view-favorites') renderFavoritesPage();
+    // Toggle header light/dark mode
+    const header = document.querySelector('header.header');
+    if (id === 'view-favorites') {
+        header.classList.add('header-light');
+        renderFavoritesPage();
+    } else {
+        header.classList.remove('header-light');
+    }
     closeTray();
     window.scrollTo(0, 0);
 }
