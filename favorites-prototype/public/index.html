@@ -1,1 +1,1154 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><title>Outrigger Favorites Prototype</title><style>body{font-family:sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;background:#f5f5f5}h1{color:#00626f}</style></head><body><h1>Outrigger Favorites Prototype</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OUTRIGGER Favorites — Interactive Prototype</title>
+    <link rel="stylesheet" href="https://www.outrigger.com/dist/css/main.css">
+    <style>
+        /* ============================================
+           BASE / RESETS
+           ============================================ */
+        body { background-color: #EEECE4; margin: 0; }
+        *, *::before, *::after { box-sizing: border-box; }
+
+        /* ============================================
+           PROTOTYPE NAV BAR (switch between views)
+           ============================================ */
+        .proto-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 20000;
+            background: #1a1a1a; display: flex; align-items: center; padding: 0 16px;
+            font-family: 'Montserrat', system-ui, sans-serif; gap: 4px; height: 48px;
+        }
+        .proto-nav__label {
+            color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+            margin-right: 12px; white-space: nowrap;
+        }
+        .proto-nav__btn {
+            background: #333; color: #ccc; border: none; padding: 6px 14px; font-size: 12px;
+            cursor: pointer; border-radius: 4px; white-space: nowrap; font-family: inherit;
+        }
+        .proto-nav__btn:hover { background: #444; color: #fff; }
+        .proto-nav__btn.active { background: #0F4A5A; color: #fff; }
+        .proto-nav__spacer { flex: 1; }
+        .proto-nav__status {
+            color: #E04F5F; font-size: 11px; font-weight: 600;
+        }
+
+        /* Page views */
+        .proto-view { display: none; padding-bottom: 60px; }
+        .proto-view.active { display: block; }
+
+        /* ============================================
+           HEART ICON BUTTON
+           ============================================ */
+        .favorite-btn {
+            position: absolute; top: 12px; right: 12px; z-index: 10;
+            width: 36px; height: 36px; border: none; border-radius: 50%;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(4px);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            padding: 0; transition: transform 0.2s ease, background-color 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+        .favorite-btn:hover { transform: scale(1.1); background: rgba(255,255,255,1); }
+        .favorite-btn:active { transform: scale(0.95); }
+        .favorite-btn svg { width: 20px; height: 20px; transition: all 0.3s ease; }
+        .favorite-btn .heart-outline { stroke: #333; stroke-width: 2; fill: none; }
+        .favorite-btn.is-favorited .heart-outline { stroke: #E04F5F; fill: #E04F5F; }
+        .favorite-btn.is-favorited .heart-outline { animation: heartPop 0.4s ease; }
+        @keyframes heartPop {
+            0% { transform: scale(1); } 30% { transform: scale(1.3); }
+            60% { transform: scale(0.9); } 100% { transform: scale(1); }
+        }
+        .card-simplified-slider { position: relative; }
+
+        /* ============================================
+           EMAIL CAPTURE MODAL
+           ============================================ */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 10000; display: none; align-items: center; justify-content: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-overlay__bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+        .modal-card {
+            position: relative; background: #DCF3F2; width: 100%; max-width: 520px;
+            padding: 40px 40px 32px; border-radius: 11px; text-align: center; z-index: 1;
+            font-family: 'Montserrat', system-ui, sans-serif;
+        }
+        .modal-card__close {
+            position: absolute; top: 14px; right: 14px; width: 32px; height: 32px;
+            border: none; background: transparent; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .modal-card__close svg { width: 18px; height: 18px; }
+        .modal-card__logo { margin-bottom: 16px; color: #004561; }
+        .modal-card__logo svg { width: 50px; height: 50px; }
+        .modal-card h2 {
+            font-family: 'DuplicateIonic-Light', Georgia, serif;
+            font-size: 30px; line-height: 36px; font-weight: 400;
+            color: #004561; margin: 0 0 8px;
+        }
+        .modal-card p { font-size: 14px; line-height: 21px; color: #0F172A; margin: 0 0 20px; }
+        .modal-card input[type="email"] {
+            width: 100%; height: 50px; padding: 12px 14px; border: 1px solid #999;
+            border-radius: 0; font-size: 15px; margin-bottom: 4px;
+            font-family: inherit;
+        }
+        .modal-card input[type="email"]:focus { outline: 2px solid #004561; border-color: #004561; }
+        .modal-card__error { color: #E04F5F; font-size: 12px; margin: 0 0 10px; display: none; text-align: left; }
+        .modal-card__error.show { display: block; }
+        .modal-card__checkbox {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-bottom: 4px; font-size: 13px; color: #0F172A;
+        }
+        .modal-card__checkbox input { width: 16px; height: 16px; }
+        .modal-card__recaptcha {
+            display: flex; justify-content: center; margin: 12px 0 16px;
+        }
+        .recaptcha-box {
+            width: 300px; height: 74px; border: 1px solid #d3d3d3; border-radius: 3px;
+            background: #f9f9f9; display: flex; align-items: center; padding: 0 14px;
+            gap: 10px; font-size: 13px; color: #555; cursor: pointer;
+        }
+        .recaptcha-box .check {
+            width: 24px; height: 24px; border: 2px solid #c1c1c1; border-radius: 3px;
+            background: #fff; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+        }
+        .recaptcha-box.checked .check { background: #0F4A5A; border-color: #0F4A5A; }
+        .recaptcha-box.checked .check::after {
+            content: ''; display: block; width: 6px; height: 12px;
+            border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); margin-top: -2px;
+        }
+        .modal-card__submit {
+            background: #0F4A5A; color: #fff; border: none; font-size: 15px;
+            padding: 12px 32px; height: 46px; cursor: pointer;
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            transition: background 0.2s;
+        }
+        .modal-card__submit:hover { background: #004561; }
+        .modal-card__cancel {
+            display: block; margin: 10px auto 0; color: #0078CD; font-size: 13px;
+            text-decoration: underline; cursor: pointer; background: none; border: none;
+            font-family: inherit;
+        }
+
+        /* ============================================
+           SAVE-TO-TRIP MODAL (Airbnb-style)
+           ============================================ */
+        .trip-modal .modal-card {
+            max-width: 440px; padding: 24px; text-align: left;
+        }
+        .trip-modal .modal-card h2 {
+            font-size: 22px; line-height: 28px; margin-bottom: 16px; text-align: center;
+        }
+        .trip-list { max-height: 280px; overflow-y: auto; margin-bottom: 16px; }
+        .trip-list__item {
+            display: flex; align-items: center; gap: 12px; padding: 10px 12px;
+            border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px;
+            cursor: pointer; transition: border-color 0.15s, background 0.15s;
+        }
+        .trip-list__item:hover { border-color: #004561; background: #f8fffe; }
+        .trip-list__item.selected { border-color: #004561; border-width: 2px; background: #f0faf9; }
+        .trip-list__item-img {
+            width: 56px; height: 56px; border-radius: 6px; object-fit: cover;
+            background: #ddd; flex-shrink: 0;
+        }
+        .trip-list__item-info { flex: 1; }
+        .trip-list__item-name {
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            font-size: 14px; font-weight: 600; color: #1a1a1a;
+        }
+        .trip-list__item-count { font-size: 12px; color: #888; margin-top: 2px; }
+        .trip-list__item-check {
+            width: 22px; height: 22px; border: 2px solid #ccc; border-radius: 50%;
+            flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+        }
+        .trip-list__item.selected .trip-list__item-check {
+            border-color: #004561; background: #004561;
+        }
+        .trip-list__item.selected .trip-list__item-check::after {
+            content: ''; display: block; width: 5px; height: 10px;
+            border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); margin-top: -2px;
+        }
+        .trip-modal__create {
+            display: flex; align-items: center; gap: 8px; padding: 10px 0;
+            cursor: pointer; color: #004561; font-size: 14px; font-weight: 500;
+            background: none; border: none; font-family: inherit; width: 100%;
+        }
+        .trip-modal__create:hover { color: #0F4A5A; }
+        .trip-modal__create-icon {
+            width: 56px; height: 56px; border-radius: 6px; background: #f0f0f0;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .trip-modal__create-icon svg { width: 24px; height: 24px; color: #666; }
+        .trip-modal__save {
+            width: 100%; background: #0F4A5A; color: #fff; border: none;
+            padding: 12px; font-size: 15px; cursor: pointer; border-radius: 0;
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            transition: background 0.2s;
+        }
+        .trip-modal__save:hover { background: #004561; }
+        .trip-modal__save:disabled { background: #ccc; cursor: default; }
+
+        /* Create Trip inline form */
+        .create-trip-form {
+            display: none; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px;
+            margin-bottom: 8px; background: #fafafa;
+        }
+        .create-trip-form.show { display: block; }
+        .create-trip-form input {
+            width: 100%; height: 40px; border: 1px solid #999; padding: 8px 12px;
+            font-size: 14px; margin-bottom: 8px; font-family: inherit;
+        }
+        .create-trip-form__actions { display: flex; gap: 8px; }
+        .create-trip-form__actions button {
+            padding: 6px 16px; font-size: 13px; cursor: pointer; border-radius: 0;
+            font-family: inherit;
+        }
+        .create-trip-form__save {
+            background: #0F4A5A; color: #fff; border: none;
+        }
+        .create-trip-form__cancel {
+            background: #fff; color: #333; border: 1px solid #ccc;
+        }
+
+        /* ============================================
+           FAVORITES LISTING PAGE
+           ============================================ */
+        .fav-page { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .fav-page__header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 32px;
+        }
+        .fav-page__title {
+            font-family: 'DuplicateIonic-Light', Georgia, serif;
+            font-size: 40px; color: #1a1a1a; margin: 0;
+        }
+        .fav-page__subtitle {
+            font-family: 'Montserrat', system-ui, sans-serif;
+            font-size: 14px; color: #888; margin-top: 4px;
+        }
+
+        /* Trip cards grid */
+        .trips-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .trip-card {
+            background: #fff; border-radius: 12px; overflow: hidden;
+            cursor: pointer; transition: box-shadow 0.2s;
+        }
+        .trip-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+        .trip-card__images {
+            display: grid; grid-template-columns: 1fr 1fr; height: 200px;
+            gap: 2px; background: #e0e0e0;
+        }
+        .trip-card__images img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .trip-card__images .placeholder {
+            background: #f0ede6; display: flex; align-items: center; justify-content: center;
+        }
+        .trip-card__images .placeholder svg { width: 32px; height: 32px; color: #ccc; }
+        .trip-card__body { padding: 16px; }
+        .trip-card__name {
+            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
+            font-size: 16px; color: #1a1a1a; margin-bottom: 4px;
+        }
+        .trip-card__meta {
+            font-family: 'Montserrat', system-ui, sans-serif;
+            font-size: 13px; color: #888;
+        }
+        .trip-card__actions {
+            display: flex; gap: 8px; margin-top: 8px;
+        }
+        .trip-card__action-btn {
+            font-size: 12px; color: #666; background: none; border: 1px solid #ddd;
+            padding: 4px 10px; border-radius: 4px; cursor: pointer; font-family: inherit;
+        }
+        .trip-card__action-btn:hover { background: #f5f5f5; border-color: #bbb; }
+        .trip-card__action-btn.danger:hover { background: #fef2f2; border-color: #E04F5F; color: #E04F5F; }
+
+        /* Create trip card */
+        .trip-card--create {
+            border: 2px dashed #ccc; background: transparent; display: flex;
+            flex-direction: column; align-items: center; justify-content: center;
+            min-height: 280px; border-radius: 12px; cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .trip-card--create:hover { border-color: #004561; background: rgba(255,255,255,0.5); }
+        .trip-card--create svg { width: 40px; height: 40px; color: #999; margin-bottom: 12px; }
+        .trip-card--create span {
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            font-size: 15px; color: #666;
+        }
+
+        /* Trip detail view */
+        .trip-detail__back {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-family: 'Montserrat', system-ui, sans-serif;
+            font-size: 14px; color: #0078CD; cursor: pointer; background: none;
+            border: none; margin-bottom: 16px; padding: 0;
+        }
+        .trip-detail__back:hover { text-decoration: underline; }
+        .trip-detail__header {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .trip-detail__name {
+            font-family: 'DuplicateIonic-Light', Georgia, serif;
+            font-size: 36px; color: #1a1a1a; margin: 0;
+        }
+        .trip-detail__count {
+            font-family: 'Montserrat', system-ui, sans-serif;
+            font-size: 14px; color: #888; margin-top: 4px;
+        }
+        .trip-detail__actions { display: flex; gap: 8px; }
+        .trip-detail__action {
+            padding: 8px 16px; font-size: 13px; border: 1px solid #ddd;
+            background: #fff; cursor: pointer; border-radius: 4px; font-family: inherit;
+        }
+        .trip-detail__action:hover { background: #f5f5f5; }
+        .trip-detail__action.danger { color: #E04F5F; border-color: #E04F5F; }
+        .trip-detail__action.danger:hover { background: #fef2f2; }
+
+        /* Favorites items grid */
+        .fav-items-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .fav-item-card {
+            background: #fff; border-radius: 8px; overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+        .fav-item-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+        .fav-item-card__img {
+            width: 100%; height: 180px; object-fit: cover; display: block;
+            position: relative;
+        }
+        .fav-item-card__img-wrap { position: relative; }
+        .fav-item-card__img-wrap .favorite-btn { top: 8px; right: 8px; }
+        .fav-item-card__type {
+            position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6);
+            color: #fff; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+            padding: 3px 8px; border-radius: 3px;
+            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
+        }
+        .fav-item-card__body { padding: 14px 16px; }
+        .fav-item-card__title {
+            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
+            font-size: 15px; color: #1a1a1a; margin-bottom: 4px;
+        }
+        .fav-item-card__subtitle {
+            font-family: 'Montserrat', system-ui, sans-serif;
+            font-size: 12px; color: #888; margin-bottom: 10px;
+        }
+        .fav-item-card__cta {
+            display: flex; gap: 12px; align-items: center;
+        }
+        .fav-item-card__book {
+            display: inline-block; border: 1px solid #1a1a1a; color: #1a1a1a;
+            padding: 8px 16px; font-size: 12px; text-decoration: none;
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+        }
+        .fav-item-card__book:hover { background: #1a1a1a; color: #fff; }
+        .fav-item-card__remove {
+            font-size: 12px; color: #999; cursor: pointer; background: none;
+            border: none; font-family: inherit;
+        }
+        .fav-item-card__remove:hover { color: #E04F5F; text-decoration: underline; }
+
+        /* Empty trip state */
+        .trip-detail__empty {
+            text-align: center; padding: 60px 20px;
+        }
+        .trip-detail__empty svg { width: 56px; height: 56px; color: #ccc; margin-bottom: 16px; }
+        .trip-detail__empty h3 {
+            font-family: 'DuplicateIonic-Light', Georgia, serif;
+            font-size: 22px; color: #004561; margin: 0 0 6px;
+        }
+        .trip-detail__empty p {
+            font-family: 'Montserrat', system-ui, sans-serif;
+            font-size: 14px; color: #888;
+        }
+
+        /* ============================================
+           FAVORITES OFFCANVAS TRAY
+           ============================================ */
+        .fav-tray {
+            position: fixed; top: 0; right: -400px; width: 375px; height: 100%;
+            background: #fff; z-index: 15000; transition: right 0.3s ease;
+            display: flex; flex-direction: column; box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+        }
+        .fav-tray.open { right: 0; }
+        .fav-tray__backdrop {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.3); z-index: 14999; display: none;
+        }
+        .fav-tray__backdrop.show { display: block; }
+        .fav-tray__header {
+            padding: 16px 20px; border-bottom: 1px solid #eee;
+            display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+        }
+        .fav-tray__header-left {
+            display: flex; align-items: center; gap: 8px;
+        }
+        .fav-tray__header-title {
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif; font-size: 15px; color: #1a1a1a;
+        }
+        .fav-tray__badge {
+            background: #E04F5F; color: #fff; font-size: 11px; font-weight: 600;
+            padding: 2px 7px; border-radius: 10px; font-family: 'Montserrat', system-ui, sans-serif;
+        }
+        .fav-tray__close {
+            background: none; border: none; cursor: pointer; padding: 4px;
+        }
+        .fav-tray__body { flex: 1; overflow-y: auto; }
+        .fav-tray__section {
+            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
+            font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+            color: #999; padding: 14px 20px 6px; border-bottom: 1px solid #f0f0f0;
+        }
+        .fav-tray__item {
+            display: flex; gap: 12px; padding: 14px 20px;
+            border-bottom: 1px solid #f5f5f5; align-items: center;
+            transition: background 0.15s;
+        }
+        .fav-tray__item:hover { background: #fafafa; }
+        .fav-tray__item-img {
+            width: 64px; height: 48px; border-radius: 4px; object-fit: cover; flex-shrink: 0;
+        }
+        .fav-tray__item-content { flex: 1; min-width: 0; }
+        .fav-tray__item-name {
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            font-size: 13px; font-weight: 600; color: #1a1a1a; line-height: 1.3;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .fav-tray__item-sub {
+            font-family: 'Montserrat', system-ui, sans-serif;
+            font-size: 11px; color: #999;
+        }
+        .fav-tray__item-remove {
+            width: 24px; height: 24px; border: none; background: transparent;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; flex-shrink: 0;
+        }
+        .fav-tray__item-remove:hover { background: #f0f0f0; }
+        .fav-tray__item-remove svg { width: 14px; height: 14px; color: #ccc; }
+        .fav-tray__item-remove:hover svg { color: #E04F5F; }
+        .fav-tray__footer {
+            padding: 14px 20px; border-top: 1px solid #eee; flex-shrink: 0;
+        }
+        .fav-tray__footer-btn {
+            display: block; width: 100%; text-align: center; background: #0F4A5A;
+            color: #fff; font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            font-size: 13px; padding: 10px 20px; border: none; cursor: pointer;
+            text-decoration: none; transition: background 0.2s;
+        }
+        .fav-tray__footer-btn:hover { background: #004561; color: #fff; }
+        .fav-tray__empty {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; padding: 60px 20px; text-align: center; flex: 1;
+        }
+        .fav-tray__empty svg { width: 48px; height: 48px; color: #ccc; margin-bottom: 16px; }
+        .fav-tray__empty-title {
+            font-family: 'DuplicateIonic-Light', Georgia, serif;
+            font-size: 20px; color: #004561; margin-bottom: 6px;
+        }
+        .fav-tray__empty-text {
+            font-family: 'Montserrat', system-ui, sans-serif;
+            font-size: 13px; color: #888; line-height: 1.5;
+        }
+
+        /* Header badge */
+        .header-fav-badge {
+            position: absolute; top: -4px; right: -6px;
+            background: #E04F5F; color: #fff; font-size: 10px; font-weight: 700;
+            width: 18px; height: 18px; border-radius: 50%;
+            display: none; align-items: center; justify-content: center;
+            font-family: 'Montserrat', system-ui, sans-serif;
+        }
+        .header-fav-badge.show { display: flex; }
+
+        /* Toast */
+        .toast-msg {
+            position: fixed; bottom: 64px; left: 50%; z-index: 20001;
+            transform: translateX(-50%) translateY(80px); opacity: 0;
+            background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 8px;
+            font-family: 'Montserrat', system-ui, sans-serif; font-size: 13px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 8px; white-space: nowrap;
+        }
+        .toast-msg.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .toast-msg svg { width: 16px; height: 16px; fill: #E04F5F; flex-shrink: 0; }
+
+        /* Rename modal */
+        .rename-modal .modal-card { max-width: 380px; padding: 24px; }
+        .rename-modal .modal-card h2 { font-size: 22px; margin-bottom: 14px; }
+        .rename-modal input[type="text"] {
+            width: 100%; height: 44px; border: 1px solid #999; padding: 8px 12px;
+            font-size: 14px; margin-bottom: 14px; font-family: inherit;
+        }
+        .rename-modal__save {
+            background: #0F4A5A; color: #fff; border: none; padding: 10px 24px;
+            font-size: 14px; cursor: pointer; font-family: inherit;
+        }
+
+        /* Confirm delete modal */
+        .confirm-modal .modal-card { max-width: 380px; padding: 24px; background: #fff; }
+        .confirm-modal .modal-card h2 { color: #E04F5F; font-size: 22px; }
+        .confirm-modal .modal-card p { font-size: 13px; color: #555; }
+        .confirm-modal__btns { display: flex; gap: 10px; justify-content: center; }
+        .confirm-modal__btns button {
+            padding: 10px 24px; font-size: 14px; cursor: pointer; font-family: inherit;
+        }
+        .confirm-modal__delete { background: #E04F5F; color: #fff; border: none; }
+        .confirm-modal__cancel { background: #fff; color: #333; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+
+<!-- ==========================================
+     HEADER
+     ========================================== -->
+<header class="ae-page-header">
+    <nav class="navbar" role="navigation" aria-label="Main">
+        <button type="button" class="ae-hamburger-menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="27" height="18" role="presentation"><path d="M0 .9h27M0 9h27M0 17.1h27" stroke="white" stroke-width="1.8"></path></svg>
+            <span class="ae-hamburger-text--explore">Explore</span>
+            <span class="ae-hamburger-text--menu">Menu</span>
+        </button>
+        <a href="#" class="ae-header-logo--mobile"><img src="https://www.outrigger.com/globalassets/outrigger/images/logo/outrigger-logo-only-white.svg" alt="outrigger logo" class="logo-only"></a>
+        <a href="#" class="ae-header-logo"><img src="https://www.outrigger.com/globalassets/outrigger/images/logo/outrigger-logo-only-white.svg" alt="Outrigger" class="logo-full"></a>
+        <ul class="ae-header-utilities">
+            <li class="ae-utility-item"><button type="button"><img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/language.svg" alt="" class="ae-utility-icon--light"><img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/language-dark.svg" alt="" class="ae-utility-icon--dark"></button></li>
+            <li class="ae-utility-item"><button type="button"><img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/members.svg" alt="" class="ae-utility-icon--light"><img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/members-dark.svg" alt="" class="ae-utility-icon--dark"><span class="ae-utility-text">Loyalty</span></button></li>
+            <li class="ae-utility-item" style="position:relative;">
+                <button type="button" onclick="toggleTray()"><img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/members-dark.svg" alt="" class="ae-utility-icon--dark" style="width:20px;height:20px;"><span class="ae-utility-text">Trip Planner</span><span class="header-fav-badge" id="headerBadge">0</span></button>
+            </li>
+            <li class="ae-utility-item"><button type="button" class="button ae-book-now">Book Now</button></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- ==========================================
+     VIEW 1: HOMEPAGE — EXPLORE HAWAII
+     ========================================== -->
+<div class="proto-view active" id="view-home">
+    <section class="destination-selection" style="padding:60px 0;">
+        <div class="container">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:30px;">
+                <div>
+                    <span style="font-family:'DuplicateSans-Regular',sans-serif;font-size:14px;letter-spacing:2px;text-transform:uppercase;color:#004561;">Explore</span>
+                    <h2 style="font-family:'DuplicateIonic-Light',Georgia,serif;font-size:48px;color:#1a1a1a;margin:0;line-height:1.1;">Hawaii</h2>
+                </div>
+                <div style="display:flex;gap:20px;">
+                    <span style="font-family:'Montserrat',sans-serif;font-size:14px;color:#333;border-bottom:2px solid #004561;padding-bottom:2px;cursor:pointer;">Oahu</span>
+                    <span style="font-family:'Montserrat',sans-serif;font-size:14px;color:#666;cursor:pointer;">Maui</span>
+                    <span style="font-family:'Montserrat',sans-serif;font-size:14px;color:#666;cursor:pointer;">Hawaii Island</span>
+                    <span style="font-family:'Montserrat',sans-serif;font-size:14px;color:#666;cursor:pointer;">Kauai</span>
+                </div>
+            </div>
+            <div style="display:flex;gap:15px;">
+                <!-- Destination card -->
+                <div style="flex:0 0 33%;position:relative;min-height:460px;border-radius:0;overflow:hidden;">
+                    <img src="https://www.outrigger.com/globalassets/packages-promos/destinations/oahu/oahu_destination_702x626.jpg" style="width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;">
+                    <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to top,rgba(0,0,0,0.55) 0%,rgba(0,0,0,0.05) 60%,transparent 100%);"></div>
+                    <div style="position:absolute;bottom:30px;left:30px;right:30px;z-index:1;">
+                        <span style="font-family:'DuplicateSans-Bold',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#fff;opacity:.8;">Explore Oahu</span>
+                        <div style="font-family:'DuplicateIonic-Light',Georgia,serif;font-size:42px;color:#fff;margin:6px 0;">Oahu</div>
+                        <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#fff;line-height:1.6;margin-bottom:18px;opacity:.9;">World-renowned beaches, iconic views, vibrant local culture, Oahu is home to some seriously awe-inspiring experiences.</div>
+                        <a href="#" style="display:inline-block;border:1px solid #fff;color:#fff;padding:10px 20px;font-family:'DuplicateSans-Regular',sans-serif;font-size:13px;text-decoration:none;">Oahu highlights &rsaquo;</a>
+                    </div>
+                </div>
+                <!-- Resort Card 1 -->
+                <div style="flex:0 0 calc(33% - 8px);">
+                    <div class="card" style="border:none;border-radius:0;">
+                        <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
+                            <button class="favorite-btn" data-id="resort-reef" data-type="Resort" data-name="OUTRIGGER Reef Waikiki Beach Resort" data-sub="Oahu, Hawaii" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/753dec1f-a09b-42b5-85f5-44a03e3c5b4a/outrigger-reef-waikiki-beach-resort-coral-reef-penthouse-2-bedroom-suite-11.jpg" onclick="onHeartClick(this)">
+                                <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                            </button>
+                            <div id="c1" class="carousel slide" data-bs-ride="false">
+                                <div class="carousel-indicators"><button data-bs-target="#c1" data-bs-slide-to="0" class="active"></button><button data-bs-target="#c1" data-bs-slide-to="1"></button><button data-bs-target="#c1" data-bs-slide-to="2"></button></div>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active"><img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/753dec1f-a09b-42b5-85f5-44a03e3c5b4a/outrigger-reef-waikiki-beach-resort-coral-reef-penthouse-2-bedroom-suite-11.jpg" alt="Reef Resort"></div>
+                                    <div class="carousel-item"><img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/d2cdcf54-c724-40b0-af6d-d7a3c1686547/outrigger-reef-waikiki-beach-resort-dining-monkeypod-kitchen-29.jpg" alt="Dining"></div>
+                                    <div class="carousel-item"><img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/35db8bff-1364-44e0-9423-ae0ddb4d9afd/outrigger-reef-waikiki-beach-resort-aerial-1.jpg" alt="Aerial"></div>
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#c1" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></a>
+                            <a class="carousel-control-next" href="#c1" data-bs-slide="next"><span class="carousel-control-next-icon"></span></a>
+                        </div>
+                        <div class="card-body" style="padding:14px 0;">
+                            <h4 style="font-family:'DuplicateSans-Bold',sans-serif;font-size:17px;color:#1a1a1a;margin:0 0 6px;">OUTRIGGER Reef Waikiki Beach Resort</h4>
+                            <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#555;line-height:1.5;margin-bottom:14px;">Contemporary Hawaiian retreat rooted in cultural activities, local artwork and world-renowned restaurant Monkeypod Kitchen by Merriman.</div>
+                            <div style="display:flex;gap:14px;align-items:center;">
+                                <a href="#" style="display:inline-block;border:1px solid #1a1a1a;color:#1a1a1a;padding:9px 18px;font-family:'DuplicateSans-Regular',sans-serif;font-size:12px;text-decoration:none;">Book Now &rsaquo;</a>
+                                <a href="#" style="font-family:'Montserrat',sans-serif;font-size:12px;color:#1a1a1a;text-decoration:underline;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Resort Card 2 -->
+                <div style="flex:0 0 calc(33% - 8px);">
+                    <div class="card" style="border:none;border-radius:0;">
+                        <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
+                            <button class="favorite-btn" data-id="resort-waikiki" data-type="Resort" data-name="OUTRIGGER Waikiki Beach Resort" data-sub="Oahu, Hawaii" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/b1c81086-a2b1-46b2-96c8-064a18400d6f/outrigger-waikiki-beach-resort-exterior-1.jpg" onclick="onHeartClick(this)">
+                                <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                            </button>
+                            <div id="c2" class="carousel slide" data-bs-ride="false">
+                                <div class="carousel-indicators"><button data-bs-target="#c2" data-bs-slide-to="0" class="active"></button></div>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active"><img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/b1c81086-a2b1-46b2-96c8-064a18400d6f/outrigger-waikiki-beach-resort-exterior-1.jpg" alt="Waikiki Resort"></div>
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#c2" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></a>
+                            <a class="carousel-control-next" href="#c2" data-bs-slide="next"><span class="carousel-control-next-icon"></span></a>
+                        </div>
+                        <div class="card-body" style="padding:14px 0;">
+                            <h4 style="font-family:'DuplicateSans-Bold',sans-serif;font-size:17px;color:#1a1a1a;margin:0 0 6px;">OUTRIGGER Waikiki Beach Resort</h4>
+                            <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#555;line-height:1.5;margin-bottom:14px;">Home to spectacular sunsets, surf lessons, and the legendary Duke's Waikiki, this resort is made for soaking up the sun.</div>
+                            <div style="display:flex;gap:14px;align-items:center;">
+                                <a href="#" style="display:inline-block;border:1px solid #1a1a1a;color:#1a1a1a;padding:9px 18px;font-family:'DuplicateSans-Regular',sans-serif;font-size:12px;text-decoration:none;">Book Now &rsaquo;</a>
+                                <a href="#" style="font-family:'Montserrat',sans-serif;font-size:12px;color:#1a1a1a;text-decoration:underline;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROOMS SECTION -->
+    <section style="padding:40px 0 60px;">
+        <div class="container">
+            <h2 style="font-family:'DuplicateIonic-Light',Georgia,serif;font-size:40px;color:#1a1a1a;margin-bottom:28px;">Rooms &amp; Suites</h2>
+            <div style="display:flex;gap:15px;">
+                <!-- Room card 1 -->
+                <div style="flex:1;">
+                    <div class="card" style="border:none;border-radius:0;">
+                        <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
+                            <button class="favorite-btn" data-id="room-standard" data-type="Room" data-name="Standard" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/68b2ac23-d06b-4ad7-9bbc-13b0ee49b7f1/outrigger-reef-waikiki-beach-resort-voyager47-40.jpg" onclick="onHeartClick(this)">
+                                <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                            </button>
+                            <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/68b2ac23-d06b-4ad7-9bbc-13b0ee49b7f1/outrigger-reef-waikiki-beach-resort-voyager47-40.jpg" alt="Standard Room">
+                        </div>
+                        <div class="card-body" style="padding:14px 0;">
+                            <a href="#" style="font-family:'DuplicateSans-Bold',sans-serif;font-size:17px;color:#1a1a1a;text-decoration:underline;display:block;margin-bottom:6px;">Standard</a>
+                            <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#555;line-height:1.5;margin-bottom:14px;">Create memories with the entire ohana (family) and stay in this quiet room on the side of the hotel.</div>
+                            <a href="#" style="display:inline-block;border:1px solid #1a1a1a;color:#1a1a1a;padding:9px 18px;font-family:'DuplicateSans-Regular',sans-serif;font-size:12px;text-decoration:none;">Check Availability &rsaquo;</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Room card 2 -->
+                <div style="flex:1;">
+                    <div class="card" style="border:none;border-radius:0;">
+                        <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
+                            <button class="favorite-btn" data-id="room-resort-view" data-type="Room" data-name="Resort View" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/a94d61af-ec28-41ec-af20-83fd727e567b/outrigger-reef-waikiki-beach-resort-exterior-sunrise2.jpg" onclick="onHeartClick(this)">
+                                <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                            </button>
+                            <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/a94d61af-ec28-41ec-af20-83fd727e567b/outrigger-reef-waikiki-beach-resort-exterior-sunrise2.jpg" alt="Resort View">
+                        </div>
+                        <div class="card-body" style="padding:14px 0;">
+                            <a href="#" style="font-family:'DuplicateSans-Bold',sans-serif;font-size:17px;color:#1a1a1a;text-decoration:underline;display:block;margin-bottom:6px;">Resort View</a>
+                            <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#555;line-height:1.5;margin-bottom:14px;">A tranquil Hawaii haven with striking views of ancient green mountains.</div>
+                            <a href="#" style="display:inline-block;border:1px solid #1a1a1a;color:#1a1a1a;padding:9px 18px;font-family:'DuplicateSans-Regular',sans-serif;font-size:12px;text-decoration:none;">Check Availability &rsaquo;</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Room card 3 -->
+                <div style="flex:1;">
+                    <div class="card" style="border:none;border-radius:0;">
+                        <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
+                            <button class="favorite-btn" data-id="room-club-suite" data-type="Room" data-name="Club 1BR Oceanfront Suite" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/35db8bff-1364-44e0-9423-ae0ddb4d9afd/outrigger-reef-waikiki-beach-resort-aerial-1.jpg" onclick="onHeartClick(this)">
+                                <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                            </button>
+                            <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/35db8bff-1364-44e0-9423-ae0ddb4d9afd/outrigger-reef-waikiki-beach-resort-aerial-1.jpg" alt="Club Suite">
+                        </div>
+                        <div class="card-body" style="padding:14px 0;">
+                            <a href="#" style="font-family:'DuplicateSans-Bold',sans-serif;font-size:17px;color:#1a1a1a;text-decoration:underline;display:block;margin-bottom:6px;">Club 1BR Oceanfront Suite</a>
+                            <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#555;line-height:1.5;margin-bottom:14px;">A vacation haven where the sky meets the sea.</div>
+                            <a href="#" style="display:inline-block;border:1px solid #1a1a1a;color:#1a1a1a;padding:9px 18px;font-family:'DuplicateSans-Regular',sans-serif;font-size:12px;text-decoration:none;">Check Availability &rsaquo;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ==========================================
+     VIEW 2: MY FAVORITES PAGE
+     ========================================== -->
+<div class="proto-view" id="view-favorites"></div>
+
+<!-- ==========================================
+     MODALS
+     ========================================== -->
+<!-- Email Capture -->
+<div class="modal-overlay" id="emailModal">
+    <div class="modal-overlay__bg" onclick="closeModal('emailModal')"></div>
+    <div class="modal-card">
+        <button class="modal-card__close" onclick="closeModal('emailModal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <div class="modal-card__logo"><svg width="50" height="50" viewBox="0 0 23.12 13.6" xmlns="http://www.w3.org/2000/svg"><path d="M15.19 10.41C14.26 11.33 12.98 11.9 11.56 11.9C9.64 11.9 7.97 10.86 7.08 9.31C6.73 9.24 6.37 9.17 6.02 9.11C5.69 9.05 5.37 9 5.06 8.94C5.96 11.65 8.53 13.6 11.56 13.6C14.03 13.6 16.22 12.23 17.38 10.18L15.19 10.41Z" fill="currentColor"/><path d="M6.42 3.16C7.35 2.25 8.62 1.69 10.03 1.69C11.96 1.69 13.65 2.76 14.52 4.33C14.87 4.39 15.22 4.46 15.56 4.52C15.89 4.58 16.21 4.64 16.53 4.69C15.63 1.96 13.05 0 10.01 0C7.55 0 5.38 1.35 4.22 3.37L6.42 3.16Z" fill="currentColor"/><path d="M1.69 6.81C1.69 6.43 1.72 6.06 1.77 5.7L0.07 5.88C0.03 6.19 0 6.5 0 6.81C0 7.16 0.03 7.5 0.09 7.84L1.8 7.66C1.73 7.38 1.7 7.1 1.69 6.81Z" fill="currentColor"/><path d="M21.43 6.81C21.43 7.18 21.4 7.55 21.35 7.92L23.05 7.73C23.09 7.43 23.12 7.12 23.12 6.81C23.12 6.46 23.09 6.12 23.03 5.78L21.33 5.96C21.39 6.23 21.42 6.52 21.43 6.81Z" fill="currentColor"/></svg></div>
+        <h2>Save your favorites</h2>
+        <p>Enter your email to save favorites and access them on any device.</p>
+        <input type="email" id="emailInput" placeholder="Enter your email address">
+        <p class="modal-card__error" id="emailErr">Please enter a valid email address</p>
+        <div class="modal-card__checkbox"><input type="checkbox" id="tcCheck"><label for="tcCheck">Agree to our Terms &amp; Conditions</label></div>
+        <p class="modal-card__error" id="tcErr">Please agree to Terms &amp; Conditions</p>
+        <div class="modal-card__recaptcha"><div class="recaptcha-box" id="recaptchaBox" onclick="this.classList.toggle('checked')"><div class="check"></div><span>I'm not a robot</span><span style="margin-left:auto;font-size:10px;color:#999;">reCAPTCHA</span></div></div>
+        <p class="modal-card__error" id="recapErr">Please complete the reCAPTCHA</p>
+        <button class="modal-card__submit" onclick="submitEmail()">Save &amp; Continue &rsaquo;</button>
+        <button class="modal-card__cancel" onclick="closeModal('emailModal')">Cancel</button>
+    </div>
+</div>
+
+<!-- Save to Trip -->
+<div class="modal-overlay trip-modal" id="tripModal">
+    <div class="modal-overlay__bg" onclick="closeModal('tripModal')"></div>
+    <div class="modal-card">
+        <button class="modal-card__close" onclick="closeModal('tripModal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <h2>Save to a trip</h2>
+        <div class="trip-list" id="tripList"></div>
+        <div class="create-trip-form" id="createTripForm">
+            <input type="text" id="newTripName" placeholder="e.g. Summer Hawaii 2026">
+            <div class="create-trip-form__actions">
+                <button class="create-trip-form__save" onclick="createTrip()">Create</button>
+                <button class="create-trip-form__cancel" onclick="hideCreateTrip()">Cancel</button>
+            </div>
+        </div>
+        <button class="trip-modal__create" onclick="showCreateTrip()">
+            <div class="trip-modal__create-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            <span>Create new trip</span>
+        </button>
+        <button class="trip-modal__save" id="tripSaveBtn" onclick="saveToTrip()" disabled>Done</button>
+    </div>
+</div>
+
+<!-- Rename Trip -->
+<div class="modal-overlay rename-modal" id="renameModal">
+    <div class="modal-overlay__bg" onclick="closeModal('renameModal')"></div>
+    <div class="modal-card">
+        <button class="modal-card__close" onclick="closeModal('renameModal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <h2>Rename trip</h2>
+        <input type="text" id="renameInput">
+        <button class="rename-modal__save" onclick="confirmRename()">Save</button>
+    </div>
+</div>
+
+<!-- Confirm Delete -->
+<div class="modal-overlay confirm-modal" id="deleteModal">
+    <div class="modal-overlay__bg" onclick="closeModal('deleteModal')"></div>
+    <div class="modal-card">
+        <button class="modal-card__close" onclick="closeModal('deleteModal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <h2>Delete trip?</h2>
+        <p id="deleteMsg">This will remove the trip and all its saved items. This can't be undone.</p>
+        <div class="confirm-modal__btns">
+            <button class="confirm-modal__delete" onclick="confirmDelete()">Delete</button>
+            <button class="confirm-modal__cancel" onclick="closeModal('deleteModal')">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Favorites Tray -->
+<div class="fav-tray__backdrop" id="trayBackdrop" onclick="closeTray()"></div>
+<div class="fav-tray" id="favTray">
+    <div class="fav-tray__header">
+        <div class="fav-tray__header-left">
+            <img src="https://www.outrigger.com/contentassets/37f4cbb63f8a4b70bd83a3f15d1febd2/members-dark.svg" style="width:18px;height:18px;">
+            <span class="fav-tray__header-title">Trip Planner</span>
+            <span class="fav-tray__badge" id="trayBadge" style="display:none;">0</span>
+        </div>
+        <button class="fav-tray__close" onclick="closeTray()"><svg width="20" height="20" viewBox="0 0 28 28"><path d="M3.6 22.9L22.9 3.6M3.6 3.6L22.9 22.9" stroke="black" stroke-width="2"/></svg></button>
+    </div>
+    <div class="fav-tray__body" id="trayBody"></div>
+    <div class="fav-tray__footer" id="trayFooter" style="display:none;">
+        <button class="fav-tray__footer-btn" onclick="switchView('view-favorites')">View All Favorites</button>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-msg" id="toast"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span id="toastText"></span></div>
+
+<!-- ==========================================
+     PROTOTYPE NAV BAR
+     ========================================== -->
+<div class="proto-nav">
+    <span class="proto-nav__label">Prototype</span>
+    <button class="proto-nav__btn active" onclick="switchView('view-home')">Homepage</button>
+    <button class="proto-nav__btn" onclick="switchView('view-favorites')">My Favorites</button>
+    <button class="proto-nav__btn" onclick="toggleTray()">Open Tray</button>
+    <button class="proto-nav__btn" onclick="resetAll()">Reset All</button>
+    <div class="proto-nav__spacer"></div>
+    <span class="proto-nav__status" id="protoStatus">Not signed in</span>
+</div>
+
+<!-- ==========================================
+     JAVASCRIPT
+     ========================================== -->
+<script src="https://www.outrigger.com/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ============================
+// STATE
+// ============================
+let state = {
+    hasRIID: false,
+    email: '',
+    trips: [
+        { id: 'trip-1', name: 'Hawaii Summer 2026', items: [] }
+    ],
+    pendingBtn: null,
+    selectedTripId: null,
+    renamingTripId: null,
+    deletingTripId: null,
+    deletingItemId: null,
+    currentTripView: null // for detail view
+};
+
+// ============================
+// HEART CLICK
+// ============================
+function onHeartClick(btn) {
+    const id = btn.dataset.id;
+    if (btn.classList.contains('is-favorited')) {
+        // UNFAVORITE: remove from all trips
+        state.trips.forEach(t => { t.items = t.items.filter(i => i.id !== id); });
+        btn.classList.remove('is-favorited');
+        toast('Removed from favorites');
+    } else {
+        if (!state.hasRIID) {
+            state.pendingBtn = btn;
+            openModal('emailModal');
+        } else {
+            state.pendingBtn = btn;
+            openTripModal();
+        }
+    }
+    syncUI();
+}
+
+// ============================
+// EMAIL MODAL
+// ============================
+function submitEmail() {
+    const email = document.getElementById('emailInput').value;
+    const tc = document.getElementById('tcCheck').checked;
+    const recap = document.getElementById('recaptchaBox').classList.contains('checked');
+    let ok = true;
+    document.getElementById('emailErr').classList.toggle('show', !email || !email.includes('@'));
+    document.getElementById('tcErr').classList.toggle('show', !tc);
+    document.getElementById('recapErr').classList.toggle('show', !recap);
+    if (!email || !email.includes('@') || !tc || !recap) return;
+
+    state.hasRIID = true;
+    state.email = email;
+    closeModal('emailModal');
+    toast('Email confirmed! You can now save favorites.');
+
+    // Now show trip picker
+    if (state.pendingBtn) {
+        setTimeout(() => openTripModal(), 400);
+    }
+    syncUI();
+}
+
+// ============================
+// TRIP PICKER MODAL
+// ============================
+function openTripModal() {
+    state.selectedTripId = null;
+    renderTripList();
+    openModal('tripModal');
+    document.getElementById('tripSaveBtn').disabled = true;
+}
+
+function renderTripList() {
+    const list = document.getElementById('tripList');
+    list.innerHTML = state.trips.map(t => {
+        const imgSrc = t.items.length > 0 ? t.items[0].img : '';
+        const sel = t.id === state.selectedTripId ? ' selected' : '';
+        return '<div class="trip-list__item' + sel + '" onclick="selectTrip(\'' + t.id + '\')">' +
+            (imgSrc ? '<img class="trip-list__item-img" src="' + imgSrc + '">' : '<div class="trip-list__item-img" style="background:#f0ede6;"></div>') +
+            '<div class="trip-list__item-info"><div class="trip-list__item-name">' + t.name + '</div><div class="trip-list__item-count">' + t.items.length + ' saved</div></div>' +
+            '<div class="trip-list__item-check"></div></div>';
+    }).join('');
+}
+
+function selectTrip(id) {
+    state.selectedTripId = id;
+    renderTripList();
+    document.getElementById('tripSaveBtn').disabled = false;
+}
+
+function saveToTrip() {
+    if (!state.selectedTripId || !state.pendingBtn) return;
+    const btn = state.pendingBtn;
+    const trip = state.trips.find(t => t.id === state.selectedTripId);
+    const item = { id: btn.dataset.id, type: btn.dataset.type, name: btn.dataset.name, sub: btn.dataset.sub, img: btn.dataset.img };
+    if (!trip.items.find(i => i.id === item.id)) trip.items.push(item);
+    btn.classList.add('is-favorited');
+    state.pendingBtn = null;
+    closeModal('tripModal');
+    toast('Saved to "' + trip.name + '"');
+    syncUI();
+}
+
+function showCreateTrip() {
+    document.getElementById('createTripForm').classList.add('show');
+    document.getElementById('newTripName').focus();
+}
+function hideCreateTrip() {
+    document.getElementById('createTripForm').classList.remove('show');
+    document.getElementById('newTripName').value = '';
+}
+function createTrip() {
+    const name = document.getElementById('newTripName').value.trim();
+    if (!name) return;
+    const id = 'trip-' + Date.now();
+    state.trips.push({ id, name, items: [] });
+    hideCreateTrip();
+    state.selectedTripId = id;
+    renderTripList();
+    document.getElementById('tripSaveBtn').disabled = false;
+    toast('Trip "' + name + '" created');
+}
+
+// ============================
+// FAVORITES PAGE
+// ============================
+function renderFavoritesPage() {
+    const el = document.getElementById('view-favorites');
+    if (state.currentTripView) {
+        renderTripDetail(el);
+    } else {
+        renderTripsGrid(el);
+    }
+}
+
+function renderTripsGrid(el) {
+    const totalItems = state.trips.reduce((s, t) => s + t.items.length, 0);
+    let html = '<div class="fav-page"><div class="fav-page__header"><div><h1 class="fav-page__title">My Favorites</h1><div class="fav-page__subtitle">' + state.trips.length + ' trips &middot; ' + totalItems + ' saved items</div></div></div>';
+    html += '<div class="trips-grid">';
+    state.trips.forEach(t => {
+        const imgs = t.items.slice(0, 4);
+        html += '<div class="trip-card" onclick="viewTrip(\'' + t.id + '\')">';
+        html += '<div class="trip-card__images">';
+        for (let i = 0; i < 4; i++) {
+            if (imgs[i]) {
+                html += '<img src="' + imgs[i].img + '" alt="">';
+            } else {
+                html += '<div class="placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>';
+            }
+        }
+        html += '</div><div class="trip-card__body"><div class="trip-card__name">' + t.name + '</div><div class="trip-card__meta">' + t.items.length + ' saved</div>';
+        html += '<div class="trip-card__actions"><button class="trip-card__action-btn" onclick="event.stopPropagation();renameTrip(\'' + t.id + '\')">Rename</button><button class="trip-card__action-btn danger" onclick="event.stopPropagation();deleteTrip(\'' + t.id + '\')">Delete</button></div>';
+        html += '</div></div>';
+    });
+    // Create trip card
+    html += '<div class="trip-card--create" onclick="createTripFromPage()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span>Create new trip</span></div>';
+    html += '</div></div>';
+    el.innerHTML = html;
+}
+
+function renderTripDetail(el) {
+    const trip = state.trips.find(t => t.id === state.currentTripView);
+    if (!trip) { state.currentTripView = null; renderTripsGrid(el); return; }
+    let html = '<div class="fav-page">';
+    html += '<button class="trip-detail__back" onclick="backToTrips()">&larr; Back to all trips</button>';
+    html += '<div class="trip-detail__header"><div><h1 class="trip-detail__name">' + trip.name + '</h1><div class="trip-detail__count">' + trip.items.length + ' saved items</div></div>';
+    html += '<div class="trip-detail__actions"><button class="trip-detail__action" onclick="renameTrip(\'' + trip.id + '\')">Rename</button><button class="trip-detail__action danger" onclick="deleteTrip(\'' + trip.id + '\')">Delete trip</button></div></div>';
+
+    if (trip.items.length === 0) {
+        html += '<div class="trip-detail__empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><h3>No items yet</h3><p>Browse resorts and rooms, then tap the heart icon to save items to this trip.</p></div>';
+    } else {
+        html += '<div class="fav-items-grid">';
+        trip.items.forEach(item => {
+            html += '<div class="fav-item-card"><div class="fav-item-card__img-wrap"><img class="fav-item-card__img" src="' + item.img + '"><span class="fav-item-card__type">' + item.type + '</span>';
+            html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + item.id + '\')"><svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div>';
+            html += '<div class="fav-item-card__body"><div class="fav-item-card__title">' + item.name + '</div><div class="fav-item-card__subtitle">' + item.sub + '</div>';
+            html += '<div class="fav-item-card__cta"><a href="#" class="fav-item-card__book">Book Now &rsaquo;</a><button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + item.id + '\')">Remove</button></div></div></div>';
+        });
+        html += '</div>';
+    }
+    html += '</div>';
+    el.innerHTML = html;
+}
+
+function viewTrip(id) { state.currentTripView = id; renderFavoritesPage(); }
+function backToTrips() { state.currentTripView = null; renderFavoritesPage(); }
+
+function removeItemFromTrip(tripId, itemId) {
+    const trip = state.trips.find(t => t.id === tripId);
+    if (trip) trip.items = trip.items.filter(i => i.id !== itemId);
+    // Also un-heart on the page
+    const btn = document.querySelector('.favorite-btn[data-id="' + itemId + '"]');
+    if (btn) btn.classList.remove('is-favorited');
+    toast('Removed from "' + (trip ? trip.name : 'trip') + '"');
+    syncUI();
+    renderFavoritesPage();
+}
+
+function createTripFromPage() {
+    const name = prompt('Trip name:');
+    if (name && name.trim()) {
+        state.trips.push({ id: 'trip-' + Date.now(), name: name.trim(), items: [] });
+        toast('Trip "' + name.trim() + '" created');
+        syncUI();
+        renderFavoritesPage();
+    }
+}
+
+// ============================
+// RENAME / DELETE TRIPS
+// ============================
+function renameTrip(id) {
+    state.renamingTripId = id;
+    const trip = state.trips.find(t => t.id === id);
+    document.getElementById('renameInput').value = trip ? trip.name : '';
+    openModal('renameModal');
+    setTimeout(() => document.getElementById('renameInput').select(), 100);
+}
+function confirmRename() {
+    const name = document.getElementById('renameInput').value.trim();
+    if (!name) return;
+    const trip = state.trips.find(t => t.id === state.renamingTripId);
+    if (trip) trip.name = name;
+    closeModal('renameModal');
+    toast('Trip renamed');
+    syncUI();
+    renderFavoritesPage();
+}
+function deleteTrip(id) {
+    state.deletingTripId = id;
+    const trip = state.trips.find(t => t.id === id);
+    document.getElementById('deleteMsg').textContent = 'Delete "' + (trip ? trip.name : '') + '"? All saved items in this trip will be removed.';
+    openModal('deleteModal');
+}
+function confirmDelete() {
+    if (state.deletingItemId) {
+        // Deleting a single item
+        state.deletingItemId = null;
+    } else {
+        // Deleting a trip
+        const trip = state.trips.find(t => t.id === state.deletingTripId);
+        if (trip) {
+            trip.items.forEach(item => {
+                const btn = document.querySelector('.favorite-btn[data-id="' + item.id + '"]');
+                if (btn) btn.classList.remove('is-favorited');
+            });
+        }
+        state.trips = state.trips.filter(t => t.id !== state.deletingTripId);
+        if (state.currentTripView === state.deletingTripId) state.currentTripView = null;
+    }
+    closeModal('deleteModal');
+    toast('Deleted');
+    syncUI();
+    renderFavoritesPage();
+}
+
+// ============================
+// TRAY
+// ============================
+function toggleTray() {
+    const tray = document.getElementById('favTray');
+    const bd = document.getElementById('trayBackdrop');
+    if (tray.classList.contains('open')) { closeTray(); } else {
+        tray.classList.add('open'); bd.classList.add('show');
+        renderTray();
+    }
+}
+function closeTray() {
+    document.getElementById('favTray').classList.remove('open');
+    document.getElementById('trayBackdrop').classList.remove('show');
+}
+function renderTray() {
+    const body = document.getElementById('trayBody');
+    const allItems = state.trips.flatMap(t => t.items.map(i => ({ ...i, tripName: t.name, tripId: t.id })));
+    if (allItems.length === 0) {
+        body.innerHTML = '<div class="fav-tray__empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><div class="fav-tray__empty-title">No favorites yet</div><div class="fav-tray__empty-text">Tap the heart icon on any resort or room to save it here.</div></div>';
+        document.getElementById('trayFooter').style.display = 'none';
+        document.getElementById('trayBadge').style.display = 'none';
+        return;
+    }
+    let html = '';
+    state.trips.forEach(t => {
+        if (t.items.length === 0) return;
+        html += '<div class="fav-tray__section">' + t.name + ' (' + t.items.length + ')</div>';
+        t.items.forEach(item => {
+            html += '<div class="fav-tray__item"><img class="fav-tray__item-img" src="' + item.img + '"><div class="fav-tray__item-content"><div class="fav-tray__item-name">' + item.name + '</div><div class="fav-tray__item-sub">' + item.type + '</div></div>';
+            html += '<button class="fav-tray__item-remove" onclick="removeTrayItem(\'' + t.id + '\',\'' + item.id + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
+        });
+    });
+    body.innerHTML = html;
+    document.getElementById('trayFooter').style.display = 'block';
+    document.getElementById('trayBadge').textContent = allItems.length;
+    document.getElementById('trayBadge').style.display = 'inline-flex';
+}
+function removeTrayItem(tripId, itemId) {
+    const trip = state.trips.find(t => t.id === tripId);
+    if (trip) trip.items = trip.items.filter(i => i.id !== itemId);
+    const btn = document.querySelector('.favorite-btn[data-id="' + itemId + '"]');
+    if (btn) btn.classList.remove('is-favorited');
+    renderTray();
+    syncUI();
+    toast('Removed');
+}
+
+// ============================
+// UTILITIES
+// ============================
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+function switchView(id) {
+    document.querySelectorAll('.proto-view').forEach(v => v.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.proto-nav__btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.proto-nav__btn').forEach(b => { if (b.textContent.includes(id === 'view-home' ? 'Homepage' : 'Favorites')) b.classList.add('active'); });
+    if (id === 'view-favorites') renderFavoritesPage();
+    closeTray();
+    window.scrollTo(0, 0);
+}
+
+function syncUI() {
+    // Update header badge
+    const total = state.trips.reduce((s, t) => s + t.items.length, 0);
+    const badge = document.getElementById('headerBadge');
+    badge.textContent = total;
+    badge.classList.toggle('show', total > 0);
+    // Update status
+    document.getElementById('protoStatus').textContent = state.hasRIID ? 'Signed in: ' + state.email : 'Not signed in';
+}
+
+function toast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastText').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function resetAll() {
+    state.hasRIID = false;
+    state.email = '';
+    state.trips = [{ id: 'trip-1', name: 'Hawaii Summer 2026', items: [] }];
+    state.currentTripView = null;
+    document.querySelectorAll('.favorite-btn').forEach(b => b.classList.remove('is-favorited'));
+    document.getElementById('emailInput').value = '';
+    document.getElementById('tcCheck').checked = false;
+    document.getElementById('recaptchaBox').classList.remove('checked');
+    closeTray();
+    syncUI();
+    renderFavoritesPage();
+    toast('Reset! Starting fresh as unknown user.');
+}
+
+// Init
+syncUI();
+</script>
+</body>
+</html>
