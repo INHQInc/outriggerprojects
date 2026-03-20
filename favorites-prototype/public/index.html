@@ -25,9 +25,25 @@
         }
         header.header .header-logo-light-bg { display: none !important; }
         header.header .header-logo-dark-bg { display: inline-block !important; }
-        header.header .navbar-hamburger-more { color: #fff; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; }
-        header.header .hamburger-icon { color: #fff; }
-        header.header .hamburger-text { color: #fff; font-family: 'Montserrat', sans-serif; font-size: 14px; letter-spacing: 1px; }
+        header.header .navbar-hamburger-more {
+            color: #fff;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: block;
+            padding: 0;
+            font-family: 'DuplicateSans-Regular', sans-serif;
+            font-size: 16px;
+        }
+        header.header .navbar-hamburger-more span {
+            color: #fff;
+            font-family: 'DuplicateSans-Regular', sans-serif;
+            font-size: 16px;
+            vertical-align: middle;
+        }
+        header.header .navbar-hamburger-more svg {
+            vertical-align: middle;
+        }
         header.header .navbar-utility button { background: none; border: none; color: #fff; cursor: pointer; }
         header.header .navbar-utility-item button span { color: #fff; }
         header.header .header-booknow {
@@ -46,9 +62,7 @@
 
         /* Promo card background image */
         .card-image-overlay.promo-card {
-            background-image: url('https://www.outrigger.com/AdaptiveImages/optimizely/d0063e25-6520-466f-ab15-a13d5a5c009b/outriggerreef2.6.jpg?quality=100&width=930&height=620&stamp=e368e1da7dab254a742475a4edac827123a48716&format=webp') !important;
-            background-size: cover !important;
-            background-position: center !important;
+            background: url('https://www.outrigger.com/AdaptiveImages/optimizely/d0063e25-6520-466f-ab15-a13d5a5c009b/outriggerreef2.6.jpg?quality=100&width=930&height=620&stamp=e368e1da7dab254a742475a4edac827123a48716&format=webp') center / cover no-repeat !important;
             position: relative;
             overflow: hidden;
         }
@@ -610,9 +624,15 @@
             <div class="row w-100 align-items-center">
                 <!-- Left col: hamburger -->
                 <div class="col-sm-4 col-md-4 col-lg-4 d-flex align-items-center">
-                    <button class="navbar-hamburger-more" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="18" role="presentation" class="hamburger-icon"><path d="M0 .9h27M0 9h27M0 17.1h27" stroke="currentColor" stroke-width="1.8" fill="none"></path></svg>
-                        <span class="hamburger-text">Explore</span>
+                    <button class="navbar-hamburger-more" type="button" aria-label="Open Hamburger menu">
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g>
+                                <path d="M0.388889 6.5H27.6111" stroke="#fff" stroke-width="2" stroke-linecap="square"></path>
+                                <path d="M0.388889 13.5H27.6111" stroke="#fff" stroke-width="2" stroke-linecap="square"></path>
+                                <path d="M0.388889 20.5H27.6111" stroke="#fff" stroke-width="2" stroke-linecap="square"></path>
+                            </g>
+                        </svg>
+                        <span class="ms-1">Explore</span>
                     </button>
                 </div>
                 <!-- Center col: logo -->
