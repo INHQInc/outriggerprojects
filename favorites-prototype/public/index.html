@@ -310,8 +310,16 @@
             font-family: inherit;
         }
         .modal-card input[type="email"]:focus { outline: 2px solid #004561; border-color: #004561; }
-        .modal-card__error { color: #E04F5F; font-size: 12px; margin: 0 0 10px; display: none; text-align: left; }
+        .modal-card__error {
+            color: #E04F5F; font-size: 13px; margin: 4px 0 10px; display: none; text-align: center;
+            border: 1.5px solid #E04F5F; border-radius: 4px; padding: 6px 12px;
+            background: rgba(224,79,95,0.05);
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+        }
         .modal-card__error.show { display: block; }
+        .modal-card input[type="email"].input-error { border: 2px solid #E04F5F !important; background: #fff5f5; }
+        .modal-card__checkbox.checkbox-error input { outline: 2px solid #E04F5F; }
+        .modal-card__recaptcha.recaptcha-error .recaptcha-box { border: 2px solid #E04F5F; }
         .modal-card__checkbox {
             display: flex; align-items: center; justify-content: center; gap: 8px;
             margin-bottom: 4px; font-size: 13px; color: #0F172A;
@@ -819,18 +827,30 @@
         }
         .mobile-nav__secondary-link:hover { color: #fff; }
         .mobile-nav__bottom-bar {
-            flex-shrink: 0; display: flex; align-items: center; justify-content: space-around;
-            padding: 12px 8px 20px; border-top: 1px solid rgba(255,255,255,0.15);
-            background: rgba(0,0,0,0.08);
+            flex-shrink: 0; display: flex !important; align-items: center; justify-content: space-around;
+            padding: 12px 8px 24px; border-top: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.12);
         }
         .mobile-nav__bottom-item {
-            display: flex; flex-direction: column; align-items: center; gap: 4px;
-            background: none; border: none; color: rgba(255,255,255,0.85);
-            cursor: pointer; padding: 6px 12px; font-family: 'DuplicateSans-Regular', sans-serif;
-            font-size: 11px; text-align: center; line-height: 1.2;
+            display: flex !important; flex-direction: column; align-items: center; gap: 4px;
+            background: none !important; border: none !important; color: #fff !important;
+            cursor: pointer; padding: 6px 12px;
+            font-family: 'DuplicateSans-Regular', sans-serif !important;
+            font-size: 11px !important; text-align: center; line-height: 1.2;
         }
-        .mobile-nav__bottom-item:hover { color: #fff; }
-        .mobile-nav__bottom-item svg { color: rgba(255,255,255,0.85); }
+        .mobile-nav__bottom-item span {
+            color: #fff !important; font-size: 11px !important; display: block !important;
+            font-family: 'DuplicateSans-Regular', sans-serif !important;
+        }
+        .mobile-nav__bottom-item:hover { color: #fff !important; }
+        .mobile-nav__bottom-item svg {
+            color: #fff !important; width: 22px !important; height: 22px !important;
+        }
+        .mobile-nav__bottom-item svg path { stroke: #fff !important; }
+        .mobile-nav__bottom-item svg circle { stroke: #fff !important; }
+        .mobile-nav__bottom-item svg line { stroke: #fff !important; }
+        .mobile-nav__bottom-item svg rect { stroke: #fff !important; }
+        .mobile-nav__bottom-item svg path[fill="currentColor"] { fill: #fff !important; }
 
         /* Tray resort grouping */
         .fav-tray__resort-group {
@@ -1217,7 +1237,7 @@
     <div class="modal-overlay__bg" onclick="closeModal('emailModal')"></div>
     <div class="modal-card">
         <button class="modal-card__close" onclick="closeModal('emailModal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-        <div class="modal-card__logo"><svg width="50" height="50" viewBox="0 0 23.12 13.6" xmlns="http://www.w3.org/2000/svg"><path d="M15.19 10.41C14.26 11.33 12.98 11.9 11.56 11.9C9.64 11.9 7.97 10.86 7.08 9.31C6.73 9.24 6.37 9.17 6.02 9.11C5.69 9.05 5.37 9 5.06 8.94C5.96 11.65 8.53 13.6 11.56 13.6C14.03 13.6 16.22 12.23 17.38 10.18L15.19 10.41Z" fill="currentColor"/><path d="M6.42 3.16C7.35 2.25 8.62 1.69 10.03 1.69C11.96 1.69 13.65 2.76 14.52 4.33C14.87 4.39 15.22 4.46 15.56 4.52C15.89 4.58 16.21 4.64 16.53 4.69C15.63 1.96 13.05 0 10.01 0C7.55 0 5.38 1.35 4.22 3.37L6.42 3.16Z" fill="currentColor"/><path d="M1.69 6.81C1.69 6.43 1.72 6.06 1.77 5.7L0.07 5.88C0.03 6.19 0 6.5 0 6.81C0 7.16 0.03 7.5 0.09 7.84L1.8 7.66C1.73 7.38 1.7 7.1 1.69 6.81Z" fill="currentColor"/><path d="M21.43 6.81C21.43 7.18 21.4 7.55 21.35 7.92L23.05 7.73C23.09 7.43 23.12 7.12 23.12 6.81C23.12 6.46 23.09 6.12 23.03 5.78L21.33 5.96C21.39 6.23 21.42 6.52 21.43 6.81Z" fill="currentColor"/></svg></div>
+        <div class="modal-card__logo"><img src="https://www.outrigger.com/globalassets/outrigger/images/logo/outrigger-logo-only-sig-blue-rgb.svg" alt="Outrigger" style="height:50px;width:auto;"></div>
         <h2>Save your favorites</h2>
         <p>Enter your email to save favorites and access them on any device.</p>
         <input type="email" id="emailInput" placeholder="Enter your email address">
@@ -1373,11 +1393,16 @@ function submitEmail() {
     const email = document.getElementById('emailInput').value;
     const tc = document.getElementById('tcCheck').checked;
     const recap = document.getElementById('recaptchaBox').classList.contains('checked');
-    let ok = true;
-    document.getElementById('emailErr').classList.toggle('show', !email || !email.includes('@'));
-    document.getElementById('tcErr').classList.toggle('show', !tc);
-    document.getElementById('recapErr').classList.toggle('show', !recap);
-    if (!email || !email.includes('@') || !tc || !recap) return;
+    var emailBad = !email || !email.includes('@');
+    var tcBad = !tc;
+    var recapBad = !recap;
+    document.getElementById('emailErr').classList.toggle('show', emailBad);
+    document.getElementById('emailInput').classList.toggle('input-error', emailBad);
+    document.getElementById('tcErr').classList.toggle('show', tcBad);
+    document.querySelector('.modal-card__checkbox').classList.toggle('checkbox-error', tcBad);
+    document.getElementById('recapErr').classList.toggle('show', recapBad);
+    document.querySelector('.modal-card__recaptcha').classList.toggle('recaptcha-error', recapBad);
+    if (emailBad || tcBad || recapBad) return;
 
     state.hasRIID = true;
     state.email = email;
