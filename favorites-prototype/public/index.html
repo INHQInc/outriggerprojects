@@ -99,7 +99,7 @@
 
         /* Promo card background image */
         .card-image-overlay.promo-card {
-            background: url('https://prep.outrigger.com/AdaptiveImages/optimizely/187155c7-1fa8-4f96-9757-2e5af368c48e/waikiki-beach-diamond-head-oahu-hawaii.jpg') center / cover no-repeat !important;
+            background: url('https://www.outrigger.com/AdaptiveImages/optimizely/187155c7-1fa8-4f96-9757-2e5af368c48e/waikiki-beach-diamond-head-oahu-hawaii.jpg') center / cover no-repeat !important;
             position: relative;
             overflow: hidden;
         }
@@ -202,7 +202,7 @@
         .card-simplified-slider { position: relative; }
 
         /* ============================================
-           ROOM CARDS — match prep.outrigger.com/rooms-suites
+           ROOM CARDS — match www.outrigger.com/rooms-suites
            ============================================ */
         .destination-selection .card.swiper-slide {
             background: #fff !important; border: 1px solid #e8e5de; border-radius: 0;
@@ -278,7 +278,7 @@
            ============================================ */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 10000; display: none; align-items: center; justify-content: center;
+            z-index: 20000; display: none; align-items: center; justify-content: center;
         }
         .modal-overlay.active { display: flex; }
         .modal-overlay__bg {
@@ -311,15 +311,10 @@
         }
         .modal-card input[type="email"]:focus { outline: 2px solid #004561; border-color: #004561; }
         .modal-card__error {
-            color: #E04F5F; font-size: 13px; margin: 4px 0 10px; display: none; text-align: center;
-            border: 1.5px solid #E04F5F; border-radius: 4px; padding: 6px 12px;
-            background: rgba(224,79,95,0.05);
+            color: #E04F5F; font-size: 12px; margin: 2px 0 8px; display: none; text-align: left;
             font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
         }
         .modal-card__error.show { display: block; }
-        .modal-card input[type="email"].input-error { border: 2px solid #E04F5F !important; background: #fff5f5; }
-        .modal-card__checkbox.checkbox-error input { outline: 2px solid #E04F5F; }
-        .modal-card__recaptcha.recaptcha-error .recaptcha-box { border: 2px solid #E04F5F; }
         .modal-card__checkbox {
             display: flex; align-items: center; justify-content: center; gap: 8px;
             margin-bottom: 4px; font-size: 13px; color: #0F172A;
@@ -1188,12 +1183,12 @@
                         <!-- Room card 1: Oceanfront Suite -->
                         <div class="card swiper-slide swiper-slide-visible swiper-slide-active" style="flex:0 0 33.33%;max-width:33.33%;">
                             <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
-                                <button class="favorite-btn" data-id="room-oceanfront-suite" data-type="Room" data-name="Oceanfront Suite" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://prep.outrigger.com/AdaptiveImages/optimizely/2069a0ed-1f0b-4e7c-af19-e86144e714df/outrigger-reef-waikiki-beach-resort-oceanfront-suite-1-king-1.jpg" onclick="onHeartClick(this)">
+                                <button class="favorite-btn" data-id="room-oceanfront-suite" data-type="Room" data-name="Oceanfront Suite" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/2069a0ed-1f0b-4e7c-af19-e86144e714df/outrigger-reef-waikiki-beach-resort-oceanfront-suite-1-king-1.jpg" onclick="onHeartClick(this)">
                                     <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                                 </button>
                                 <button class="room-img-nav prev"><svg width="10" height="16" viewBox="0 0 12 16" fill="none"><path d="m7.5,12.51l-4-4l4-4" stroke="#333" stroke-width="2"/></svg></button>
                                 <button class="room-img-nav next"><svg width="10" height="16" viewBox="0 0 12 16" fill="none"><path d="m4.5,3.49l4,4-4,4" stroke="#333" stroke-width="2"/></svg></button>
-                                <img class="d-block w-100" src="https://prep.outrigger.com/AdaptiveImages/optimizely/2069a0ed-1f0b-4e7c-af19-e86144e714df/outrigger-reef-waikiki-beach-resort-oceanfront-suite-1-king-1.jpg" alt="Oceanfront Suite">
+                                <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/2069a0ed-1f0b-4e7c-af19-e86144e714df/outrigger-reef-waikiki-beach-resort-oceanfront-suite-1-king-1.jpg" alt="Oceanfront Suite">
                                 <div class="room-img-dots"><span class="active"></span><span></span><span></span><span></span><span></span></div>
                                 <div class="room-gallery-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
                             </div>
@@ -1206,12 +1201,12 @@
                         <!-- Room card 2: Diamond Head Oceanfront -->
                         <div class="card swiper-slide swiper-slide-visible swiper-slide-next" style="flex:0 0 33.33%;max-width:33.33%;">
                             <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
-                                <button class="favorite-btn" data-id="room-dh-oceanfront" data-type="Room" data-name="Diamond Head Oceanfront" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://prep.outrigger.com/AdaptiveImages/optimizely/02348259-ebbe-44f1-98f7-f7bbfee675e5/outrigger-reef-waikiki-beach-resort-diamond-head-ocean-front-1-king-5.jpg" onclick="onHeartClick(this)">
+                                <button class="favorite-btn" data-id="room-dh-oceanfront" data-type="Room" data-name="Diamond Head Oceanfront" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/02348259-ebbe-44f1-98f7-f7bbfee675e5/outrigger-reef-waikiki-beach-resort-diamond-head-ocean-front-1-king-5.jpg" onclick="onHeartClick(this)">
                                     <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                                 </button>
                                 <button class="room-img-nav prev"><svg width="10" height="16" viewBox="0 0 12 16" fill="none"><path d="m7.5,12.51l-4-4l4-4" stroke="#333" stroke-width="2"/></svg></button>
                                 <button class="room-img-nav next"><svg width="10" height="16" viewBox="0 0 12 16" fill="none"><path d="m4.5,3.49l4,4-4,4" stroke="#333" stroke-width="2"/></svg></button>
-                                <img class="d-block w-100" src="https://prep.outrigger.com/AdaptiveImages/optimizely/02348259-ebbe-44f1-98f7-f7bbfee675e5/outrigger-reef-waikiki-beach-resort-diamond-head-ocean-front-1-king-5.jpg" alt="Diamond Head Oceanfront">
+                                <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/02348259-ebbe-44f1-98f7-f7bbfee675e5/outrigger-reef-waikiki-beach-resort-diamond-head-ocean-front-1-king-5.jpg" alt="Diamond Head Oceanfront">
                                 <div class="room-img-dots"><span class="active"></span><span></span><span></span><span></span><span></span><span></span></div>
                                 <div class="room-gallery-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
                             </div>
@@ -1224,12 +1219,12 @@
                         <!-- Room card 3: Coral Reef Penthouse Suite -->
                         <div class="card swiper-slide swiper-slide-visible" style="flex:0 0 33.33%;max-width:33.33%;">
                             <div class="card-simplified-slider" style="position:relative;overflow:hidden;">
-                                <button class="favorite-btn" data-id="room-coral-penthouse" data-type="Room" data-name="Coral Reef Penthouse Suite" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://prep.outrigger.com/AdaptiveImages/optimizely/2e9341e5-fbfb-499f-ad62-57e6e99beaf6/outrigger-reef-waikiki-beach-resort-coral-reef-penthouse-2-bedroom-suite-9.jpg" onclick="onHeartClick(this)">
+                                <button class="favorite-btn" data-id="room-coral-penthouse" data-type="Room" data-name="Coral Reef Penthouse Suite" data-sub="OUTRIGGER Reef Waikiki Beach Resort" data-img="https://www.outrigger.com/AdaptiveImages/optimizely/2e9341e5-fbfb-499f-ad62-57e6e99beaf6/outrigger-reef-waikiki-beach-resort-coral-reef-penthouse-2-bedroom-suite-9.jpg" onclick="onHeartClick(this)">
                                     <svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                                 </button>
                                 <button class="room-img-nav prev"><svg width="10" height="16" viewBox="0 0 12 16" fill="none"><path d="m7.5,12.51l-4-4l4-4" stroke="#333" stroke-width="2"/></svg></button>
                                 <button class="room-img-nav next"><svg width="10" height="16" viewBox="0 0 12 16" fill="none"><path d="m4.5,3.49l4,4-4,4" stroke="#333" stroke-width="2"/></svg></button>
-                                <img class="d-block w-100" src="https://prep.outrigger.com/AdaptiveImages/optimizely/2e9341e5-fbfb-499f-ad62-57e6e99beaf6/outrigger-reef-waikiki-beach-resort-coral-reef-penthouse-2-bedroom-suite-9.jpg" alt="Coral Reef Penthouse Suite">
+                                <img class="d-block w-100" src="https://www.outrigger.com/AdaptiveImages/optimizely/2e9341e5-fbfb-499f-ad62-57e6e99beaf6/outrigger-reef-waikiki-beach-resort-coral-reef-penthouse-2-bedroom-suite-9.jpg" alt="Coral Reef Penthouse Suite">
                                 <div class="room-img-dots"><span class="active"></span><span></span><span></span><span></span></div>
                                 <div class="room-gallery-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
                             </div>
@@ -1420,11 +1415,9 @@ function submitEmail() {
     var tcBad = !tc;
     var recapBad = !recap;
     document.getElementById('emailErr').classList.toggle('show', emailBad);
-    document.getElementById('emailInput').classList.toggle('input-error', emailBad);
+
     document.getElementById('tcErr').classList.toggle('show', tcBad);
-    document.querySelector('.modal-card__checkbox').classList.toggle('checkbox-error', tcBad);
     document.getElementById('recapErr').classList.toggle('show', recapBad);
-    document.querySelector('.modal-card__recaptcha').classList.toggle('recaptcha-error', recapBad);
     if (emailBad || tcBad || recapBad) return;
 
     state.hasRIID = true;
@@ -1445,6 +1438,10 @@ function submitEmail() {
 function closeEmailAndContinue() {
     closeModal('emailModal');
     toast('Email confirmed! You can now save favorites.');
+    // If tray is open, refresh it to show the signed-up empty state
+    if (document.getElementById('favTray').classList.contains('open')) {
+        renderTray();
+    }
     if (state.pendingBtn) {
         setTimeout(function() { openTripModal(); }, 400);
     }
@@ -1706,7 +1703,7 @@ function renderTray() {
         html += '<div class="fav-tray__signup-icon"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0F4A5A" stroke-width="1.2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>';
         html += '<div class="fav-tray__signup-title">Save your dream getaway</div>';
         html += '<div class="fav-tray__signup-desc">Sign up to save your favorite resorts and rooms across devices. Build collections and plan your perfect Hawaiian escape.</div>';
-        html += '<button class="fav-tray__signup-btn" onclick="closeTray();openModal(\'emailModal\');">Sign Up to Save Favorites &rsaquo;</button>';
+        html += '<button class="fav-tray__signup-btn" onclick="openModal(\'emailModal\');">Sign Up to Save Favorites &rsaquo;</button>';
         html += '</div>';
     } else if (allItems.length === 0) {
         /* ── STATE 2: Signed up but no saved items ── */
@@ -1754,7 +1751,7 @@ function renderTray() {
     html += '<div class="fav-tray__section-header" style="margin-top:8px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Trip Planner Quiz</div>';
     html += '<div class="fav-tray__quiz-cta">';
     html += '<a href="https://www.outrigger.com/travel-quiz" target="_blank" class="fav-tray__quiz-card">';
-    html += '<div class="fav-tray__quiz-img"><img src="https://prep.outrigger.com/AdaptiveImages/optimizely/e44f6e0c-4f21-4ca0-930e-32aa9cd4c3ba/outrigger-kaanapali-beach-resort-beach-lifestyle-beach-32.jpg" alt="Travel Quiz"></div>';
+    html += '<div class="fav-tray__quiz-img"><img src="https://www.outrigger.com/AdaptiveImages/optimizely/e44f6e0c-4f21-4ca0-930e-32aa9cd4c3ba/outrigger-kaanapali-beach-resort-beach-lifestyle-beach-32.jpg" alt="Travel Quiz"></div>';
     html += '<div class="fav-tray__quiz-content">';
     html += '<div class="fav-tray__quiz-eyebrow">OUTRIGGER TRAVEL QUIZ</div>';
     html += '<div class="fav-tray__quiz-title">Where should you go next?</div>';
