@@ -968,6 +968,40 @@
             font-size: 14px; color: #888;
         }
 
+        /* Resort banner card (folded resort + rooms) */
+        .fav-resort-banner {
+            display: flex; gap: 20px; align-items: stretch;
+            background: #f8f6f2; border-radius: 10px; overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .fav-resort-banner__img-wrap {
+            position: relative; width: 280px; min-height: 160px; flex-shrink: 0;
+        }
+        .fav-resort-banner__img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+        .fav-resort-banner__img-wrap .favorite-btn {
+            position: absolute; top: 10px; right: 10px;
+        }
+        .fav-resort-banner__body {
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 20px 24px;
+        }
+        .fav-resort-banner__tag {
+            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
+            font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+            color: #0F4A5A; background: rgba(15,74,90,0.08);
+            padding: 3px 8px; border-radius: 3px; display: inline-block;
+            margin-bottom: 8px; width: fit-content;
+        }
+        .fav-resort-banner__name {
+            font-family: 'DuplicateIonic-Bold', Georgia, serif;
+            font-size: 20px; color: #1a1a1a; margin-bottom: 12px;
+        }
+        .fav-resort-banner__cta {
+            display: flex; align-items: center; gap: 16px;
+        }
+
         /* Header badge */
         .header-fav-badge {
             position: absolute; top: -4px; right: -6px;
@@ -1708,27 +1742,77 @@ function renderTripDetail(el) {
     if (trip.items.length === 0) {
         html += '<div class="trip-detail__empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><h3>No items yet</h3><p>Browse resorts and rooms, then tap the heart icon to save items to this collection.</p></div>';
     } else {
-        /* Group items by resort (sub field) */
+        /* Option 2: Rooms imply the resort — fold resort favorites into room groups */
+        var rooms = trip.items.filter(function(i) { return i.type === 'Room'; });
+        var resorts = trip.items.filter(function(i) { return i.type === 'Resort'; });
+        var roomResortNames = {};
+        rooms.forEach(function(r) { roomResortNames[r.sub] = true; });
+
+        /* Re-key resort items: if a resort's name matches a room group, fold it in */
+        var mergedItems = [];
+        trip.items.forEach(function(item) {
+            if (item.type === 'Resort' && roomResortNames[item.name]) {
+                /* This resort has rooms saved — fold it into that resort's group */
+                mergedItems.push({ id: item.id, type: item.type, name: item.name, sub: item.name, img: item.img, _isResortCard: true });
+            } else {
+                mergedItems.push(item);
+            }
+        });
+
+        /* Group merged items by sub */
         var resortGroups = {};
         var resortOrder = [];
-        trip.items.forEach(function(item) {
+        mergedItems.forEach(function(item) {
             var key = item.sub || 'Other';
             if (!resortGroups[key]) { resortGroups[key] = []; resortOrder.push(key); }
             resortGroups[key].push(item);
         });
+
         resortOrder.forEach(function(resortName) {
             var items = resortGroups[resortName];
+            var resortCard = null;
+            var roomItems = [];
+            items.forEach(function(item) {
+                if (item._isResortCard) { resortCard = item; }
+                else { roomItems.push(item); }
+            });
+            var totalCount = items.length;
+            var hasOnlyResorts = roomItems.length > 0 && roomItems.every(function(i) { return i.type === 'Resort'; });
+            var countLabel;
+            if (resortCard && roomItems.length > 0) {
+                countLabel = roomItems.length + ' room' + (roomItems.length !== 1 ? 's' : '') + ' saved';
+            } else if (hasOnlyResorts) {
+                countLabel = roomItems.length + ' resort' + (roomItems.length !== 1 ? 's' : '') + ' saved';
+            } else if (roomItems.length === 0 && resortCard) {
+                countLabel = 'Resort saved';
+            } else {
+                countLabel = roomItems.length + ' room' + (roomItems.length !== 1 ? 's' : '') + ' saved';
+            }
+
             html += '<div class="fav-resort-group">';
             html += '<div class="fav-resort-group__header">';
             html += '<div class="fav-resort-group__name">' + resortName + '</div>';
-            html += '<div class="fav-resort-group__count">' + items.length + ' room' + (items.length !== 1 ? 's' : '') + ' saved</div>';
+            html += '<div class="fav-resort-group__count">' + countLabel + '</div>';
             html += '</div>';
+
+            /* If the resort itself is also favorited, show a resort banner card */
+            if (resortCard) {
+                html += '<div class="fav-resort-banner">';
+                html += '<div class="fav-resort-banner__img-wrap"><img class="fav-resort-banner__img" src="' + resortCard.img + '">';
+                html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + resortCard.id + '\')"><svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div>';
+                html += '<div class="fav-resort-banner__body"><span class="fav-resort-banner__tag">RESORT</span>';
+                html += '<div class="fav-resort-banner__name">' + resortCard.name + '</div>';
+                html += '<div class="fav-resort-banner__cta"><a href="#" class="fav-item-card__book">View Resort &rsaquo;</a><button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + resortCard.id + '\')">Remove</button></div>';
+                html += '</div></div>';
+            }
+
             html += '<div class="fav-items-grid">';
-            items.forEach(function(item) {
+            roomItems.forEach(function(item) {
+                var ctaText = item.type === 'Resort' ? 'View Resort &rsaquo;' : 'Book Now &rsaquo;';
                 html += '<div class="fav-item-card"><div class="fav-item-card__img-wrap"><img class="fav-item-card__img" src="' + item.img + '"><span class="fav-item-card__type">' + item.type + '</span>';
                 html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + item.id + '\')"><svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div>';
                 html += '<div class="fav-item-card__body"><div class="fav-item-card__title">' + item.name + '</div>';
-                html += '<div class="fav-item-card__cta"><a href="#" class="fav-item-card__book">Book Now &rsaquo;</a><button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + item.id + '\')">Remove</button></div></div></div>';
+                html += '<div class="fav-item-card__cta"><a href="#" class="fav-item-card__book">' + ctaText + '</a><button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + item.id + '\')">Remove</button></div></div></div>';
             });
             html += '</div></div>';
         });
@@ -1854,7 +1938,7 @@ function renderTray() {
         html += '<div class="fav-tray__signup-cta">';
         html += '<div class="fav-tray__signup-icon"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0F4A5A" stroke-width="1.2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>';
         html += '<div class="fav-tray__signup-title">Save your dream getaway</div>';
-        html += '<div class="fav-tray__signup-desc">Sign up to save your favorite resorts and rooms across devices. Build collections and plan your perfect Hawaiian escape.</div>';
+        html += '<div class="fav-tray__signup-desc">Sign up to save your favorite resorts and rooms across devices. Build collections and plan your perfect beach escape.</div>';
         html += '<button class="fav-tray__signup-btn" onclick="openModal(\'emailModal\');">Sign Up to Save Favorites &rsaquo;</button>';
         html += '</div>';
     } else if (allItems.length === 0) {
