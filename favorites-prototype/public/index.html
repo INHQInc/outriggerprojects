@@ -792,7 +792,8 @@
             flex: 1; min-width: 0; height: 100%;
             background: #f0ede6; display: flex; align-items: center; justify-content: center;
         }
-        .fav-tray__card-placeholder svg { width: 20px; height: 20px; color: #ccc; }
+        .fav-tray__card-placeholder svg { width: 20px; height: 20px; }
+        .fav-tray__card-placeholder svg path { stroke: #d4d0c8 !important; fill: none !important; }
         .fav-tray__card-body {
             display: flex; justify-content: space-between; align-items: center;
             padding: 10px 14px;
@@ -806,8 +807,9 @@
             font-size: 11px; color: #999; white-space: nowrap;
         }
         .fav-tray__card-arrow {
-            margin-left: 8px; flex-shrink: 0; color: #ccc;
+            margin-left: 8px; flex-shrink: 0;
         }
+        .fav-tray__card-arrow polyline { stroke: #999 !important; }
 
         /* "View X more collections" CTA */
         .fav-tray__more-collections {
