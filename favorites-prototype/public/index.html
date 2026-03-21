@@ -362,6 +362,34 @@
             text-decoration: underline; cursor: pointer; background: none; border: none;
             font-family: inherit;
         }
+        .modal-card__tabs {
+            display: flex; gap: 0; margin-bottom: 20px;
+            border-bottom: 2px solid #e8e5de;
+        }
+        .modal-card__tab {
+            flex: 1; padding: 10px 4px; border: none; background: none;
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
+            font-size: 13px; color: #999; cursor: pointer;
+            border-bottom: 2px solid transparent; margin-bottom: -2px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .modal-card__tab:hover { color: #666; }
+        .modal-card__tab.active {
+            color: #0F4A5A; border-bottom-color: #0F4A5A;
+        }
+        .modal-card__sent-confirmation {
+            text-align: center; padding: 20px 0;
+        }
+        .modal-card__sent-confirmation svg {
+            width: 48px; height: 48px; color: #0F4A5A; margin-bottom: 12px;
+        }
+        .modal-card__sent-confirmation h3 {
+            font-family: 'DuplicateIonic-Bold', Georgia, serif;
+            font-size: 20px; color: #1a1a1a; margin: 0 0 8px;
+        }
+        .modal-card__sent-confirmation p {
+            font-size: 13px; color: #666; margin: 0;
+        }
 
         /* ============================================
            SAVE-TO-TRIP MODAL (Airbnb-style)
@@ -472,7 +500,7 @@
         }
         .trip-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
         .trip-card__images {
-            display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+            display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 100px 100px;
             height: 200px; gap: 2px; background: #e0e0e0; overflow: hidden; position: relative;
         }
         .trip-card__images img {
@@ -1442,20 +1470,37 @@
     <div class="modal-card">
         <button class="modal-card__close" onclick="closeModal('emailModal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
         <div class="modal-card__logo"><img src="https://www.outrigger.com/globalassets/outrigger/images/logo/outrigger-logo-only-sig-blue-rgb.svg" alt="Outrigger" style="height:50px;width:auto;"></div>
-        <h2>Save your favorites</h2>
-        <p>Enter your email to save favorites and access them on any device.</p>
-        <input type="email" id="emailInput" placeholder="Enter your email address">
-        <p class="modal-card__error" id="emailErr">Please enter a valid email address</p>
-        <div class="modal-card__field-group" id="tcGroup">
-            <div class="modal-card__checkbox"><input type="checkbox" id="tcCheck"><label for="tcCheck">Agree to our Terms &amp; Conditions</label></div>
-            <p class="modal-card__error" id="tcErr">Please agree to Terms &amp; Conditions</p>
+        <!-- Tab toggle -->
+        <div class="modal-card__tabs">
+            <button class="modal-card__tab active" id="tabNewUser" onclick="switchModalTab('new')">New to Favorites</button>
+            <button class="modal-card__tab" id="tabReturning" onclick="switchModalTab('returning')">Already signed up</button>
         </div>
-        <div class="modal-card__field-group" id="recapGroup">
-            <div class="modal-card__recaptcha"><div class="recaptcha-box" id="recaptchaBox" onclick="this.classList.toggle('checked')"><div class="check"></div><span>I'm not a robot</span><span style="margin-left:auto;font-size:10px;color:#999;">reCAPTCHA</span></div></div>
-            <p class="modal-card__error" id="recapErr">Please complete the reCAPTCHA</p>
+        <!-- Panel 1: New user signup -->
+        <div class="modal-card__panel" id="panelNew">
+            <h2>Save your favorites</h2>
+            <p>Enter your email to save favorites and access them on any device.</p>
+            <input type="email" id="emailInput" placeholder="Enter your email address">
+            <p class="modal-card__error" id="emailErr">Please enter a valid email address</p>
+            <div class="modal-card__field-group" id="tcGroup">
+                <div class="modal-card__checkbox"><input type="checkbox" id="tcCheck"><label for="tcCheck">Agree to our Terms &amp; Conditions</label></div>
+                <p class="modal-card__error" id="tcErr">Please agree to Terms &amp; Conditions</p>
+            </div>
+            <div class="modal-card__field-group" id="recapGroup">
+                <div class="modal-card__recaptcha"><div class="recaptcha-box" id="recaptchaBox" onclick="this.classList.toggle('checked')"><div class="check"></div><span>I'm not a robot</span><span style="margin-left:auto;font-size:10px;color:#999;">reCAPTCHA</span></div></div>
+                <p class="modal-card__error" id="recapErr">Please complete the reCAPTCHA</p>
+            </div>
+            <button class="modal-card__submit" onclick="submitEmail()">Save &amp; Continue &rsaquo;</button>
+            <button class="modal-card__cancel" onclick="closeModal('emailModal')">Cancel</button>
         </div>
-        <button class="modal-card__submit" onclick="submitEmail()">Save &amp; Continue &rsaquo;</button>
-        <button class="modal-card__cancel" onclick="closeModal('emailModal')">Cancel</button>
+        <!-- Panel 2: Returning user -->
+        <div class="modal-card__panel" id="panelReturning" style="display:none;">
+            <h2>Access your favorites</h2>
+            <p>If you have an email on file with us, enter it below and we&rsquo;ll send you a link to your saved collections.</p>
+            <input type="email" id="returningEmailInput" placeholder="Enter your email address">
+            <p class="modal-card__error" id="returningEmailErr">Please enter a valid email address</p>
+            <button class="modal-card__submit" onclick="sendMagicLink()">Send Me a Link &rsaquo;</button>
+            <button class="modal-card__cancel" onclick="closeModal('emailModal')">Cancel</button>
+        </div>
     </div>
 </div>
 
@@ -1665,6 +1710,36 @@ function closeEmailAndContinue() {
     if (state.pendingBtn) {
         setTimeout(function() { openTripModal(); }, 400);
     }
+}
+
+function switchModalTab(tab) {
+    document.getElementById('tabNewUser').classList.toggle('active', tab === 'new');
+    document.getElementById('tabReturning').classList.toggle('active', tab === 'returning');
+    document.getElementById('panelNew').style.display = tab === 'new' ? '' : 'none';
+    document.getElementById('panelReturning').style.display = tab === 'returning' ? '' : 'none';
+    // Clear errors
+    document.querySelectorAll('.modal-card__error').forEach(function(e) { e.classList.remove('show'); });
+    document.querySelectorAll('.modal-card__field-group').forEach(function(e) { e.classList.remove('has-error'); });
+}
+
+function sendMagicLink() {
+    var email = document.getElementById('returningEmailInput').value;
+    var emailBad = !email || !email.includes('@');
+    document.getElementById('returningEmailErr').classList.toggle('show', emailBad);
+    if (emailBad) return;
+
+    // Show sent confirmation in the returning panel
+    var panel = document.getElementById('panelReturning');
+    panel.innerHTML = '<div class="modal-card__sent-confirmation">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>' +
+        '<h3>Check your email</h3>' +
+        '<p>We sent a link to <strong>' + email + '</strong></p>' +
+        '<p style="margin-top:4px;">Click the link to access your saved collections.</p>' +
+        '<div style="margin-top:16px;padding:12px 16px;background:#f0ede6;border-radius:8px;font-size:12px;color:#666;text-align:left;">' +
+        '<strong style="color:#1a1a1a;">Preview (prototype only):</strong><br>' +
+        'outrigger.com/favorites?RIID=' + btoa(email).substring(0,12) + '...' +
+        '</div></div>' +
+        '<button class="modal-card__submit" style="margin-top:16px;" onclick="closeModal(\'emailModal\')">Done</button>';
 }
 
 // ============================
