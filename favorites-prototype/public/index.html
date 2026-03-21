@@ -1575,6 +1575,33 @@ let state = {
 };
 
 // ============================
+// PERSISTENCE (localStorage)
+// ============================
+function saveState() {
+    try {
+        var data = { hasRIID: state.hasRIID, email: state.email, trips: state.trips };
+        localStorage.setItem('outrigger_proto_state', JSON.stringify(data));
+    } catch(e) {}
+}
+function loadState() {
+    try {
+        var raw = localStorage.getItem('outrigger_proto_state');
+        if (!raw) return;
+        var data = JSON.parse(raw);
+        if (data.hasRIID !== undefined) state.hasRIID = data.hasRIID;
+        if (data.email) state.email = data.email;
+        if (data.trips && Array.isArray(data.trips)) state.trips = data.trips;
+        // Re-apply heart states from loaded data
+        var savedIds = {};
+        state.trips.forEach(function(t) { t.items.forEach(function(i) { savedIds[i.id] = true; }); });
+        document.querySelectorAll('.favorite-btn[data-id]').forEach(function(btn) {
+            if (savedIds[btn.dataset.id]) btn.classList.add('is-favorited');
+        });
+        syncUI();
+    } catch(e) {}
+}
+
+// ============================
 // HEART CLICK
 // ============================
 function onHeartClick(btn) {
@@ -2076,6 +2103,8 @@ function syncUI() {
     badge.classList.toggle('show', total > 0);
     // Update status
     document.getElementById('protoStatus').textContent = state.hasRIID ? 'Signed in: ' + state.email : 'Not signed in';
+    // Persist to localStorage
+    saveState();
 }
 
 function toast(msg) {
@@ -2094,13 +2123,15 @@ function resetAll() {
     document.getElementById('emailInput').value = '';
     document.getElementById('tcCheck').checked = false;
     document.getElementById('recaptchaBox').classList.remove('checked');
+    try { localStorage.removeItem('outrigger_proto_state'); } catch(e) {}
     closeTray();
     syncUI();
     renderFavoritesPage();
     toast('Reset! Starting fresh as unknown user.');
 }
 
-// Init
+// Init — restore saved state then update UI
+loadState();
 syncUI();
 </script>
 </body>
