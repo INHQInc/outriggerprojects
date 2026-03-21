@@ -315,13 +315,21 @@
             font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
         }
         .modal-card__error.show { display: block; }
+        /* Wrap checkbox + its error together, left-aligned as a group centered in the modal */
+        .modal-card__field-group {
+            display: flex; flex-direction: column; align-items: flex-start;
+            width: fit-content; margin: 0 auto 4px;
+        }
+        .modal-card__field-group .modal-card__error { text-align: left; }
+        .modal-card__field-group.has-error .modal-card__checkbox { border: 2px solid #E04F5F; border-radius: 4px; padding: 6px 10px; }
+        .modal-card__field-group.has-error .recaptcha-box { border: 2px solid #E04F5F; }
         .modal-card__checkbox {
-            display: flex; align-items: center; justify-content: center; gap: 8px;
+            display: flex; align-items: center; gap: 8px;
             margin-bottom: 4px; font-size: 13px; color: #0F172A;
         }
         .modal-card__checkbox input { width: 16px; height: 16px; }
         .modal-card__recaptcha {
-            display: flex; justify-content: center; margin: 12px 0 16px;
+            display: flex; justify-content: center; margin: 12px 0 4px;
         }
         .recaptcha-box {
             width: 300px; height: 74px; border: 1px solid #d3d3d3; border-radius: 3px;
@@ -1109,7 +1117,7 @@
                 <div class="col swiper card-slider-swiper swiper-initialized swiper-horizontal swiper-pointer-events swiper-watch-progress">
                     <div class="card-slider-wrapper swiper-wrapper" style="display:flex;gap:0;">
                         <!-- Promo / Destination Card -->
-                        <div class="card swiper-slide card-image-overlay promo-card swiper-slide-visible swiper-slide-active" style="flex:0 0 33.33%;max-width:33.33%;">
+                        <div class="card swiper-slide card-image-overlay promo-card swiper-slide-visible swiper-slide-active" style="flex:0 0 33.33%;max-width:33.33%;background:url('https://www.outrigger.com/adaptiveimages/optimizely/d0063e25-6520-466f-ab15-a13d5a5c009b/outriggerreef2.6.jpg?croptop=331&amp;cropbottom=831&amp;quality=100&amp;width=930&amp;height=620&amp;stamp=e368e1da7dab254a742475a4edac827123a48716&amp;format=webp') center/cover no-repeat !important;">
                             <div class="card-body">
                                 <div class="card-slider-eyebrow">Explore Oahu</div>
                                 <div class="card-title">Oahu</div>
@@ -1268,10 +1276,14 @@
         <p>Enter your email to save favorites and access them on any device.</p>
         <input type="email" id="emailInput" placeholder="Enter your email address">
         <p class="modal-card__error" id="emailErr">Please enter a valid email address</p>
-        <div class="modal-card__checkbox"><input type="checkbox" id="tcCheck"><label for="tcCheck">Agree to our Terms &amp; Conditions</label></div>
-        <p class="modal-card__error" id="tcErr">Please agree to Terms &amp; Conditions</p>
-        <div class="modal-card__recaptcha"><div class="recaptcha-box" id="recaptchaBox" onclick="this.classList.toggle('checked')"><div class="check"></div><span>I'm not a robot</span><span style="margin-left:auto;font-size:10px;color:#999;">reCAPTCHA</span></div></div>
-        <p class="modal-card__error" id="recapErr">Please complete the reCAPTCHA</p>
+        <div class="modal-card__field-group" id="tcGroup">
+            <div class="modal-card__checkbox"><input type="checkbox" id="tcCheck"><label for="tcCheck">Agree to our Terms &amp; Conditions</label></div>
+            <p class="modal-card__error" id="tcErr">Please agree to Terms &amp; Conditions</p>
+        </div>
+        <div class="modal-card__field-group" id="recapGroup">
+            <div class="modal-card__recaptcha"><div class="recaptcha-box" id="recaptchaBox" onclick="this.classList.toggle('checked')"><div class="check"></div><span>I'm not a robot</span><span style="margin-left:auto;font-size:10px;color:#999;">reCAPTCHA</span></div></div>
+            <p class="modal-card__error" id="recapErr">Please complete the reCAPTCHA</p>
+        </div>
         <button class="modal-card__submit" onclick="submitEmail()">Save &amp; Continue &rsaquo;</button>
         <button class="modal-card__cancel" onclick="closeModal('emailModal')">Cancel</button>
     </div>
@@ -1423,9 +1435,10 @@ function submitEmail() {
     var tcBad = !tc;
     var recapBad = !recap;
     document.getElementById('emailErr').classList.toggle('show', emailBad);
-
     document.getElementById('tcErr').classList.toggle('show', tcBad);
+    document.getElementById('tcGroup').classList.toggle('has-error', tcBad);
     document.getElementById('recapErr').classList.toggle('show', recapBad);
+    document.getElementById('recapGroup').classList.toggle('has-error', recapBad);
     if (emailBad || tcBad || recapBad) return;
 
     state.hasRIID = true;
