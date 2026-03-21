@@ -637,9 +637,8 @@
             color: #999; padding: 14px 20px 6px; border-bottom: 1px solid #f0f0f0;
         }
         .fav-tray__item {
-            display: flex; gap: 12px; padding: 14px 20px;
-            border-bottom: 1px solid #f5f5f5; align-items: center;
-            transition: background 0.15s;
+            display: flex; gap: 12px; padding: 10px 20px;
+            align-items: center; transition: background 0.15s;
         }
         .fav-tray__item:hover { background: #fafafa; }
         .fav-tray__item-img {
@@ -699,20 +698,20 @@
             color: #999; padding: 14px 20px 6px;
         }
         .fav-tray__view-more {
-            display: block; width: 100%; text-align: left; padding: 12px 20px;
+            display: block; width: 100%; text-align: left; padding: 6px 20px 12px;
             font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
             font-size: 13px; color: #0F4A5A; background: none; border: none;
-            border-bottom: 1px solid #f0f0f0; cursor: pointer;
+            cursor: pointer;
         }
-        .fav-tray__view-more:hover { background: #f8f8f8; }
+        .fav-tray__view-more:hover { color: #004561; }
         .fav-tray__collections-label {
             font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
             font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
-            color: #999; padding: 14px 20px 6px; border-bottom: 1px solid #f0f0f0;
+            color: #999; padding: 14px 20px 6px;
         }
         .fav-tray__collection-row {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 20px; border-bottom: 1px solid #f5f5f5; cursor: pointer;
+            padding: 10px 20px; cursor: pointer;
         }
         .fav-tray__collection-row:hover { background: #fafafa; }
         .fav-tray__collection-name {
@@ -728,10 +727,10 @@
         .fav-tray__section-header {
             display: flex; align-items: center; gap: 8px;
             font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
-            font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px;
-            color: #1a1a1a; padding: 16px 20px 10px; border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0;
+            font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+            color: #999; padding: 18px 20px 8px;
         }
-        .fav-tray__section-header svg { flex-shrink: 0; }
+        .fav-tray__section-header svg { flex-shrink: 0; width: 14px; height: 14px; }
 
         /* Tray signup CTA (no RIID state) */
         .fav-tray__signup-cta {
@@ -776,12 +775,52 @@
         }
         .fav-tray__view-all-btn:hover { background: #e8e6de; }
 
+        /* Hero collection in tray */
+        .fav-tray__hero-collection {
+            padding: 0 0 8px;
+        }
+        .fav-tray__hero-name {
+            font-family: 'DuplicateIonic-Bold', Georgia, serif;
+            font-size: 17px; color: #1a1a1a; padding: 14px 20px 2px;
+        }
+        .fav-tray__hero-meta {
+            font-family: 'Montserrat', system-ui, sans-serif;
+            font-size: 11px; color: #999; padding: 0 20px 6px;
+        }
+        .fav-tray__hero-see-all {
+            display: inline-block; padding: 4px 20px 10px;
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
+            font-size: 13px; color: #0F4A5A; background: none; border: none;
+            cursor: pointer; text-decoration: none;
+        }
+        .fav-tray__hero-see-all:hover { color: #004561; text-decoration: underline; }
+
+        /* Other collections compact list */
+        .fav-tray__other-collections {
+            padding: 4px 0;
+        }
+        .fav-tray__more-collections-link {
+            display: block; padding: 10px 20px;
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
+            font-size: 13px; color: #0F4A5A; background: none; border: none;
+            cursor: pointer; text-align: left;
+        }
+        .fav-tray__more-collections-link:hover { color: #004561; text-decoration: underline; }
+
+        /* Quiz section — warm background to visually separate from favorites */
+        .fav-tray__quiz-section {
+            background: #f8f6f2; margin-top: 8px; padding-bottom: 20px;
+        }
+        .fav-tray__quiz-section .fav-tray__section-header {
+            color: #999; padding-top: 16px;
+        }
+
         /* Trip Planner Quiz CTA card */
-        .fav-tray__quiz-cta { padding: 12px 20px 20px; }
+        .fav-tray__quiz-cta { padding: 8px 20px 0; }
         .fav-tray__quiz-card {
             display: block; text-decoration: none; color: inherit;
             border-radius: 8px; overflow: hidden;
-            border: 1px solid #e8e5de; transition: box-shadow 0.2s;
+            background: #fff; border: 1px solid #e8e5de; transition: box-shadow 0.2s;
         }
         .fav-tray__quiz-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .fav-tray__quiz-img {
@@ -889,7 +928,7 @@
 
         /* Tray resort grouping */
         .fav-tray__resort-group {
-            padding-bottom: 4px; border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 4px;
         }
         .fav-tray__resort-name {
             font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
@@ -1735,42 +1774,53 @@ function renderTray() {
         html += '</div>';
         html += '<button class="fav-tray__view-all-btn" onclick="switchView(\'view-favorites\');closeTray();">View All Favorites</button>';
     } else {
-        /* ── STATE 3: Signed up with saved items ── */
-        /* Group items by resort */
-        var trayResorts = {};
-        var trayResortOrder = [];
-        allItems.forEach(function(item) {
-            var key = item.sub || 'Other';
-            if (!trayResorts[key]) { trayResorts[key] = []; trayResortOrder.push(key); }
-            trayResorts[key].push(item);
+        /* ── STATE 3: Signed up with saved items — Hero collection + compact others ── */
+
+        /* Find the most recently active collection (last one with items, or first) */
+        var heroTrip = state.trips.find(t => t.items.length > 0) || state.trips[0];
+        var otherTrips = state.trips.filter(t => t.id !== heroTrip.id);
+
+        /* HERO COLLECTION — show name, up to 3 items, "See all" link */
+        html += '<div class="fav-tray__hero-collection">';
+        html += '<div class="fav-tray__hero-name">' + heroTrip.name + '</div>';
+        html += '<div class="fav-tray__hero-meta">' + heroTrip.items.length + ' item' + (heroTrip.items.length !== 1 ? 's' : '') + ' saved</div>';
+
+        var heroItems = heroTrip.items.slice(0, 3);
+        heroItems.forEach(function(item) {
+            html += '<div class="fav-tray__item">';
+            html += '<img class="fav-tray__item-img" src="' + item.img + '">';
+            html += '<div class="fav-tray__item-content">';
+            html += '<div class="fav-tray__item-name">' + item.name + '</div>';
+            html += '<div class="fav-tray__item-sub">' + item.type + (item.sub ? ' &middot; ' + item.sub : '') + '</div>';
+            html += '</div>';
+            html += '<button class="fav-tray__item-remove" onclick="removeTrayItem(\'' + heroTrip.id + '\',\'' + item.id + '\')">';
+            html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
+            html += '</div>';
         });
-        trayResortOrder.forEach(function(resortName) {
-            var items = trayResorts[resortName];
-            html += '<div class="fav-tray__resort-group">';
-            html += '<div class="fav-tray__resort-name">' + resortName + '</div>';
-            var showItems = items.slice(0, 3);
-            showItems.forEach(function(item) {
-                html += '<div class="fav-tray__item"><img class="fav-tray__item-img" src="' + item.img + '"><div class="fav-tray__item-content"><div class="fav-tray__item-name">' + item.name + '</div><div class="fav-tray__item-sub">' + item.type + ' &middot; ' + item.tripName + '</div></div>';
-                html += '<button class="fav-tray__item-remove" onclick="removeTrayItem(\'' + item.tripId + '\',\'' + item.id + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
+
+        if (heroTrip.items.length > 3) {
+            html += '<a class="fav-tray__hero-see-all" onclick="switchView(\'view-favorites\');setTimeout(function(){viewTrip(\'' + heroTrip.id + '\')},100);closeTray();">See all ' + heroTrip.items.length + ' items &rsaquo;</a>';
+        }
+        html += '</div>';
+
+        /* OTHER COLLECTIONS — compact name + count rows */
+        if (otherTrips.length > 0) {
+            html += '<div class="fav-tray__other-collections">';
+            otherTrips.forEach(function(t) {
+                html += '<div class="fav-tray__collection-row" onclick="switchView(\'view-favorites\');setTimeout(function(){viewTrip(\'' + t.id + '\')},100);closeTray();">';
+                html += '<div class="fav-tray__collection-name">' + t.name + '</div>';
+                html += '<div class="fav-tray__collection-count">' + t.items.length + ' saved</div>';
+                html += '</div>';
             });
-            if (items.length > 3) {
-                html += '<button class="fav-tray__view-more" onclick="switchView(\'view-favorites\');closeTray();">+ ' + (items.length - 3) + ' more rooms</button>';
-            }
             html += '</div>';
-        });
-        /* Collections list */
-        html += '<div class="fav-tray__collections-label">Collections (' + state.trips.length + ')</div>';
-        state.trips.forEach(t => {
-            html += '<div class="fav-tray__collection-row" onclick="switchView(\'view-favorites\');setTimeout(function(){viewTrip(\'' + t.id + '\')},100);">';
-            html += '<div class="fav-tray__collection-name">' + t.name + '</div>';
-            html += '<div class="fav-tray__collection-count">' + t.items.length + ' saved</div>';
-            html += '</div>';
-        });
+        }
+
         html += '<button class="fav-tray__view-all-btn" onclick="switchView(\'view-favorites\');closeTray();">View All Favorites</button>';
     }
 
-    /* ── SECTION 2: TRIP PLANNER QUIZ ── */
-    html += '<div class="fav-tray__section-header" style="margin-top:8px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Trip Planner Quiz</div>';
+    /* ── SECTION 2: TRIP PLANNER QUIZ — warm bg shift ── */
+    html += '<div class="fav-tray__quiz-section">';
+    html += '<div class="fav-tray__section-header"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Trip Planner Quiz</div>';
     html += '<div class="fav-tray__quiz-cta">';
     html += '<a href="https://www.outrigger.com/travel-quiz" target="_blank" class="fav-tray__quiz-card">';
     html += '<div class="fav-tray__quiz-img"><img src="https://www.outrigger.com/AdaptiveImages/optimizely/35db8bff-1364-44e0-9423-ae0ddb4d9afd/outrigger-reef-waikiki-beach-resort-aerial-1.jpg?quality=100&width=700&height=424&stamp=0c4b71706d3f18532958ef295842c5a7ea0c991b&format=webp" alt="Travel Quiz"></div>';
@@ -1780,6 +1830,7 @@ function renderTray() {
     html += '<div class="fav-tray__quiz-desc">Take our quick, five-question quiz to see which tropical destination fits your travel dreams.</div>';
     html += '<div class="fav-tray__quiz-btn">Take the quiz &rsaquo;</div>';
     html += '</div></a></div>';
+    html += '</div>';
 
     body.innerHTML = html;
     // Update footer and badge
