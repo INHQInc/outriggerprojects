@@ -468,7 +468,7 @@
         .trip-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
         .trip-card__images {
             display: grid; grid-template-columns: 1fr 1fr; height: 200px;
-            gap: 2px; background: #e0e0e0;
+            gap: 2px; background: #e0e0e0; overflow: hidden; position: relative;
         }
         .trip-card__images img {
             width: 100%; height: 100%; object-fit: cover;
@@ -477,7 +477,7 @@
             background: #f0ede6; display: flex; align-items: center; justify-content: center;
         }
         .trip-card__images .placeholder svg { width: 32px; height: 32px; color: #ccc; }
-        .trip-card__body { padding: 16px; }
+        .trip-card__body { padding: 16px; background: #fff; position: relative; z-index: 1; }
         .trip-card__name {
             font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
             font-size: 16px; color: #1a1a1a; margin-bottom: 4px;
