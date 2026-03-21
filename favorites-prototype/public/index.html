@@ -775,37 +775,48 @@
         }
         .fav-tray__view-all-btn:hover { background: #e8e6de; }
 
-        /* Hero collection in tray */
-        .fav-tray__hero-collection {
-            padding: 0 0 8px;
+        /* Collection mini-cards in tray (Option A) */
+        .fav-tray__card {
+            margin: 10px 20px; border-radius: 10px; overflow: hidden;
+            background: #fff; border: 1px solid #e8e5de; cursor: pointer;
+            transition: box-shadow 0.2s;
         }
-        .fav-tray__hero-name {
-            font-family: 'DuplicateIonic-Bold', Georgia, serif;
-            font-size: 17px; color: #1a1a1a; padding: 14px 20px 2px;
+        .fav-tray__card:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.08); }
+        .fav-tray__card-thumbs {
+            display: flex; height: 80px; gap: 2px; background: #e8e5de;
         }
-        .fav-tray__hero-meta {
+        .fav-tray__card-thumbs img {
+            flex: 1; min-width: 0; height: 100%; object-fit: cover;
+        }
+        .fav-tray__card-thumbs .fav-tray__card-placeholder {
+            flex: 1; min-width: 0; height: 100%;
+            background: #f0ede6; display: flex; align-items: center; justify-content: center;
+        }
+        .fav-tray__card-placeholder svg { width: 20px; height: 20px; color: #ccc; }
+        .fav-tray__card-body {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 14px;
+        }
+        .fav-tray__card-name {
+            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
+            font-size: 14px; color: #1a1a1a;
+        }
+        .fav-tray__card-count {
             font-family: 'Montserrat', system-ui, sans-serif;
-            font-size: 11px; color: #999; padding: 0 20px 6px;
+            font-size: 11px; color: #999; white-space: nowrap;
         }
-        .fav-tray__hero-see-all {
-            display: inline-block; padding: 4px 20px 10px;
-            font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
-            font-size: 13px; color: #0F4A5A; background: none; border: none;
-            cursor: pointer; text-decoration: none;
+        .fav-tray__card-arrow {
+            margin-left: 8px; flex-shrink: 0; color: #ccc;
         }
-        .fav-tray__hero-see-all:hover { color: #004561; text-decoration: underline; }
 
-        /* Other collections compact list */
-        .fav-tray__other-collections {
-            padding: 4px 0;
-        }
-        .fav-tray__more-collections-link {
-            display: block; padding: 10px 20px;
+        /* "View X more collections" CTA */
+        .fav-tray__more-collections {
+            display: block; width: calc(100% - 40px); margin: 4px 20px 8px; padding: 0;
             font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
             font-size: 13px; color: #0F4A5A; background: none; border: none;
-            cursor: pointer; text-align: left;
+            cursor: pointer; text-align: center;
         }
-        .fav-tray__more-collections-link:hover { color: #004561; text-decoration: underline; }
+        .fav-tray__more-collections:hover { color: #004561; text-decoration: underline; }
 
         /* Quiz section — warm background to visually separate from favorites */
         .fav-tray__quiz-section {
@@ -1774,45 +1785,47 @@ function renderTray() {
         html += '</div>';
         html += '<button class="fav-tray__view-all-btn" onclick="switchView(\'view-favorites\');closeTray();">View All Favorites</button>';
     } else {
-        /* ── STATE 3: Signed up with saved items — Hero collection + compact others ── */
+        /* ── STATE 3: Signed up with saved items — Collection cards (Option A) ── */
+        var MAX_CARDS = 3;
+        var visibleTrips = state.trips.slice(0, MAX_CARDS);
+        var remainingCount = state.trips.length - MAX_CARDS;
 
-        /* Find the most recently active collection (last one with items, or first) */
-        var heroTrip = state.trips.find(t => t.items.length > 0) || state.trips[0];
-        var otherTrips = state.trips.filter(t => t.id !== heroTrip.id);
+        /* Render each collection as a mini-card with thumbnail strip */
+        visibleTrips.forEach(function(t) {
+            var onclick = "switchView('view-favorites');setTimeout(function(){viewTrip('" + t.id + "')},100);closeTray();";
+            html += '<div class="fav-tray__card" onclick="' + onclick + '">';
 
-        /* HERO COLLECTION — show name, up to 3 items, "See all" link */
-        html += '<div class="fav-tray__hero-collection">';
-        html += '<div class="fav-tray__hero-name">' + heroTrip.name + '</div>';
-        html += '<div class="fav-tray__hero-meta">' + heroTrip.items.length + ' item' + (heroTrip.items.length !== 1 ? 's' : '') + ' saved</div>';
-
-        var heroItems = heroTrip.items.slice(0, 3);
-        heroItems.forEach(function(item) {
-            html += '<div class="fav-tray__item">';
-            html += '<img class="fav-tray__item-img" src="' + item.img + '">';
-            html += '<div class="fav-tray__item-content">';
-            html += '<div class="fav-tray__item-name">' + item.name + '</div>';
-            html += '<div class="fav-tray__item-sub">' + item.type + (item.sub ? ' &middot; ' + item.sub : '') + '</div>';
+            /* Thumbnail strip — show up to 3 images */
+            html += '<div class="fav-tray__card-thumbs">';
+            var thumbItems = t.items.slice(0, 3);
+            var placeholderSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+            if (thumbItems.length === 0) {
+                /* Empty collection — 3 placeholders */
+                for (var p = 0; p < 3; p++) {
+                    html += '<div class="fav-tray__card-placeholder">' + placeholderSVG + '</div>';
+                }
+            } else {
+                thumbItems.forEach(function(item) {
+                    html += '<img src="' + item.img + '" alt="' + item.name + '">';
+                });
+                /* Fill remaining slots with placeholders */
+                for (var p = thumbItems.length; p < 3; p++) {
+                    html += '<div class="fav-tray__card-placeholder">' + placeholderSVG + '</div>';
+                }
+            }
             html += '</div>';
-            html += '<button class="fav-tray__item-remove" onclick="removeTrayItem(\'' + heroTrip.id + '\',\'' + item.id + '\')">';
-            html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
-            html += '</div>';
+
+            /* Card body — name, count, chevron */
+            html += '<div class="fav-tray__card-body">';
+            html += '<div><div class="fav-tray__card-name">' + t.name + '</div>';
+            html += '<div class="fav-tray__card-count">' + t.items.length + ' item' + (t.items.length !== 1 ? 's' : '') + ' saved</div></div>';
+            html += '<svg class="fav-tray__card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>';
+            html += '</div></div>';
         });
 
-        if (heroTrip.items.length > 3) {
-            html += '<a class="fav-tray__hero-see-all" onclick="switchView(\'view-favorites\');setTimeout(function(){viewTrip(\'' + heroTrip.id + '\')},100);closeTray();">See all ' + heroTrip.items.length + ' items &rsaquo;</a>';
-        }
-        html += '</div>';
-
-        /* OTHER COLLECTIONS — compact name + count rows */
-        if (otherTrips.length > 0) {
-            html += '<div class="fav-tray__other-collections">';
-            otherTrips.forEach(function(t) {
-                html += '<div class="fav-tray__collection-row" onclick="switchView(\'view-favorites\');setTimeout(function(){viewTrip(\'' + t.id + '\')},100);closeTray();">';
-                html += '<div class="fav-tray__collection-name">' + t.name + '</div>';
-                html += '<div class="fav-tray__collection-count">' + t.items.length + ' saved</div>';
-                html += '</div>';
-            });
-            html += '</div>';
+        /* "View X more collections" CTA if there are more than MAX_CARDS */
+        if (remainingCount > 0) {
+            html += '<button class="fav-tray__more-collections" onclick="switchView(\'view-favorites\');closeTray();">View ' + remainingCount + ' more collection' + (remainingCount !== 1 ? 's' : '') + ' &rsaquo;</button>';
         }
 
         html += '<button class="fav-tray__view-all-btn" onclick="switchView(\'view-favorites\');closeTray();">View All Favorites</button>';
