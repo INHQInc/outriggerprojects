@@ -156,22 +156,24 @@
            ============================================ */
         .proto-nav {
             position: fixed; bottom: 0; left: 0; right: 0; z-index: 20000;
-            background: #1a1a1a; display: flex; align-items: center; padding: 0 16px;
-            font-family: 'Montserrat', system-ui, sans-serif; gap: 4px; height: 48px;
+            background: #FF6B00; display: flex; align-items: center; padding: 0 16px;
+            font-family: 'Montserrat', system-ui, sans-serif; gap: 6px; height: 52px;
+            box-shadow: 0 -3px 12px rgba(255,107,0,0.4);
         }
         .proto-nav__label {
-            color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
-            margin-right: 12px; white-space: nowrap;
+            color: #fff; font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px;
+            font-weight: 800; margin-right: 12px; white-space: nowrap;
         }
         .proto-nav__btn {
-            background: #333; color: #ccc; border: none; padding: 6px 14px; font-size: 12px;
-            cursor: pointer; border-radius: 4px; white-space: nowrap; font-family: inherit;
+            background: rgba(0,0,0,0.25); color: #fff; border: none; padding: 7px 16px; font-size: 12px;
+            cursor: pointer; border-radius: 4px; white-space: nowrap; font-family: inherit; font-weight: 600;
         }
-        .proto-nav__btn:hover { background: #444; color: #fff; }
-        .proto-nav__btn.active { background: #0F4A5A; color: #fff; }
+        .proto-nav__btn:hover { background: rgba(0,0,0,0.4); color: #fff; }
+        .proto-nav__btn.active { background: #fff; color: #FF6B00; font-weight: 700; }
         .proto-nav__spacer { flex: 1; }
         .proto-nav__status {
-            color: #E04F5F; font-size: 11px; font-weight: 600;
+            color: #fff; font-size: 11px; font-weight: 700;
+            background: rgba(0,0,0,0.2); padding: 4px 10px; border-radius: 4px;
         }
 
         /* Page views */
@@ -470,8 +472,8 @@
         }
         .trip-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
         .trip-card__images {
-            display: grid; grid-template-columns: 1fr 1fr; height: 200px;
-            gap: 2px; background: #e0e0e0; overflow: hidden; position: relative;
+            display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+            height: 200px; gap: 2px; background: #e0e0e0; overflow: hidden; position: relative;
         }
         .trip-card__images img {
             width: 100%; height: 100%; object-fit: cover;
@@ -963,44 +965,19 @@
             font-family: 'DuplicateIonic-Bold', Georgia, serif;
             font-size: 22px; color: #1a1a1a;
         }
+        .fav-resort-group__header-right {
+            display: flex; align-items: baseline; gap: 16px;
+        }
         .fav-resort-group__count {
             font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
             font-size: 14px; color: #888;
         }
-
-        /* Resort banner card (folded resort + rooms) */
-        .fav-resort-banner {
-            display: flex; gap: 20px; align-items: stretch;
-            background: #f8f6f2; border-radius: 10px; overflow: hidden;
-            margin-bottom: 20px;
+        .fav-resort-group__view-link {
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
+            font-size: 13px; color: #0F4A5A; text-decoration: none;
+            white-space: nowrap;
         }
-        .fav-resort-banner__img-wrap {
-            position: relative; width: 280px; min-height: 160px; flex-shrink: 0;
-        }
-        .fav-resort-banner__img {
-            width: 100%; height: 100%; object-fit: cover; display: block;
-        }
-        .fav-resort-banner__img-wrap .favorite-btn {
-            position: absolute; top: 10px; right: 10px;
-        }
-        .fav-resort-banner__body {
-            display: flex; flex-direction: column; justify-content: center;
-            padding: 20px 24px;
-        }
-        .fav-resort-banner__tag {
-            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
-            font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
-            color: #0F4A5A; background: rgba(15,74,90,0.08);
-            padding: 3px 8px; border-radius: 3px; display: inline-block;
-            margin-bottom: 8px; width: fit-content;
-        }
-        .fav-resort-banner__name {
-            font-family: 'DuplicateIonic-Bold', Georgia, serif;
-            font-size: 20px; color: #1a1a1a; margin-bottom: 12px;
-        }
-        .fav-resort-banner__cta {
-            display: flex; align-items: center; gap: 16px;
-        }
+        .fav-resort-group__view-link:hover { text-decoration: underline; }
 
         /* Header badge */
         .header-fav-badge {
@@ -1035,6 +1012,34 @@
             background: #0F4A5A; color: #fff; border: none; padding: 10px 24px;
             font-size: 14px; cursor: pointer; font-family: inherit;
         }
+
+        /* Create collection modal */
+        .create-collection-modal .modal-card { max-width: 400px; padding: 28px; }
+        .create-collection-modal .modal-card h2 {
+            font-family: 'DuplicateIonic-Light', Georgia, serif;
+            font-size: 20px; font-weight: 300; color: #0F4A5A; margin-bottom: 16px;
+        }
+        .create-collection-modal .create-row {
+            display: flex; gap: 0; align-items: stretch;
+        }
+        .create-collection-modal .create-row input[type="text"] {
+            flex: 1; height: 42px; border: 1px solid #bbb; border-right: none;
+            padding: 0 12px; font-size: 13px; font-family: inherit;
+            border-radius: 4px 0 0 4px; margin: 0;
+        }
+        .create-collection-modal .create-row input[type="text"]::placeholder {
+            color: #aaa; font-size: 13px;
+        }
+        .create-collection-modal .create-row input[type="text"]:focus {
+            outline: 2px solid #004561; border-color: #004561; z-index: 1;
+        }
+        .create-collection-modal .create-row button {
+            height: 42px; padding: 0 20px; font-size: 13px; font-weight: 600;
+            background: #0F4A5A; color: #fff; border: 1px solid #0F4A5A;
+            cursor: pointer; font-family: inherit; border-radius: 0 4px 4px 0;
+            white-space: nowrap;
+        }
+        .create-collection-modal .create-row button:hover { background: #004561; }
 
         /* Confirm delete modal */
         .confirm-modal .modal-card { max-width: 380px; padding: 24px; background: #fff; }
@@ -1073,10 +1078,10 @@
                 </div>
                 <!-- Center col: logo -->
                 <div class="col-sm-8 col-md-4 col-lg-4 text-center">
-                    <a href="https://www.outrigger.com/" class="header-logo-dark-bg">
+                    <a href="https://outriggerprojects.vercel.app/" class="header-logo-dark-bg">
                         <img class="header-logo" src="https://www.outrigger.com/globalassets/outrigger/images/logo/outrigger-logo-only-white.svg" alt="outrigger logo only white">
                     </a>
-                    <a href="https://www.outrigger.com/" class="header-logo-light-bg">
+                    <a href="https://outriggerprojects.vercel.app/" class="header-logo-light-bg">
                         <img class="header-logo" src="https://www.outrigger.com/globalassets/outrigger/images/logo/outrigger-logo-only-sig-blue-rgb.svg" alt="Outrigger Homepage Logo">
                     </a>
                 </div>
@@ -1118,7 +1123,7 @@
         <button class="mobile-nav__close" onclick="closeMobileNav()">
             <svg width="24" height="24" viewBox="0 0 28 28" fill="none"><path d="M3.6 22.9L22.9 3.6M3.6 3.6L22.9 22.9" stroke="white" stroke-width="2"/></svg>
         </button>
-        <a href="https://www.outrigger.com/" class="mobile-nav__logo">
+        <a href="https://outriggerprojects.vercel.app/" class="mobile-nav__logo">
             <img src="https://www.outrigger.com/globalassets/outrigger/images/logo/outrigger-logo-only-white.svg" alt="Outrigger" style="height:22px;">
         </a>
     </div>
@@ -1493,8 +1498,10 @@
     <div class="modal-card">
         <button class="modal-card__close" onclick="closeModal('createCollectionModal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
         <h2>New collection</h2>
-        <input type="text" id="createCollectionInput" placeholder="e.g. Summer Hawaii 2026">
-        <button class="rename-modal__save" onclick="confirmCreateCollection()">Create</button>
+        <div class="create-row">
+            <input type="text" id="createCollectionInput" placeholder="e.g. Summer Hawaii 2026">
+            <button onclick="confirmCreateCollection()">Create</button>
+        </div>
     </div>
 </div>
 
@@ -1541,8 +1548,8 @@
     <button class="proto-nav__btn" onclick="switchView('view-favorites')">My Favorites</button>
     <button class="proto-nav__btn" onclick="toggleTray()">Open Tray</button>
     <button class="proto-nav__btn" onclick="resetAll()">Reset All</button>
-    <div class="proto-nav__spacer"></div>
     <span class="proto-nav__status" id="protoStatus">Not signed in</span>
+    <div class="proto-nav__spacer"></div>
 </div>
 
 <!-- ==========================================
@@ -1789,24 +1796,35 @@ function renderTripDetail(el) {
                 countLabel = roomItems.length + ' room' + (roomItems.length !== 1 ? 's' : '') + ' saved';
             }
 
+            /* Build resort link if this is a resort group (not a destination like "Oahu, Hawaii") */
+            var resortUrls = {
+                'OUTRIGGER Reef Waikiki Beach Resort': 'https://www.outrigger.com/hawaii/oahu/outrigger-reef-waikiki-beach-resort',
+                'OUTRIGGER Waik\u012Bk\u012B Paradise Hotel': 'https://www.outrigger.com/hawaii/oahu/outrigger-waikiki-paradise-hotel',
+                'OUTRIGGER Waikiki Beach Resort': 'https://www.outrigger.com/hawaii/oahu/outrigger-waikiki-beach-resort'
+            };
+            var resortUrl = resortUrls[resortName] || null;
+            var hasRooms = roomItems.some(function(i) { return i.type === 'Room'; });
+
             html += '<div class="fav-resort-group">';
             html += '<div class="fav-resort-group__header">';
             html += '<div class="fav-resort-group__name">' + resortName + '</div>';
-            html += '<div class="fav-resort-group__count">' + countLabel + '</div>';
-            html += '</div>';
-
-            /* If the resort itself is also favorited, show a resort banner card */
-            if (resortCard) {
-                html += '<div class="fav-resort-banner">';
-                html += '<div class="fav-resort-banner__img-wrap"><img class="fav-resort-banner__img" src="' + resortCard.img + '">';
-                html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + resortCard.id + '\')"><svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div>';
-                html += '<div class="fav-resort-banner__body"><span class="fav-resort-banner__tag">RESORT</span>';
-                html += '<div class="fav-resort-banner__name">' + resortCard.name + '</div>';
-                html += '<div class="fav-resort-banner__cta"><a href="#" class="fav-item-card__book">View Resort &rsaquo;</a><button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + resortCard.id + '\')">Remove</button></div>';
-                html += '</div></div>';
+            html += '<div class="fav-resort-group__header-right">';
+            html += '<span class="fav-resort-group__count">' + countLabel + '</span>';
+            if (resortUrl && hasRooms) {
+                html += '<a href="' + resortUrl + '" target="_blank" class="fav-resort-group__view-link">View Resort &rsaquo;</a>';
             }
+            html += '</div></div>';
 
             html += '<div class="fav-items-grid">';
+
+            /* If the resort itself is also favorited, render it as the first card in the grid */
+            if (resortCard) {
+                html += '<div class="fav-item-card"><div class="fav-item-card__img-wrap"><img class="fav-item-card__img" src="' + resortCard.img + '"><span class="fav-item-card__type">Resort</span>';
+                html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + resortCard.id + '\')"><svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div>';
+                html += '<div class="fav-item-card__body"><div class="fav-item-card__title">' + resortCard.name + '</div>';
+                html += '<div class="fav-item-card__cta"><a href="' + (resortUrl || '#') + '" target="_blank" class="fav-item-card__book">View Resort &rsaquo;</a><button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + resortCard.id + '\')">Remove</button></div></div></div>';
+            }
+
             roomItems.forEach(function(item) {
                 var ctaText = item.type === 'Resort' ? 'View Resort &rsaquo;' : 'Book Now &rsaquo;';
                 html += '<div class="fav-item-card"><div class="fav-item-card__img-wrap"><img class="fav-item-card__img" src="' + item.img + '"><span class="fav-item-card__type">' + item.type + '</span>';
