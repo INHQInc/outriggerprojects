@@ -1007,15 +1007,24 @@
         }
         .fav-resort-group__view-link:hover { text-decoration: underline; }
 
-        /* Header badge */
+        /* Header badge — iOS-style red notification dot */
         .header-fav-badge {
             position: absolute; top: -4px; right: -6px;
             background: #E04F5F; color: #fff; font-size: 10px; font-weight: 700;
-            width: 18px; height: 18px; border-radius: 50%;
+            min-width: 18px; height: 18px; border-radius: 9px;
             display: none; align-items: center; justify-content: center;
             font-family: 'Montserrat', system-ui, sans-serif;
+            padding: 0 4px; box-sizing: border-box;
+            line-height: 1; pointer-events: none;
+            transform: scale(0); transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .header-fav-badge.show { display: flex; }
+        .header-fav-badge.show { display: flex; transform: scale(1); }
+        .header-fav-badge.pop { animation: badgePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes badgePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
 
         /* Toast */
         .toast-msg {
@@ -1132,7 +1141,7 @@
                             <button type="button" class="d-flex flex-column align-items-center text-decoration-none" data-bs-toggle="offcanvas" data-bs-target="#favoritesOffcanvas" aria-controls="favoritesOffcanvas" onclick="toggleTray()">
                                 <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="22" height="16" rx="2"/><path d="M10 8V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3"/><path d="M14 18.5l-2.5-2.3a1.8 1.8 0 0 1 0-2.6 1.8 1.8 0 0 1 2.5 0l0 0a1.8 1.8 0 0 1 2.5 0 1.8 1.8 0 0 1 0 2.6L14 18.5z" fill="currentColor" stroke="none"/></svg>
                                 <span style="font-size:10px;margin-top:2px;">Trip Planner</span>
-                                <span class="header-fav-badge" id="headerBadge" style="position:absolute;top:-4px;right:-4px;background:#E04F5F;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;display:none;align-items:center;justify-content:center;">0</span>
+                                <span class="header-fav-badge" id="headerBadge">0</span>
                             </button>
                         </li>
                         <li>
@@ -2171,11 +2180,18 @@ function switchView(id) {
 }
 
 function syncUI() {
-    // Update header badge
+    // Update header badge — iOS-style red notification dot
     const total = state.trips.reduce((s, t) => s + t.items.length, 0);
     const badge = document.getElementById('headerBadge');
-    badge.textContent = total;
-    badge.classList.toggle('show', total > 0);
+    const prevCount = parseInt(badge.textContent) || 0;
+    badge.textContent = total > 99 ? '99+' : total;
+    badge.classList.toggle('show', total > 0 && state.hasRIID);
+    // Pop animation when count increases
+    if (total > prevCount && total > 0) {
+        badge.classList.remove('pop');
+        void badge.offsetWidth; // force reflow
+        badge.classList.add('pop');
+    }
     // Update status
     document.getElementById('protoStatus').textContent = state.hasRIID ? 'Signed in: ' + state.email : 'Not signed in';
     // Persist to localStorage
