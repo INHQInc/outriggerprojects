@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OUTRIGGER Favorites - Block Visual Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        header {
+            background: #1B3D6D;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 4px solid #C5A467;
+        }
+
+        header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        /* Main container */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Table of Contents */
+        .toc-section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .toc-section h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: #1B3D6D;
+            margin-bottom: 20px;
+            font-size: 20px;
+            border-bottom: 2px solid #C5A467;
+            padding-bottom: 10px;
+        }
+
+        .toc-section ul {
+            list-style: none;
+        }
+
+        .toc-section li {
+            margin: 10px 0;
+        }
+
+        .toc-section a {
+            color: #1B3D6D;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .toc-section a:hover {
+            color: #C5A467;
+            text-decoration: underline;
+        }
+
+        /* Legend section */
+        .legend-section {
+            background: #E8F0F7;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            border-left: 4px solid #1B3D6D;
+        }
+
+        .legend-section h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: #1B3D6D;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .legend-item-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .heart-icon-demo {
+            font-size: 24px;
+            color: #E04F5F;
+        }
+
+        /* Block section */
+        .block-section {
+            background: white;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .block-header {
+            background: linear-gradient(135deg, #1B3D6D 0%, #2a4d8d 100%);
+            color: white;
+            padding: 30px;
+            border-bottom: 4px solid #C5A467;
+        }
+
+        .block-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .block-number {
+            display: inline-block;
+            background: #C5A467;
+            color: #1B3D6D;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 15px;
+            vertical-align: middle;
+        }
+
+        .block-header .live-link {
+            display: inline-block;
+            background: rgba(197, 164, 103, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+            margin-top: 15px;
+            border: 1px solid #C5A467;
+            transition: all 0.3s;
+        }
+
+        .block-header .live-link:hover {
+            background: #C5A467;
+            color: #1B3D6D;
+        }
+
+        /* Block content */
+        .block-content {
+            padding: 40px;
+        }
+
+        .block-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .block-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .block-details h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: #1B3D6D;
+            font-size: 16px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .block-details p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .block-details ul {
+            margin-left: 20px;
+            color: #666;
+        }
+
+        .block-details li {
+            margin-bottom: 8px;
+        }
+
+        /* Mockup container */
+        .mockup-container {
+            margin: 40px 0;
+            padding-top: 40px;
+            border-top: 2px solid #E0E0E0;
+        }
+
+        .mockup-container h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: #1B3D6D;
+            margin-bottom: 30px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #E0E0E0;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .card-image {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: linear-gradient(135deg, #8B9DBE 0%, #5B7BA8 50%, #2B4B88 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            overflow: hidden;
+        }
+
+        .card-image.image-placeholder {
+            background: linear-gradient(135deg, #C0D5E8 0%, #8BA5C4 50%, #5B7BA8 100%);
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        /* Heart icon */
+        .heart-icon {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .heart-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .heart-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Annotation */
+        .annotation {
+            position: absolute;
+            top: 50%;
+            right: -80px;
+            transform: translateY(-50%);
+            background: #E04F5F;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .annotation::before {
+            content: '';
+            position: absolute;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-right-color: #E04F5F;
+        }
+
+        @media (max-width: 600px) {
+            .annotation {
+                display: none;
+            }
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-family: 'Montserrat', sans-serif;
+            color: #1B3D6D;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .card-cta {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: #1B3D6D;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0F2347;
+            box-shadow: 0 4px 12px rgba(27, 61, 109, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #1B3D6D;
+            border: 1px solid #1B3D6D;
+        }
+
+        .btn-secondary:hover {
+            background: #1B3D6D;
+            color: white;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        /* Category header */
+        .category-header {
+            font-family: 'Montserrat', sans-serif;
+            color: #1B3D6D;
+            background: #F5F8FC;
+            padding: 15px 20px;
+            margin: 30px 0 20px 0;
+            border-left: 4px solid #C5A467;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        /* Card variant for category cards */
+        .card-category {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #E0E0E0;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            height: 100%;
+        }
+
+        .card-category-image {
+            width: 100%;
+            aspect-ratio: 16/12;
+            background: linear-gradient(135deg, #2B3E50 0%, #1B3D6D 50%, #0F2347 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            overflow: hidden;
+        }
+
+        .card-category-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-category-text {
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+            text-align: center;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+        }
+
+        .card-category-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-category-cta {
+            color: #1B3D6D;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            transition: color 0.3s;
+        }
+
+        .card-category-cta:hover {
+            color: #C5A467;
+        }
+
+        /* Gallery dots */
+        .gallery-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #D0D0D0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #1B3D6D;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* View More card */
+        .card-view-more {
+            background: linear-gradient(135deg, #1B3D6D 0%, #2a4d8d 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .card-view-more:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(27, 61, 109, 0.3);
+        }
+
+        /* Not favoritable section */
+        .not-favoritable-section {
+            background: #FFF3CD;
+            border-left: 4px solid #FFC107;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .not-favoritable-section h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: #856404;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .not-favoritable-section p {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background: #1B3D6D;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 13px;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        .version-info {
+            color: #C5A467;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 28px;
+            }
+
+            .block-info {
+                grid-template-columns: 1fr;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            main {
+                padding: 20px 15px;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .block-section {
+                page-break-inside: avoid;
+                margin-bottom: 20px;
+            }
+
+            .annotation {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>🏝 OUTRIGGER FAVORITES</h1>
+        <p class="subtitle">Content Block Visual Reference Guide</p>
+    </header>
+
+    <!-- Main content -->
+    <main>
+        <!-- Table of Contents -->
+        <section class="toc-section">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="#block-1">1. PropertiesSliderBlock — Explore Hawaii Resort Cards</a></li>
+                <li><a href="#block-2">2. RoomsSuitesBlock — Room Category Slider</a></li>
+                <li><a href="#block-3">3. RoomsAndSuitesListBlock — Individual Room Cards</a></li>
+                <li><a href="#block-4">4. OfferSliderBlock — Top Offers Slider</a></li>
+                <li><a href="#block-5">5. OffersListBlock — Property Offers Grid</a></li>
+                <li><a href="#block-6">6. CondoPropertyListBlock — Vacation Rentals Section</a></li>
+                <li><a href="#block-7">7. CondosAccommodationsListBlock — Condo Unit Types</a></li>
+                <li><a href="#block-promo">PromoCardBlock — Not Favoritable</a></li>
+            </ul>
+        </section>
+
+        <!-- Legend -->
+        <section class="legend-section">
+            <h2>Legend & Key Features</h2>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-item-icon">
+                        <span class="heart-icon-demo">♥</span>
+                    </div>
+                    <div>
+                        <strong>Heart Icon (♥)</strong> — Placed in top-right corner of each favoritable item image. Click to add/remove from favorites.
+                    </div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-item-icon">
+                        <span style="font-size: 18px;">📍</span>
+                    </div>
+                    <div>
+                        <strong>Live URL Link</strong> — Click the "View Live" button in each section header to see the actual block on outrigger.com.
+                    </div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-item-icon">
+                        <span style="font-size: 18px;">🎨</span>
+                    </div>
+                    <div>
+                        <strong>Mockup Cards</strong> — Static HTML/CSS recreation showing realistic layout, typography, and component placement.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Block 1: PropertiesSliderBlock -->
+        <section class="block-section" id="block-1">
+            <div class="block-header">
+                <div>
+                    <h2><span class="block-number">1</span>PropertiesSliderBlock</h2>
+                    <p style="margin: 8px 0 0 55px; font-size: 16px; opacity: 0.9;">Explore Hawaii — Resort Cards</p>
+                </div>
+                <a href="https://www.outrigger.com" target="_blank" class="live-link">→ View Live on outrigger.com</a>
+            </div>
+            <div class="block-content">
+                <div class="block-info">
+                    <div class="block-details">
+                        <h3>Description</h3>
+                        <p>Horizontal slider of resort property cards. Each card features a large image carousel, resort name, short description, and prominent "Book Now" and "Learn More" call-to-action buttons.</p>
+
+                        <h3>Where It Appears</h3>
+                        <ul>
+                            <li>Homepage (above the fold and in hero section)</li>
+                            <li>Island landing pages (e.g., /hawaii/oahu, /hawaii/maui)</li>
+                            <li>Search results pages</li>
+                        </ul>
+                    </div>
+                    <div class="block-details">
+                        <h3>Item Type</h3>
+                        <p><strong>Resort Property</strong></p>
+
+                        <h3>Heart Icon Placement</h3>
+                        <p>Top-right corner of the card image carousel</p>
+
+                        <h3>Integration Points</h3>
+                        <ul>
+                            <li>Favoritable item type: <code>property</code></li>
+                            <li>Item ID: Property RIID from CRM</li>
+                            <li>Save to ODP custom table: <code>favorites_properties</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <h3>Visual Mockup — Properties Slider</h3>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Image Carousel
+                                    <div class="heart-icon">
+                                        <svg viewBox="0 0 24 24" fill="currentColor" style="fill: #E04F5F;">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="annotation">♥ Favorite</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">OUTRIGGER Reef Waikiki Beach Resort</h3>
+                                <p class="card-description">Experience pure Hawaiian hospitality on the shores of Waikiki Beach. Premium oceanfront location with world-class amenities.</p>
+                                <div class="gallery-dots">
+                                    <span class="dot active"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                </div>
+                                <div class="card-cta" style="margin-top: 15px;">
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-secondary">Learn More</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Image Carousel
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">OUTRIGGER Guam Beach Resort</h3>
+                                <p class="card-description">Discover tropical paradise with stunning ocean views, pristine beaches, and authentic island experiences in Guam.</p>
+                                <div class="gallery-dots">
+                                    <span class="dot active"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                </div>
+                                <div class="card-cta" style="margin-top: 15px;">
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-secondary">Learn More</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Image Carousel
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">OUTRIGGER Maui Eldorado</h3>
+                                <p class="card-description">Luxury oceanfront resort in Maui with elegant accommodations, championship golf, and award-winning service.</p>
+                                <div class="gallery-dots">
+                                    <span class="dot active"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                </div>
+                                <div class="card-cta" style="margin-top: 15px;">
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-secondary">Learn More</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Block 2: RoomsSuitesBlock -->
+        <section class="block-section" id="block-2">
+            <div class="block-header">
+                <div>
+                    <h2><span class="block-number">2</span>RoomsSuitesBlock</h2>
+                    <p style="margin: 8px 0 0 55px; font-size: 16px; opacity: 0.9;">Room Category Slider</p>
+                </div>
+                <a href="https://www.outrigger.com/hawaii/oahu/outrigger-reef-waikiki-beach-resort" target="_blank" class="live-link">→ View Live on outrigger.com</a>
+            </div>
+            <div class="block-content">
+                <div class="block-info">
+                    <div class="block-details">
+                        <h3>Description</h3>
+                        <p>Horizontal slider of room category cards with full-bleed background images. Category names are overlaid as large text (e.g., "Beachfront Luxury", "Club Suites", "Oceanfront Deluxe"). Each card includes descriptions and "View all rooms >" CTA.</p>
+
+                        <h3>Where It Appears</h3>
+                        <ul>
+                            <li>Resort property overview pages</li>
+                            <li>Below the main resort hero section</li>
+                            <li>Guides users to room details</li>
+                        </ul>
+                    </div>
+                    <div class="block-details">
+                        <h3>Item Type</h3>
+                        <p><strong>Room (Category Level)</strong></p>
+
+                        <h3>Heart Icon Placement</h3>
+                        <p>Top-right corner of the full-bleed image</p>
+
+                        <h3>Integration Points</h3>
+                        <ul>
+                            <li>Favoritable item type: <code>room_category</code></li>
+                            <li>Item ID: Room category RIID from CRM</li>
+                            <li>Save to ODP custom table: <code>favorites_room_categories</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <h3>Visual Mockup — Room Categories</h3>
+                    <div class="cards-grid">
+                        <div class="card-category">
+                            <div class="card-category-image">
+                                <div class="card-category-overlay">
+                                    <div class="card-category-text">
+                                        Beachfront<br>Luxury
+                                    </div>
+                                </div>
+                                <div class="heart-icon" style="z-index: 20;">
+                                    <svg viewBox="0 0 24 24" fill="currentColor" style="fill: #E04F5F;">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                    </svg>
+                                </div>
+                                <div class="annotation">♥ Favorite</div>
+                            </div>
+                            <div class="card-category-body">
+                                <a href="#" class="card-category-cta">View all rooms →</a>
+                            </div>
+                        </div>
+
+                        <div class="card-category">
+                            <div class="card-category-image">
+                                <div class="card-category-overlay">
+                                    <div class="card-category-text">
+                                        Club<br>Suites
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-category-body">
+                                <a href="#" class="card-category-cta">View all rooms →</a>
+                            </div>
+                        </div>
+
+                        <div class="card-category">
+                            <div class="card-category-image">
+                                <div class="card-category-overlay">
+                                    <div class="card-category-text">
+                                        Oceanfront<br>Deluxe
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-category-body">
+                                <a href="#" class="card-category-cta">View all rooms →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Block 3: RoomsAndSuitesListBlock -->
+        <section class="block-section" id="block-3">
+            <div class="block-header">
+                <div>
+                    <h2><span class="block-number">3</span>RoomsAndSuitesListBlock</h2>
+                    <p style="margin: 8px 0 0 55px; font-size: 16px; opacity: 0.9;">Individual Room Cards</p>
+                </div>
+                <a href="https://www.outrigger.com/hawaii/oahu/outrigger-reef-waikiki-beach-resort/rooms-suites" target="_blank" class="live-link">→ View Live on outrigger.com</a>
+            </div>
+            <div class="block-content">
+                <div class="block-info">
+                    <div class="block-details">
+                        <h3>Description</h3>
+                        <p>Horizontal carousel of individual room type cards. Each card features a multi-image gallery (navigable with arrows and dots), room name, detailed description, amenities list, and "Check Availability" CTA button.</p>
+
+                        <h3>Where It Appears</h3>
+                        <ul>
+                            <li>Resort property "Rooms & Suites" dedicated sub-page</li>
+                            <li>Shows all room types and variations</li>
+                            <li>Direct path to booking</li>
+                        </ul>
+                    </div>
+                    <div class="block-details">
+                        <h3>Item Type</h3>
+                        <p><strong>Room (Specific Room Type)</strong></p>
+
+                        <h3>Heart Icon Placement</h3>
+                        <p>Top-right corner of the image gallery area</p>
+
+                        <h3>Integration Points</h3>
+                        <ul>
+                            <li>Favoritable item type: <code>room</code></li>
+                            <li>Item ID: Room RIID from CRM</li>
+                            <li>Save to ODP custom table: <code>favorites_rooms</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <h3>Visual Mockup — Individual Room Types</h3>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Image Gallery
+                                    <div class="heart-icon">
+                                        <svg viewBox="0 0 24 24" fill="currentColor" style="fill: #E04F5F;">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="annotation">♥ Favorite</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Coral Reef Penthouse Suite</h3>
+                                <p class="card-description">Luxurious penthouse with panoramic ocean views, separate living areas, and premium amenities.</p>
+                                <div class="gallery-dots">
+                                    <span class="dot active"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                </div>
+                                <div style="font-size: 12px; color: #666; margin-top: 10px; margin-bottom: 15px;">
+                                    ✓ Ocean View &nbsp; ✓ Lanai &nbsp; ✓ Hot Tub
+                                </div>
+                                <div class="card-cta">
+                                    <button class="btn btn-primary">Check Availability</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Image Gallery
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Club 1 Bedroom Oceanfront</h3>
+                                <p class="card-description">Spacious oceanfront suite with exclusive club access, premium toiletries, and concierge service.</p>
+                                <div class="gallery-dots">
+                                    <span class="dot active"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                </div>
+                                <div style="font-size: 12px; color: #666; margin-top: 10px; margin-bottom: 15px;">
+                                    ✓ Full Kitchen &nbsp; ✓ Washer/Dryer &nbsp; ✓ WiFi
+                                </div>
+                                <div class="card-cta">
+                                    <button class="btn btn-primary">Check Availability</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Image Gallery
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Partial Ocean View Standard</h3>
+                                <p class="card-description">Comfortable guest room with modern furnishings and convenient access to beach and restaurants.</p>
+                                <div class="gallery-dots">
+                                    <span class="dot active"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                </div>
+                                <div style="font-size: 12px; color: #666; margin-top: 10px; margin-bottom: 15px;">
+                                    ✓ Air Conditioning &nbsp; ✓ Safe &nbsp; ✓ Flat Screen TV
+                                </div>
+                                <div class="card-cta">
+                                    <button class="btn btn-primary">Check Availability</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Block 4: OfferSliderBlock -->
+        <section class="block-section" id="block-4">
+            <div class="block-header">
+                <div>
+                    <h2><span class="block-number">4</span>OfferSliderBlock</h2>
+                    <p style="margin: 8px 0 0 55px; font-size: 16px; opacity: 0.9;">Top Offers Slider</p>
+                </div>
+                <a href="https://www.outrigger.com" target="_blank" class="live-link">→ View Live on outrigger.com</a>
+            </div>
+            <div class="block-content">
+                <div class="block-info">
+                    <div class="block-details">
+                        <h3>Description</h3>
+                        <p>Horizontal slider featuring promotional offer cards with striking images, offer titles displayed as clickable links, and brief tagline descriptions. Cards highlight discounts, package deals, and special promotions.</p>
+
+                        <h3>Where It Appears</h3>
+                        <ul>
+                            <li>Homepage (prominent placement)</li>
+                            <li>Resort property overview pages</li>
+                            <li>Search results pages</li>
+                            <li>Seasonal promotions</li>
+                        </ul>
+                    </div>
+                    <div class="block-details">
+                        <h3>Item Type</h3>
+                        <p><strong>Offer</strong></p>
+
+                        <h3>Heart Icon Placement</h3>
+                        <p>Top-right corner of the card image</p>
+
+                        <h3>Integration Points</h3>
+                        <ul>
+                            <li>Favoritable item type: <code>offer</code></li>
+                            <li>Item ID: Offer RIID from CRM</li>
+                            <li>Save to ODP custom table: <code>favorites_offers</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <h3>Visual Mockup — Top Offers</h3>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Offer Image
+                                    <div class="heart-icon">
+                                        <svg viewBox="0 0 24 24" fill="currentColor" style="fill: #E04F5F;">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="annotation">♥ Favorite</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title"><a href="#" style="color: #1B3D6D; text-decoration: none; cursor: pointer;">Save Up to 25%</a></h3>
+                                <p class="card-description">Book direct and enjoy exclusive discounts on select room types at participating OUTRIGGER resorts.</p>
+                                <div class="card-cta">
+                                    <a href="#" class="btn btn-secondary btn-small">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Offer Image
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title"><a href="#" style="color: #1B3D6D; text-decoration: none; cursor: pointer;">Upgrade to Ocean View</a></h3>
+                                <p class="card-description">Complimentary room upgrade when booking a standard room. Limited availability. Subject to terms.</p>
+                                <div class="card-cta">
+                                    <a href="#" class="btn btn-secondary btn-small">Book Now</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Offer Image
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title"><a href="#" style="color: #1B3D6D; text-decoration: none; cursor: pointer;">Summer Paradise Package</a></h3>
+                                <p class="card-description">Includes breakfast, resort credit, and complimentary activities. Perfect for families and groups.</p>
+                                <div class="card-cta">
+                                    <a href="#" class="btn btn-secondary btn-small">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Block 5: OffersListBlock -->
+        <section class="block-section" id="block-5">
+            <div class="block-header">
+                <div>
+                    <h2><span class="block-number">5</span>OffersListBlock</h2>
+                    <p style="margin: 8px 0 0 55px; font-size: 16px; opacity: 0.9;">Property Offers Grid</p>
+                </div>
+                <a href="https://www.outrigger.com/hawaii/oahu/outrigger-reef-waikiki-beach-resort/offers" target="_blank" class="live-link">→ View Live on outrigger.com</a>
+            </div>
+            <div class="block-content">
+                <div class="block-info">
+                    <div class="block-details">
+                        <h3>Description</h3>
+                        <p>Grid or row layout of property-specific offer cards. Each card includes an image, offer name, brief tagline, property attribution (e.g., "at OUTRIGGER Reef Waikiki Beach Resort"), and "Check Availability" CTA button.</p>
+
+                        <h3>Where It Appears</h3>
+                        <ul>
+                            <li>Resort property "Offers" dedicated sub-page</li>
+                            <li>Shows all available deals for that property</li>
+                            <li>Grid layout (typically 4 cards per row)</li>
+                        </ul>
+                    </div>
+                    <div class="block-details">
+                        <h3>Item Type</h3>
+                        <p><strong>Offer</strong></p>
+
+                        <h3>Heart Icon Placement</h3>
+                        <p>Top-right corner of the card image</p>
+
+                        <h3>Integration Points</h3>
+                        <ul>
+                            <li>Favoritable item type: <code>offer</code></li>
+                            <li>Item ID: Offer RIID from CRM</li>
+                            <li>Property context included in favorite</li>
+                            <li>Save to ODP custom table: <code>favorites_offers</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <h3>Visual Mockup — Property Offers Grid</h3>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Offer Image
+                                    <div class="heart-icon">
+                                        <svg viewBox="0 0 24 24" fill="currentColor" style="fill: #E04F5F;">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="annotation">♥ Favorite</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Book 7, Stay 5</h3>
+                                <p style="font-size: 12px; color: #C5A467; font-weight: 600; margin-bottom: 8px;">at OUTRIGGER Reef Waikiki Beach Resort</p>
+                                <p class="card-description">Stay 5 nights and pay for only 5. Perfect for extended vacations.</p>
+                                <div class="card-cta">
+                                    <button class="btn btn-primary btn-small">Check Availability</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Offer Image
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Meals Included</h3>
+                                <p style="font-size: 12px; color: #C5A467; font-weight: 600; margin-bottom: 8px;">at OUTRIGGER Reef Waikiki Beach Resort</p>
+                                <p class="card-description">All-inclusive package with daily breakfast and dinner for up to 4 guests.</p>
+                                <div class="card-cta">
+                                    <button class="btn btn-primary btn-small">Check Availability</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Offer Image
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Summer Escape</h3>
+                                <p style="font-size: 12px; color: #C5A467; font-weight: 600; margin-bottom: 8px;">at OUTRIGGER Reef Waikiki Beach Resort</p>
+                                <p class="card-description">30% off select oceanfront rooms. Plus complimentary activities and resort credit.</p>
+                                <div class="card-cta">
+                                    <button class="btn btn-primary btn-small">Check Availability</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Offer Image
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Honeymoon Special</h3>
+                                <p style="font-size: 12px; color: #C5A467; font-weight: 600; margin-bottom: 8px;">at OUTRIGGER Reef Waikiki Beach Resort</p>
+                                <p class="card-description">Romance package with wine, chocolates, and sunset cruise for newlyweds.</p>
+                                <div class="card-cta">
+                                    <button class="btn btn-primary btn-small">Check Availability</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Block 6: CondoPropertyListBlock -->
+        <section class="block-section" id="block-6">
+            <div class="block-header">
+                <div>
+                    <h2><span class="block-number">6</span>CondoPropertyListBlock</h2>
+                    <p style="margin: 8px 0 0 55px; font-size: 16px; opacity: 0.9;">Vacation Rentals Section</p>
+                </div>
+                <a href="https://www.outrigger.com/hawaii/oahu" target="_blank" class="live-link">→ View Live on outrigger.com</a>
+            </div>
+            <div class="block-content">
+                <div class="block-info">
+                    <div class="block-details">
+                        <h3>Description</h3>
+                        <p>Cards for vacation rental condo properties with primary image, property name, brief description, and dual CTAs: "Book Now" and "Learn More". Typically shows 2-3 featured properties with a "View More Rentals" CTA card at the end.</p>
+
+                        <h3>Where It Appears</h3>
+                        <ul>
+                            <li>Island landing pages (e.g., /hawaii/oahu, /hawaii/maui)</li>
+                            <li>"Vacation Rentals" section on home page</li>
+                            <li>Below traditional resort listings</li>
+                        </ul>
+                    </div>
+                    <div class="block-details">
+                        <h3>Item Type</h3>
+                        <p><strong>Resort Property (Condo)</strong></p>
+
+                        <h3>Heart Icon Placement</h3>
+                        <p>Top-right corner of the card image</p>
+
+                        <h3>Integration Points</h3>
+                        <ul>
+                            <li>Favoritable item type: <code>property</code></li>
+                            <li>Property subtype: <code>condo</code></li>
+                            <li>Item ID: Property RIID from CRM</li>
+                            <li>Save to ODP custom table: <code>favorites_properties</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <h3>Visual Mockup — Vacation Rentals</h3>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Condo Property Image
+                                    <div class="heart-icon">
+                                        <svg viewBox="0 0 24 24" fill="currentColor" style="fill: #E04F5F;">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="annotation">♥ Favorite</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Waikiki Shore by OUTRIGGER</h3>
+                                <p class="card-description">Directly beachfront condos with full kitchens, washer/dryer, and access to OUTRIGGER amenities and services.</p>
+                                <div class="card-cta">
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-secondary">Learn More</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Condo Property Image
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">OUTRIGGER Kona Reef</h3>
+                                <p class="card-description">Oceanview vacation rentals on Hawaii's Big Island with resort-style amenities and water sports nearby.</p>
+                                <div class="card-cta">
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-secondary">Learn More</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-view-more">
+                            View More Rentals →
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Block 7: CondosAccommodationsListBlock -->
+        <section class="block-section" id="block-7">
+            <div class="block-header">
+                <div>
+                    <h2><span class="block-number">7</span>CondosAccommodationsListBlock</h2>
+                    <p style="margin: 8px 0 0 55px; font-size: 16px; opacity: 0.9;">Condo Unit Types</p>
+                </div>
+                <a href="https://hawaiivacationcondos.outrigger.com/hawaii/oahu/waikiki-shore-by-outrigger/accommodations" target="_blank" class="live-link">→ View Live</a>
+            </div>
+            <div class="block-content">
+                <div class="block-info">
+                    <div class="block-details">
+                        <h3>Description</h3>
+                        <p>Individual condo unit type cards with multi-image gallery (navigable with arrows and indicator dots), unit name, description, amenities, and "Book Now" CTA. Organized by bedroom count (Studio, 1 Bedroom, 2 Bedroom, etc.).</p>
+
+                        <h3>Where It Appears</h3>
+                        <ul>
+                            <li>Condo property "Accommodations" dedicated sub-page</li>
+                            <li>Grouped by unit type/bedroom count</li>
+                            <li>Component repeats for each unit category</li>
+                        </ul>
+                    </div>
+                    <div class="block-details">
+                        <h3>Item Type</h3>
+                        <p><strong>Room (Condo Unit Type)</strong></p>
+
+                        <h3>Heart Icon Placement</h3>
+                        <p>Top-right corner of the image gallery</p>
+
+                        <h3>Integration Points</h3>
+                        <ul>
+                            <li>Favoritable item type: <code>room</code></li>
+                            <li>Room subtype: <code>condo_unit</code></li>
+                            <li>Item ID: Room RIID from CRM</li>
+                            <li>Save to ODP custom table: <code>favorites_rooms</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <h3>Visual Mockup — Condo Units</h3>
+
+                    <div class="category-header">Studio Units</div>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Image Gallery
+                                    <div class="heart-icon">
+                                        <svg viewBox="0 0 24 24" fill="currentColor" style="fill: #E04F5F;">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="annotation">♥ Favorite</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Ocean View Studio</h3>
+                                <p class="card-description">Compact, efficiently designed unit perfect for couples or solo travelers. Full kitchen and modern furnishings.</p>
+                                <div class="gallery-dots">
+                                    <span class="dot active"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                </div>
+                                <div style="font-size: 12px; color: #666; margin-top: 10px; margin-bottom: 15px;">
+                                    ✓ Full Kitchen &nbsp; ✓ Lanai &nbsp; ✓ WiFi
+                                </div>
+                                <div class="card-cta">
+                                    <button class="btn btn-primary">Book Now</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Image Gallery
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Partial Ocean View Studio</h3>
+                                <p class="card-description">Cozy studio with partial ocean views. Includes all standard amenities and access to resort facilities.</p>
+                                <div class="gallery-dots">
+                                    <span class="dot active"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                </div>
+                                <div style="font-size: 12px; color: #666; margin-top: 10px; margin-bottom: 15px;">
+                                    ✓ Full Kitchen &nbsp; ✓ Safe &nbsp; ✓ Cable TV
+                                </div>
+                                <div class="card-cta">
+                                    <button class="btn btn-primary">Book Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">1 Bedroom Units</div>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Image Gallery
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Oceanfront 1 Bedroom Suite</h3>
+                                <p class="card-description">Spacious oceanfront unit with separate bedroom and living area. Full kitchen, washer/dryer, and premium finishes.</p>
+                                <div class="gallery-dots">
+                                    <span class="dot active"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                </div>
+                                <div style="font-size: 12px; color: #666; margin-top: 10px; margin-bottom: 15px;">
+                                    ✓ 2 Bathrooms &nbsp; ✓ Lanai &nbsp; ✓ Washer/Dryer
+                                </div>
+                                <div class="card-cta">
+                                    <button class="btn btn-primary">Book Now</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-image image-placeholder">
+                                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    Image Gallery
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Partial Ocean View 1 BR</h3>
+                                <p class="card-description">Comfortable one-bedroom with partial ocean or garden views. Great value for families and small groups.</p>
+                                <div class="gallery-dots">
+                                    <span class="dot active"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                </div>
+                                <div style="font-size: 12px; color: #666; margin-top: 10px; margin-bottom: 15px;">
+                                    ✓ Full Kitchen &nbsp; ✓ Washer/Dryer &nbsp; ✓ AC
+                                </div>
+                                <div class="card-cta">
+                                    <button class="btn btn-primary">Book Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PromoCardBlock - Not Favoritable -->
+        <section class="not-favoritable-section" id="block-promo">
+            <h3>PromoCardBlock — NOT FAVORITABLE</h3>
+            <p>
+                <strong>Block Type:</strong> PromoCardBlock (content cards used for editorial/marketing callouts)
+            </p>
+            <p>
+                <strong>Description:</strong> These are generic promotional or editorial cards used for marketing campaigns, brand messaging, content promotion, or feature announcements. Examples include "Plan Your Getaway", "Island Guides", "Special Messages", seasonal promotions, or corporate announcements.
+            </p>
+            <p>
+                <strong>Why Not Favoritable:</strong> These cards are not inventory items (properties, rooms, or offers). They are marketing/editorial content that changes frequently with campaigns and promotions. Adding hearts to these would clutter the UI and confuse users about what "favorites" means. Favorites should be reserved for bookable products and actionable items that directly support the booking funnel.
+            </p>
+            <p>
+                <strong>User Impact:</strong> When users search for their favorites, they expect to see resorts they want to book, room types they prefer, and special offers they're interested in — not general marketing messages. This maintains a clear, focused experience.
+            </p>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>OUTRIGGER Favorites — Block Visual Guide</strong></p>
+        <p class="version-info">Version 1.0 | Published: March 23, 2026</p>
+        <p>This guide documents all Optimizely content blocks eligible for the heart icon (favorites) feature. For implementation questions, please contact the Digital Experience team.</p>
+    </footer>
+
+</body>
+</html>
