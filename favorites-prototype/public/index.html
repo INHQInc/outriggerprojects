@@ -1006,23 +1006,28 @@
             white-space: nowrap;
         }
         .fav-resort-group__view-link:hover { text-decoration: underline; }
-        /* Resort sub-grouping within a destination */
-        .fav-resort-subgroup { margin: 0 0 20px; }
+        /* Resort sub-grouping: each resort in its own contained visual block */
+        .fav-resort-subgroup {
+            background: #f8f9fa; border-radius: 8px;
+            padding: 20px 24px 24px; margin: 0 0 24px;
+        }
         .fav-resort-subgroup__header {
             display: flex; justify-content: space-between; align-items: baseline;
-            padding: 0 0 8px; margin-bottom: 12px;
-            border-bottom: 1px solid #e8e5de;
+            padding: 0 0 12px; margin-bottom: 16px;
+            border-bottom: 1px solid #e0ddd6;
         }
         .fav-resort-subgroup__name {
             font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
             font-size: 16px; color: #0F4A5A;
         }
-        /* Resort card rendered standalone — sits in col 1 of a 3-col grid,
-           giving it the exact same width as a room card in the rooms grid */
+        /* Resort card standalone — col 1 of a 3-col grid = exact same width as a room card */
         .fav-resort-standalone {
             display: grid; grid-template-columns: repeat(3, 1fr);
             gap: 20px; margin-bottom: 16px;
         }
+        /* Unfavorited resort card: white bg, dashed outline heart */
+        .fav-item-card--resort-unfav { background: #fff; }
+        .fav-item-card--resort-unfav .favorite-btn svg path { fill: none; stroke: #aaa; stroke-width: 1.5px; }
 
         /* Header badge — iOS-style red notification dot */
         .header-fav-badge {
@@ -2013,6 +2018,10 @@ function renderTripDetail(el) {
             'OUTRIGGER Waik\u012Bk\u012B Paradise Hotel': 'https://www.outrigger.com/hawaii/oahu/outrigger-waikiki-paradise-hotel',
             'OUTRIGGER Waikiki Beach Resort': 'https://www.outrigger.com/hawaii/oahu/outrigger-waikiki-beach-resort'
         };
+        var resortImgMap = {
+            'OUTRIGGER Reef Waikiki Beach Resort': 'https://www.outrigger.com/AdaptiveImages/optimizely/753dec1f-a09b-42b5-85f5-44a03e3c5b4a/outrigger-reef-waikiki-beach-resort-coral-reef-penthouse-2-bedroom-suite-11.jpg?quality=100&width=700&height=393&stamp=cf85c663435ead22a0f47d4bec2162a1466a4886&format=webp',
+            'OUTRIGGER Waikiki Beach Resort': 'https://www.outrigger.com/AdaptiveImages/optimizely/b1c81086-a2b1-46b2-96c8-064a18400d6f/outrigger-waikiki-beach-resort-exterior-1.jpg?quality=100&width=700&height=391&stamp=3d81afea29f058bbf289dade28b1b2355b22d0b3&format=webp'
+        };
         /* Maps resort name → destination label, used when the resort itself isn't favorited */
         var resortToDestMap = {
             'OUTRIGGER Reef Waikiki Beach Resort': 'Oahu, Hawaii',
@@ -2066,6 +2075,17 @@ function renderTripDetail(el) {
             h += '<button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + tripId + '\',\'' + item.id + '\')">Remove</button></div></div></div>';
             return h;
         };
+        /* Resort card for a resort that exists structurally but isn't favorited yet.
+           White bg, outline heart. Clicking the heart adds it to the collection. */
+        var renderUnfavoritedResortCard = function(resortName, img, url, tripId, destName) {
+            var info = JSON.stringify({ name: resortName, img: img, url: url, dest: destName }).replace(/'/g, '&#39;');
+            var h = '<div class="fav-item-card fav-item-card--resort-unfav">';
+            h += '<div class="fav-item-card__img-wrap"><img class="fav-item-card__img" src="' + img + '"><span class="fav-item-card__type">Resort</span>';
+            h += '<button class="favorite-btn" title="Save resort" onclick="addResortToFavorites(\'' + tripId + '\',\'' + info + '\')">' + heartSVG + '</button></div>';
+            h += '<div class="fav-item-card__body"><div class="fav-item-card__title"><a href="' + url + '" target="_blank" style="color:inherit;text-decoration:none;">' + resortName + '</a></div>';
+            h += '<div class="fav-item-card__cta"><a href="' + url + '" target="_blank" class="fav-item-card__book">Book Now &rsaquo;</a></div></div></div>';
+            return h;
+        };
 
         /* Render destination groups */
         destOrder.forEach(function(dest) {
@@ -2091,11 +2111,16 @@ function renderTripDetail(el) {
                     html += '<a href="' + resortUrl + '" target="_blank" class="fav-resort-group__view-link">View Resort &rsaquo;</a>';
                 }
                 html += '</div>';
+                /* Always render resort card — favorited (teal + filled heart) or not (white + outline) */
+                html += '<div class="fav-resort-standalone">';
                 if (rg.resortItem) {
-                    html += '<div class="fav-resort-standalone">';
                     html += renderItemCard(rg.resortItem, trip.id, rg.resortItem.hotelUrl || resortUrl || '#');
-                    html += '</div>';
+                } else {
+                    var resortImg = resortImgMap[resortName] || (rg.rooms.length > 0 ? rg.rooms[0].img : '');
+                    var resortDest = resortToDestMap[resortName] || dest;
+                    html += renderUnfavoritedResortCard(resortName, resortImg, resortUrl || '#', trip.id, resortDest);
                 }
+                html += '</div>';
                 if (rg.rooms.length > 0) {
                     html += '<div class="fav-items-grid">';
                     rg.rooms.forEach(function(room) {
@@ -2127,6 +2152,19 @@ function renderTripDetail(el) {
 
 function viewTrip(id) { state.currentTripView = id; renderFavoritesPage(); }
 function backToTrips() { state.currentTripView = null; renderFavoritesPage(); }
+
+function addResortToFavorites(tripId, infoJson) {
+    var info = JSON.parse(infoJson.replace(/&#39;/g, "'"));
+    var trip = state.trips.find(function(t) { return t.id === tripId; });
+    if (!trip) return;
+    var already = trip.items.some(function(i) { return i.type === 'Resort' && i.name === info.name; });
+    if (already) return;
+    trip.items.push({ id: 'resort-' + Date.now(), type: 'Resort', name: info.name, sub: info.dest, img: info.img, hotelUrl: info.url });
+    saveState();
+    syncUI();
+    renderFavoritesPage();
+    toast('Saved "' + info.name + '"');
+}
 
 function removeItemFromTrip(tripId, itemId) {
     const trip = state.trips.find(t => t.id === tripId);
