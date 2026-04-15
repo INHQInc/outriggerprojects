@@ -1017,6 +1017,8 @@
             font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
             font-size: 16px; color: #0F4A5A;
         }
+        /* Resort card rendered standalone (not in rooms grid) */
+        .fav-resort-standalone { max-width: 320px; margin-bottom: 16px; }
 
         /* Header badge — iOS-style red notification dot */
         .header-fav-badge {
@@ -2085,14 +2087,19 @@ function renderTripDetail(el) {
                     html += '<a href="' + resortUrl + '" target="_blank" class="fav-resort-group__view-link">View Resort &rsaquo;</a>';
                 }
                 html += '</div>';
-                html += '<div class="fav-items-grid">';
                 if (rg.resortItem) {
+                    html += '<div class="fav-resort-standalone">';
                     html += renderItemCard(rg.resortItem, trip.id, rg.resortItem.hotelUrl || resortUrl || '#');
+                    html += '</div>';
                 }
-                rg.rooms.forEach(function(room) {
-                    html += renderItemCard(room, trip.id, room.roomUrl || room.hotelUrl || '#');
-                });
-                html += '</div></div>';
+                if (rg.rooms.length > 0) {
+                    html += '<div class="fav-items-grid">';
+                    rg.rooms.forEach(function(room) {
+                        html += renderItemCard(room, trip.id, room.roomUrl || room.hotelUrl || '#');
+                    });
+                    html += '</div>';
+                }
+                html += '</div>';
             });
 
             html += '</div>';
