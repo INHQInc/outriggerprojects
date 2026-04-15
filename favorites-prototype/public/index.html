@@ -2091,10 +2091,9 @@ function renderTripDetail(el) {
         var renderItemCard = function(item, tripId, url) {
             var h = '<div class="fav-item-card">';
             h += '<div class="fav-item-card__img-wrap"><img class="fav-item-card__img" src="' + item.img + '">';
-            h += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + tripId + '\',\'' + item.id + '\')">' + heartSVG + '</button></div>';
+            h += '<button class="favorite-btn is-favorited" title="Remove from collection" onclick="removeItemFromTrip(\'' + tripId + '\',\'' + item.id + '\')">' + heartSVG + '</button></div>';
             h += '<div class="fav-item-card__body"><div class="fav-item-card__title"><a href="' + url + '" target="_blank" style="color:inherit;text-decoration:none;">' + item.name + '</a></div>';
-            h += '<div class="fav-item-card__cta"><a href="' + url + '" target="_blank" class="fav-item-card__book">Book Now &rsaquo;</a>';
-            h += '<button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + tripId + '\',\'' + item.id + '\')">Remove</button></div></div></div>';
+            h += '<div class="fav-item-card__cta"><a href="' + url + '" target="_blank" class="fav-item-card__book">Book Now &rsaquo;</a></div></div></div>';
             return h;
         };
 
@@ -2127,7 +2126,7 @@ function renderTripDetail(el) {
                     var riUrl = ri.hotelUrl || resortUrl || '#';
                     html += '<div class="fav-resort-hero">';
                     html += '<div class="fav-resort-hero__img-wrap"><img src="' + ri.img + '" alt="">';
-                    html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + ri.id + '\')">' + heartSVG + '</button></div>';
+                    html += '<button class="favorite-btn is-favorited" title="Remove from collection" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + ri.id + '\')">' + heartSVG + '</button></div>';
                     html += '<div class="fav-resort-hero__body">';
                     html += '<div class="fav-resort-hero__name"><a href="' + riUrl + '" target="_blank">' + ri.name + '</a></div>';
                     html += '<a href="' + riUrl + '" target="_blank" class="fav-item-card__book">Book Now &rsaquo;</a>';
