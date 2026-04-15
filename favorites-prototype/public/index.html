@@ -2007,6 +2007,12 @@ function renderTripDetail(el) {
             'OUTRIGGER Waik\u012Bk\u012B Paradise Hotel': 'https://www.outrigger.com/hawaii/oahu/outrigger-waikiki-paradise-hotel',
             'OUTRIGGER Waikiki Beach Resort': 'https://www.outrigger.com/hawaii/oahu/outrigger-waikiki-beach-resort'
         };
+        /* Maps resort name → destination label, used when the resort itself isn't favorited */
+        var resortToDestMap = {
+            'OUTRIGGER Reef Waikiki Beach Resort': 'Oahu, Hawaii',
+            'OUTRIGGER Waik\u012Bk\u012B Paradise Hotel': 'Oahu, Hawaii',
+            'OUTRIGGER Waikiki Beach Resort': 'Oahu, Hawaii'
+        };
 
         var ensureDest = function(dest) {
             if (!destMap[dest]) { destMap[dest] = { resorts: {}, resortOrder: [] }; destOrder.push(dest); }
@@ -2038,7 +2044,7 @@ function renderTripDetail(el) {
                 for (var di = 0; di < destOrder.length; di++) {
                     if (destMap[destOrder[di]].resorts[resortName]) { dest = destOrder[di]; break; }
                 }
-                if (!dest) dest = 'Hawaii';
+                if (!dest) dest = resortToDestMap[resortName] || resortName;
                 ensureResort(dest, resortName);
                 destMap[dest].resorts[resortName].rooms.push(item);
             }
@@ -2071,7 +2077,7 @@ function renderTripDetail(el) {
 
             destData.resortOrder.forEach(function(resortName) {
                 var rg = destData.resorts[resortName];
-                var resortUrl = (rg.resortItem && rg.resortItem.hotelUrl) || resortUrlsMap[resortName] || null;
+                var resortUrl = (rg.resortItem && rg.resortItem.hotelUrl) || (rg.rooms.length > 0 ? rg.rooms[0].hotelUrl : null) || resortUrlsMap[resortName] || null;
 
                 html += '<div class="fav-resort-subgroup">';
                 html += '<div class="fav-resort-subgroup__header"><div class="fav-resort-subgroup__name">' + resortName + '</div>';
