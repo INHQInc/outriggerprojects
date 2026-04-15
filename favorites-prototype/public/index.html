@@ -572,6 +572,38 @@
         .trip-detail__action.danger { color: #E04F5F; border-color: #E04F5F; }
         .trip-detail__action.danger:hover { background: #fef2f2; }
 
+        /* Trip travel params row */
+        .trip-detail__travel-params {
+            display: flex; gap: 20px; align-items: center; flex-wrap: wrap;
+            margin-bottom: 24px; padding: 12px 16px;
+            background: #f7f5f0; border-radius: 6px;
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            font-size: 13px;
+        }
+        .trip-detail__travel-field {
+            display: flex; align-items: center; gap: 8px;
+        }
+        .trip-detail__travel-field label {
+            font-size: 12px; color: #888; white-space: nowrap;
+        }
+        .trip-detail__travel-field input[type="date"] {
+            border: 1px solid #ddd; padding: 5px 8px;
+            border-radius: 4px; background: #fff; font-family: inherit;
+            font-size: 13px; color: #1a1a1a;
+        }
+        .trip-detail__stepper {
+            display: flex; align-items: center; gap: 8px;
+        }
+        .trip-detail__stepper button {
+            width: 28px; height: 28px; border: 1px solid #ddd; background: #fff;
+            border-radius: 4px; cursor: pointer; font-size: 18px; line-height: 1;
+            display: flex; align-items: center; justify-content: center; padding: 0;
+        }
+        .trip-detail__stepper button:hover { background: #f0ede6; }
+        .trip-detail__stepper__val {
+            min-width: 20px; text-align: center; font-size: 14px; color: #1a1a1a;
+        }
+
         /* Favorites items grid */
         .fav-items-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -1789,6 +1821,33 @@ let state = {
 // ============================
 // PERSISTENCE (localStorage)
 // ============================
+function getTravelParams(trip) {
+    return trip.travelParams || { arrive: '', depart: '', adults: 2, children: 0 };
+}
+function setTravelParam(tripId, key, value) {
+    var trip = state.trips.find(function(t) { return t.id === tripId; });
+    if (!trip) return;
+    if (!trip.travelParams) trip.travelParams = { arrive: '', depart: '', adults: 2, children: 0 };
+    trip.travelParams[key] = value;
+    saveState();
+    renderFavoritesPage();
+}
+function stepTravelParam(tripId, key, delta, min) {
+    var trip = state.trips.find(function(t) { return t.id === tripId; });
+    if (!trip) return;
+    if (!trip.travelParams) trip.travelParams = { arrive: '', depart: '', adults: 2, children: 0 };
+    trip.travelParams[key] = Math.max(min, (trip.travelParams[key] || 0) + delta);
+    saveState();
+    renderFavoritesPage();
+}
+function buildBookingUrl(baseUrl, trip) {
+    var tp = getTravelParams(trip);
+    if (!tp.arrive || !tp.depart) return baseUrl;
+    var sep = baseUrl.indexOf('?') >= 0 ? '&' : '?';
+    var url = baseUrl + sep + 'arrive=' + tp.arrive + '&depart=' + tp.depart + '&adults=' + (tp.adults || 2);
+    if (tp.children) url += '&children=' + tp.children;
+    return url;
+}
 function saveState() {
     try {
         var data = { hasRIID: state.hasRIID, email: state.email, trips: state.trips };
@@ -2027,6 +2086,13 @@ function renderTripDetail(el) {
     html += '<button class="trip-detail__back" onclick="backToTrips()">&larr; Back to all collections</button>';
     html += '<div class="trip-detail__header"><div><h1 class="trip-detail__name">' + trip.name + '</h1><div class="trip-detail__count">' + trip.items.length + ' saved items</div></div>';
     html += '<div class="trip-detail__actions"><button class="trip-detail__action" onclick="renameTrip(\'' + trip.id + '\')">Rename</button><button class="trip-detail__action danger" onclick="deleteTrip(\'' + trip.id + '\')">Delete collection</button></div></div>';
+    var tp = getTravelParams(trip);
+    html += '<div class="trip-detail__travel-params">';
+    html += '<div class="trip-detail__travel-field"><label>Check-in</label><input type="date" value="' + (tp.arrive || '') + '" onchange="setTravelParam(\'' + trip.id + '\',\'arrive\',this.value)"></div>';
+    html += '<div class="trip-detail__travel-field"><label>Check-out</label><input type="date" value="' + (tp.depart || '') + '" onchange="setTravelParam(\'' + trip.id + '\',\'depart\',this.value)"></div>';
+    html += '<div class="trip-detail__travel-field"><label>Adults</label><div class="trip-detail__stepper"><button onclick="stepTravelParam(\'' + trip.id + '\',\'adults\',-1,1)">&#x2212;</button><span class="trip-detail__stepper__val">' + (tp.adults || 2) + '</span><button onclick="stepTravelParam(\'' + trip.id + '\',\'adults\',1,1)">+</button></div></div>';
+    html += '<div class="trip-detail__travel-field"><label>Children</label><div class="trip-detail__stepper"><button onclick="stepTravelParam(\'' + trip.id + '\',\'children\',-1,0)">&#x2212;</button><span class="trip-detail__stepper__val">' + (tp.children || 0) + '</span><button onclick="stepTravelParam(\'' + trip.id + '\',\'children\',1,0)">+</button></div></div>';
+    html += '</div>';
 
     if (trip.items.length === 0) {
         html += '<div class="trip-detail__empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><h3>No items yet</h3><p>Browse resorts and rooms, then tap the heart icon to save items to this collection.</p></div>';
@@ -2123,7 +2189,7 @@ function renderTripDetail(el) {
                 html += '</div>';
                 if (rg.resortItem) {
                     var ri = rg.resortItem;
-                    var riUrl = ri.hotelUrl || resortUrl || '#';
+                    var riUrl = buildBookingUrl(ri.hotelUrl || resortUrl || '#', trip);
                     html += '<div class="fav-resort-hero">';
                     html += '<div class="fav-resort-hero__img-wrap"><img src="' + ri.img + '" alt="">';
                     html += '<button class="favorite-btn is-favorited" title="Remove from collection" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + ri.id + '\')">' + heartSVG + '</button></div>';
@@ -2136,7 +2202,7 @@ function renderTripDetail(el) {
                     html += '<div class="fav-rooms-label">Rooms</div>';
                     html += '<div class="fav-items-grid fav-items-grid--rooms">';
                     rg.rooms.forEach(function(room) {
-                        html += renderItemCard(room, trip.id, room.roomUrl || room.hotelUrl || '#');
+                        html += renderItemCard(room, trip.id, buildBookingUrl(room.roomUrl || room.hotelUrl || '#', trip));
                     });
                     html += '</div>';
                 }
@@ -2153,7 +2219,7 @@ function renderTripDetail(el) {
             html += '<div class="fav-resort-group__header-right"><span class="fav-resort-group__count">' + offerItems.length + ' offer' + (offerItems.length !== 1 ? 's' : '') + '</span></div></div>';
             html += '<div class="fav-items-grid">';
             offerItems.forEach(function(offer) {
-                html += renderItemCard(offer, trip.id, offer.offerUrl || '#');
+                html += renderItemCard(offer, trip.id, buildBookingUrl(offer.offerUrl || '#', trip));
             });
             html += '</div></div>';
         }
