@@ -600,6 +600,8 @@
             font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
             font-size: 14px; color: #1a1a1a; margin-bottom: 4px;
         }
+        .fav-item-card__title a { color: inherit; text-decoration: none; }
+        .fav-item-card__title a:hover { text-decoration: underline; }
         .fav-item-card__subtitle {
             font-family: 'Montserrat', system-ui, sans-serif;
             font-size: 12px; color: #888; margin-bottom: 10px;
@@ -1018,33 +1020,6 @@
             font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
             font-size: 18px; color: #0F4A5A;
         }
-
-        /* Resort hero strip — full-width horizontal card above rooms grid */
-        .fav-resort-hero {
-            display: flex; align-items: stretch;
-            background: #DCF3F2; border-radius: 8px; overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-            margin-bottom: 16px;
-        }
-        .fav-resort-hero__img-wrap {
-            position: relative; width: 220px; flex-shrink: 0;
-        }
-        .fav-resort-hero__img-wrap img {
-            width: 100%; height: 100%; object-fit: cover; display: block;
-        }
-        .fav-resort-hero__img-wrap .favorite-btn {
-            position: absolute; top: 8px; right: 8px;
-        }
-        .fav-resort-hero__body {
-            padding: 20px 24px; display: flex; flex-direction: column;
-            justify-content: center; gap: 12px; flex: 1;
-        }
-        .fav-resort-hero__name {
-            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
-            font-size: 18px; color: #1a1a1a;
-        }
-        .fav-resort-hero__name a { color: inherit; text-decoration: none; }
-        .fav-resort-hero__name a:hover { text-decoration: underline; }
 
         /* Rooms sub-label + smaller room cards */
         .fav-rooms-label {
@@ -2090,10 +2065,12 @@ function renderTripDetail(el) {
 
         var heartSVG = '<svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
         var renderItemCard = function(item, tripId, url) {
-            var h = '<div class="fav-item-card">';
+            var cardClass = 'fav-item-card' + (item.type === 'Resort' ? ' fav-item-card--resort' : '');
+            var h = '<div class="' + cardClass + '">';
             h += '<div class="fav-item-card__img-wrap"><img class="fav-item-card__img" src="' + item.img + '">';
+            h += '<span class="fav-item-card__type">' + item.type + '</span>';
             h += '<button class="favorite-btn is-favorited" title="Remove from collection" onclick="removeItemFromTrip(\'' + tripId + '\',\'' + item.id + '\')">' + heartSVG + '</button></div>';
-            h += '<div class="fav-item-card__body"><div class="fav-item-card__title"><a href="' + url + '" target="_blank" style="color:inherit;text-decoration:none;">' + item.name + '</a></div>';
+            h += '<div class="fav-item-card__body"><div class="fav-item-card__title"><a href="' + url + '" target="_blank">' + item.name + '</a></div>';
             h += '<div class="fav-item-card__cta"><a href="' + url + '" target="_blank" class="fav-item-card__book">Book Now &rsaquo;</a></div></div></div>';
             return h;
         };
@@ -2123,15 +2100,9 @@ function renderTripDetail(el) {
                 }
                 html += '</div>';
                 if (rg.resortItem) {
-                    var ri = rg.resortItem;
-                    var riUrl = ri.hotelUrl || resortUrl || '#';
-                    html += '<div class="fav-resort-hero">';
-                    html += '<div class="fav-resort-hero__img-wrap"><img src="' + ri.img + '" alt="">';
-                    html += '<button class="favorite-btn is-favorited" title="Remove from collection" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + ri.id + '\')">' + heartSVG + '</button></div>';
-                    html += '<div class="fav-resort-hero__body">';
-                    html += '<div class="fav-resort-hero__name"><a href="' + riUrl + '" target="_blank">' + ri.name + '</a></div>';
-                    html += '<a href="' + riUrl + '" target="_blank" class="fav-item-card__book">Book Now &rsaquo;</a>';
-                    html += '</div></div>';
+                    html += '<div class="fav-items-grid" style="margin-bottom:12px;">';
+                    html += renderItemCard(rg.resortItem, trip.id, rg.resortItem.hotelUrl || resortUrl || '#');
+                    html += '</div>';
                 }
                 if (rg.rooms.length > 0) {
                     html += '<div class="fav-rooms-label">Rooms</div>';
@@ -2141,7 +2112,7 @@ function renderTripDetail(el) {
                     });
                     html += '</div>';
                 }
-                html += '</div></div>';
+                html += '</div>';
             });
 
             html += '</div>';
