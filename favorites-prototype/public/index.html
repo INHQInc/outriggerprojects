@@ -1994,7 +1994,7 @@ function renderTripDetail(el) {
         trip.items.forEach(function(item) {
             if (item.type === 'Resort' && roomResortNames[item.name]) {
                 /* This resort has rooms saved — fold it into that resort's group */
-                mergedItems.push({ id: item.id, type: item.type, name: item.name, sub: item.name, img: item.img, _isResortCard: true });
+                mergedItems.push({ id: item.id, type: item.type, name: item.name, sub: item.name, img: item.img, hotelUrl: item.hotelUrl || null, _isResortCard: true });
             } else {
                 mergedItems.push(item);
             }
@@ -2059,11 +2059,11 @@ function renderTripDetail(el) {
                 html += '<div class="fav-item-card fav-item-card--resort"><div class="fav-item-card__img-wrap"><img class="fav-item-card__img" src="' + resortCard.img + '"><span class="fav-item-card__type">Resort</span>';
                 html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + resortCard.id + '\')"><svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div>';
                 html += '<div class="fav-item-card__body"><div class="fav-item-card__title">' + resortCard.name + '</div>';
-                html += '<div class="fav-item-card__cta"><a href="' + (resortUrl || '#') + '" target="_blank" class="fav-item-card__book">View Resort &rsaquo;</a><button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + resortCard.id + '\')">Remove</button></div></div></div>';
+                html += '<div class="fav-item-card__cta"><a href="' + (resortCard.hotelUrl || resortUrl || '#') + '" target="_blank" class="fav-item-card__book">Book Now &rsaquo;</a><button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + resortCard.id + '\')">Remove</button></div></div></div>';
             }
 
             roomItems.forEach(function(item) {
-                var ctaText = item.type === 'Resort' ? 'View Resort &rsaquo;' : item.type === 'Offer' ? 'View Offer &rsaquo;' : 'Book Now &rsaquo;';
+                var ctaText = 'Book Now &rsaquo;';
                 var itemUrl = item.offerUrl || item.roomUrl || item.hotelUrl || '#';
                 html += '<div class="fav-item-card' + (item.type === 'Resort' ? ' fav-item-card--resort' : '') + '"><div class="fav-item-card__img-wrap"><img class="fav-item-card__img" src="' + item.img + '"><span class="fav-item-card__type">' + item.type + '</span>';
                 html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + item.id + '\')"><svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div>';
