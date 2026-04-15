@@ -1017,8 +1017,12 @@
             font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
             font-size: 16px; color: #0F4A5A;
         }
-        /* Resort card rendered standalone (not in rooms grid) */
-        .fav-resort-standalone { max-width: 320px; margin-bottom: 16px; }
+        /* Resort card rendered standalone — sits in col 1 of a 3-col grid,
+           giving it the exact same width as a room card in the rooms grid */
+        .fav-resort-standalone {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 20px; margin-bottom: 16px;
+        }
 
         /* Header badge — iOS-style red notification dot */
         .header-fav-badge {
