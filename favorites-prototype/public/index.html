@@ -1728,7 +1728,7 @@ let state = {
     hasRIID: false,
     email: '',
     trips: [
-        { id: 'trip-1', name: 'Hawaii Summer 2026', items: [] }
+        { id: 'trip-1', name: 'My Favorites', items: [] }
     ],
     pendingBtn: null,
     selectedTripId: null,
@@ -2335,7 +2335,7 @@ function toast(msg) {
 function resetAll() {
     state.hasRIID = false;
     state.email = '';
-    state.trips = [{ id: 'trip-1', name: 'Hawaii Summer 2026', items: [] }];
+    state.trips = [{ id: 'trip-1', name: 'My Favorites', items: [] }];
     state.currentTripView = null;
     document.querySelectorAll('.favorite-btn').forEach(b => b.classList.remove('is-favorited'));
     document.getElementById('emailInput').value = '';
