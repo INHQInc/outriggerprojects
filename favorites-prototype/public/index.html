@@ -1045,6 +1045,16 @@
         .fav-resort-hero__name a { color: inherit; text-decoration: none; }
         .fav-resort-hero__name a:hover { text-decoration: underline; }
 
+        /* Rooms sub-label + smaller room cards */
+        .fav-rooms-label {
+            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
+            font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+            color: #999; margin-bottom: 8px; margin-top: 4px;
+        }
+        .fav-items-grid--rooms .fav-item-card__img { height: 130px; }
+        .fav-items-grid--rooms .fav-item-card__body { padding: 10px 12px; }
+        .fav-items-grid--rooms .fav-item-card__title { font-size: 13px; }
+
         /* Header badge — iOS-style red notification dot */
         .header-fav-badge {
             position: absolute; top: -6px; right: -8px;
@@ -2124,7 +2134,8 @@ function renderTripDetail(el) {
                     html += '</div></div>';
                 }
                 if (rg.rooms.length > 0) {
-                    html += '<div class="fav-items-grid">';
+                    html += '<div class="fav-rooms-label">Rooms</div>';
+                    html += '<div class="fav-items-grid fav-items-grid--rooms">';
                     rg.rooms.forEach(function(room) {
                         html += renderItemCard(room, trip.id, room.roomUrl || room.hotelUrl || '#');
                     });
