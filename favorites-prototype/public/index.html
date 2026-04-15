@@ -2078,7 +2078,8 @@ function renderTripDetail(el) {
         /* Resort card for a resort that exists structurally but isn't favorited yet.
            White bg, outline heart. Clicking the heart adds it to the collection. */
         var renderUnfavoritedResortCard = function(resortName, img, url, tripId, destName) {
-            var info = JSON.stringify({ name: resortName, img: img, url: url, dest: destName }).replace(/'/g, '&#39;');
+            /* encodeURIComponent avoids double-quote/single-quote conflicts in onclick attr */
+            var info = encodeURIComponent(JSON.stringify({ name: resortName, img: img, url: url, dest: destName }));
             var h = '<div class="fav-item-card fav-item-card--resort-unfav">';
             h += '<div class="fav-item-card__img-wrap"><img class="fav-item-card__img" src="' + img + '"><span class="fav-item-card__type">Resort</span>';
             h += '<button class="favorite-btn" title="Save resort" onclick="addResortToFavorites(\'' + tripId + '\',\'' + info + '\')">' + heartSVG + '</button></div>';
@@ -2154,7 +2155,7 @@ function viewTrip(id) { state.currentTripView = id; renderFavoritesPage(); }
 function backToTrips() { state.currentTripView = null; renderFavoritesPage(); }
 
 function addResortToFavorites(tripId, infoJson) {
-    var info = JSON.parse(infoJson.replace(/&#39;/g, "'"));
+    var info = JSON.parse(decodeURIComponent(infoJson));
     var trip = state.trips.find(function(t) { return t.id === tripId; });
     if (!trip) return;
     var already = trip.items.some(function(i) { return i.type === 'Resort' && i.name === info.name; });
