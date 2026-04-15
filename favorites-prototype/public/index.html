@@ -1865,10 +1865,10 @@ function sendMagicLink() {
 // TRIP PICKER MODAL
 // ============================
 function openTripModal() {
-    state.selectedTripId = null;
+    state.selectedTripId = state.trips.length > 0 ? state.trips[0].id : null;
     renderTripList();
     openModal('tripModal');
-    document.getElementById('tripSaveBtn').disabled = true;
+    document.getElementById('tripSaveBtn').disabled = state.selectedTripId === null;
 }
 
 function renderTripList() {
