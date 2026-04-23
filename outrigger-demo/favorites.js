@@ -1883,38 +1883,55 @@ function switchView(id) {
   if (id === "view-favorites") {
     showFavoritesOverlay();
   }
-
-    document.querySelectorAll('.proto-view').forEach(v => v.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.querySelectorAll('.proto-nav__btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.proto-nav__btn').forEach(b => { if (b.textContent.includes(id === 'view-home' ? 'Homepage' : 'Favorites')) b.classList.add('active'); });
-    // Toggle header light/dark mode
-    const header = document.querySelector('header.header');
-    if (id === 'view-favorites') {
-        header.classList.add('header-light');
-        renderFavoritesPage();
-    } else {
-        header.classList.remove('header-light');
-    }
-    closeTray();
-    window.scrollTo(0, 0);
 }
 
 function syncUI() {
-    // Update header badge — iOS-style red notification dot
-    const total = state.trips.reduce((s, t) => s + t.items.length, 0);
-    const badge = document.getElementById('headerBadge') || document.createElement('span');
-    const prevCount = parseInt(badge.textContent) || 0;
-    badge.textContent = total > 99 ? '99+' : total;
-    badge.classList.toggle('show', total > 0 && state.hasRIID);
-    // Pop animation when count increases
-    if (total > prevCount && total > 0) {
-        badge.classList.remove('pop');
-        void badge.offsetWidth; // force reflow
-        badge.classList.add('pop');
+    var total = state.trips.reduce(function(s, t) { return s + t.items.length; }, 0);
+    
+    // Update tray badge
+    var trayBadge = document.getElementById('trayBadge');
+    if (trayBadge) {
+        trayBadge.textContent = total;
+        trayBadge.style.display = total > 0 ? 'inline-flex' : 'none';
     }
-    // Update status
-    (document.getElementById("protoStatus")||{}).textContent = state.hasRIID ? 'Signed in: ' + state.email : 'Not signed in';
+    
+    // Update demo nav count
+    var demoCount = document.getElementById('favDemoCount');
+    if (demoCount) demoCount.textContent = total > 0 ? ' (' + total + ')' : '';
+    
+    // Update header Trip Planner badge if it exists  
+    var headerBadge = document.getElementById('headerBadge');
+    if (headerBadge) {
+        var prevCount = parseInt(headerBadge.textContent) || 0;
+        headerBadge.textContent = total > 99 ? '99+' : total;
+        headerBadge.classList.toggle('show', total > 0);
+        if (total > prevCount && total > 0) {
+            headerBadge.classList.remove('pop');
+            void headerBadge.offsetWidth;
+            headerBadge.classList.add('pop');
+        }
+    }
+    
+    // Inject badge onto Outrigger header Trip Planner button if not already there
+    var tpBtn = document.querySelector('[data-bs-target="#favoritesOffcanvas"], .header-trip-planner, [aria-label*="Trip Planner"]');
+    if (tpBtn && !tpBtn.querySelector('.fav-injected-badge')) {
+        tpBtn.style.position = 'relative';
+        var b = document.createElement('span');
+        b.className = 'fav-injected-badge';
+        b.id = 'headerBadge';
+        b.style.cssText = 'position:absolute;top:-6px;right:-8px;background:#E04F5F;color:#fff;font-size:11px;font-weight:700;min-width:20px;height:20px;border-radius:10px;display:none;align-items:center;justify-content:center;padding:0 5px;pointer-events:none;z-index:10;';
+        tpBtn.appendChild(b);
+        // Wire click to our tray
+        tpBtn.removeAttribute('data-bs-toggle');
+        tpBtn.removeAttribute('data-bs-target');
+        tpBtn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); toggleTray(); });
+    }
+    var injBadge = document.querySelector('.fav-injected-badge');
+    if (injBadge) {
+        injBadge.textContent = total > 99 ? '99+' : total;
+        injBadge.style.display = total > 0 ? 'flex' : 'none';
+    }
+    
     // Persist to localStorage
     saveState();
 }
@@ -1990,12 +2007,7 @@ function updateDemoCount() {
   if (el) el.textContent = total > 0 ? " (" + total + ")" : "";
 }
 
-// Override syncUI to also update demo count
-var _origSyncUI = syncUI;
-syncUI = function() {
-  _origSyncUI();
-  updateDemoCount();
-};
+// syncUI already handles demo count updates
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initFavorites);
