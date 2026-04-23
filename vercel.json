@@ -1,13 +1,6 @@
 {
   "outputDirectory": "public",
-  "buildCommand": "mkdir -p public/demo && cp -r favorites-prototype/public/. public/ && cp -r outrigger-demo/. public/demo/",
+  "buildCommand": "bash build.sh",
   "installCommand": "",
-  "framework": null,
-  "rewrites": [
-    { "source": "/cdn/dist/:path*", "destination": "https://www.outrigger.com/dist/:path*" },
-    { "source": "/cdn/AdaptiveImages/:path*", "destination": "https://www.outrigger.com/AdaptiveImages/:path*" },
-    { "source": "/cdn/globalassets/:path*", "destination": "https://www.outrigger.com/globalassets/:path*" },
-    { "source": "/cdn/contentassets/:path*", "destination": "https://www.outrigger.com/contentassets/:path*" },
-    { "source": "/cdn/-/media/:path*", "destination": "https://www.outrigger.com/-/media/:path*" }
-  ]
+  "framework": null
 }
