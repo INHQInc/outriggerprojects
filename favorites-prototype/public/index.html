@@ -7,9 +7,53 @@
     <link rel="stylesheet" href="https://www.outrigger.com/dist/css/main.css">
     <style>
         /* ============================================
+           DESIGN TOKENS — Outrigger brand source of truth
+           All favorites UI should reference these vars.
+           ============================================ */
+        :root {
+            /* Brand colors */
+            --clr-primary:      #0F4A5A;
+            --clr-primary-dark: #004561;
+            --clr-accent:       #E04F5F;
+            --clr-bg-page:      #EEECE4;
+            --clr-bg-warm:      #f5f3ee;   /* warm off-white for subgroup containers */
+            --clr-bg-card:      #fff;
+            --clr-bg-resort:    #DCF3F2;   /* teal tint for favorited resort cards */
+            --clr-text:         #1a1a1a;
+            --clr-text-dark:    #252525;
+            --clr-text-muted:   #666;
+            --clr-text-faint:   #999;
+            --clr-border:       #e8e5de;
+            --clr-border-med:   #e0ddd6;
+
+            /* Typography — DuplicateIonic (display), DuplicateSans (UI), Montserrat (nav/hero only) */
+            --ff-display:       'DuplicateIonic-Light', Georgia, serif;
+            --ff-display-bold:  'DuplicateIonic-Bold', Georgia, serif;
+            --ff-body:          'DuplicateSans-Regular', system-ui, sans-serif;
+            --ff-body-med:      'DuplicateSans-Medium', system-ui, sans-serif;
+            --ff-body-bold:     'DuplicateSans-Bold', system-ui, sans-serif;
+            --ff-nav:           'Montserrat', system-ui, sans-serif; /* nav + hero utility only */
+
+            /* Cards */
+            --card-border:      1px solid #e8e5de;
+            --card-radius:      0;
+            --card-shadow:      none;
+            --card-shadow-h:    0 4px 16px rgba(0,0,0,0.10);
+
+            /* CTAs — Outrigger style: square corners, bold border, no fill */
+            --btn-border:       2px solid var(--clr-text);
+            --btn-border-brand: 2px solid var(--clr-primary);
+            --btn-radius:       0;
+            --btn-pad:          14px 24px;
+            --btn-ff:           var(--ff-body-med);
+            --btn-size:         14px;
+            --btn-tracking:     0.3px;
+        }
+
+        /* ============================================
            BASE / RESETS
            ============================================ */
-        body { background-color: #EEECE4; margin: 0; }
+        body { background-color: var(--clr-bg-page); margin: 0; }
         *, *::before, *::after { box-sizing: border-box; }
 
         /* ============================================
@@ -403,13 +447,13 @@
         .trip-list { max-height: 280px; overflow-y: auto; margin-bottom: 16px; }
         .trip-list__item {
             display: flex; align-items: center; gap: 12px; padding: 10px 12px;
-            border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px;
+            border: 1px solid var(--clr-border-med); border-radius: 0; margin-bottom: 8px;
             cursor: pointer; transition: border-color 0.15s, background 0.15s;
         }
-        .trip-list__item:hover { border-color: #004561; background: #f8fffe; }
-        .trip-list__item.selected { border-color: #004561; border-width: 2px; background: #f0faf9; }
+        .trip-list__item:hover { border-color: var(--clr-primary-dark); background: #f8fffe; }
+        .trip-list__item.selected { border-color: var(--clr-primary-dark); border-width: 2px; background: #f0faf9; }
         .trip-list__item-img {
-            width: 56px; height: 56px; border-radius: 6px; object-fit: cover;
+            width: 56px; height: 56px; border-radius: 0; object-fit: cover;
             background: #ddd; flex-shrink: 0;
         }
         .trip-list__item-info { flex: 1; }
@@ -436,7 +480,7 @@
         }
         .trip-modal__create:hover { color: #0F4A5A; }
         .trip-modal__create-icon {
-            width: 56px; height: 56px; border-radius: 6px; background: #f0f0f0;
+            width: 56px; height: 56px; border-radius: 0; background: var(--clr-bg-warm);
             display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
         .trip-modal__create-icon svg { width: 24px; height: 24px; color: #666; }
@@ -476,16 +520,17 @@
            ============================================ */
         .fav-page { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
         .fav-page__header {
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 32px;
+            display: flex; align-items: flex-start; justify-content: space-between;
+            margin-bottom: 36px; padding-bottom: 24px; border-bottom: 1px solid var(--clr-border);
         }
         .fav-page__title {
-            font-family: 'DuplicateIonic-Light', Georgia, serif;
-            font-size: 40px; color: #1a1a1a; margin: 0;
+            font-family: var(--ff-display);
+            font-size: 44px; line-height: 1.1; color: var(--clr-text); margin: 0;
         }
         .fav-page__subtitle {
-            font-family: 'Montserrat', system-ui, sans-serif;
-            font-size: 14px; color: #888; margin-top: 4px;
+            font-family: var(--ff-body);
+            font-size: 12px; color: var(--clr-text-faint); margin-top: 6px;
+            text-transform: uppercase; letter-spacing: 1px;
         }
 
         /* Trip cards grid */
@@ -494,14 +539,17 @@
             gap: 24px;
         }
         .trip-card {
-            background: #fff; border-radius: 12px; overflow: hidden;
+            background: var(--clr-bg-card);
+            border-radius: var(--card-radius);
+            overflow: hidden;
             cursor: pointer; transition: box-shadow 0.2s;
-            border: 1px solid #e0ddd6; box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: var(--card-border);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
         }
-        .trip-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+        .trip-card:hover { box-shadow: var(--card-shadow-h); }
         .trip-card__images {
             display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 100px 100px;
-            height: 200px; gap: 2px; background: #e0e0e0; overflow: hidden; position: relative;
+            height: 200px; gap: 2px; background: var(--clr-border); overflow: hidden; position: relative;
         }
         .trip-card__images img {
             width: 100%; height: 100%; object-fit: cover;
@@ -510,66 +558,73 @@
             background: #f0ede6; display: flex; align-items: center; justify-content: center;
         }
         .trip-card__images .placeholder svg { width: 32px; height: 32px; color: #ccc; }
-        .trip-card__body { padding: 16px; background: #fff; position: relative; z-index: 1; }
+        .trip-card__body { padding: 18px 20px 20px; background: var(--clr-bg-card); position: relative; z-index: 1; }
         .trip-card__name {
-            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
-            font-size: 16px; color: #1a1a1a; margin-bottom: 4px;
+            font-family: var(--ff-display-bold);
+            font-size: 18px; line-height: 1.3; color: var(--clr-text); margin-bottom: 4px;
         }
         .trip-card__meta {
-            font-family: 'Montserrat', system-ui, sans-serif;
-            font-size: 13px; color: #888;
+            font-family: var(--ff-body);
+            font-size: 13px; color: var(--clr-text-faint);
         }
         .trip-card__actions {
-            display: flex; gap: 8px; margin-top: 8px;
+            display: flex; gap: 8px; margin-top: 12px;
         }
         .trip-card__action-btn {
-            font-size: 12px; color: #666; background: none; border: 1px solid #ddd;
-            padding: 4px 10px; border-radius: 4px; cursor: pointer; font-family: inherit;
+            font-size: 12px; color: var(--clr-text-muted); background: none;
+            border: 1px solid var(--clr-border-med);
+            padding: 5px 12px; border-radius: 0; cursor: pointer; font-family: var(--ff-body);
+            transition: background 0.15s;
         }
-        .trip-card__action-btn:hover { background: #f5f5f5; border-color: #bbb; }
-        .trip-card__action-btn.danger:hover { background: #fef2f2; border-color: #E04F5F; color: #E04F5F; }
+        .trip-card__action-btn:hover { background: #f5f3ee; border-color: #bbb; }
+        .trip-card__action-btn.danger:hover { background: #fef2f2; border-color: var(--clr-accent); color: var(--clr-accent); }
 
         /* Create trip card */
         .trip-card--create {
-            border: 2px dashed #ccc; background: transparent; display: flex;
+            border: 2px dashed var(--clr-border-med); background: transparent; display: flex;
             flex-direction: column; align-items: center; justify-content: center;
-            min-height: 280px; border-radius: 12px; cursor: pointer;
+            min-height: 280px; border-radius: 0; cursor: pointer;
             transition: border-color 0.2s, background 0.2s;
         }
-        .trip-card--create:hover { border-color: #004561; background: rgba(255,255,255,0.5); }
+        .trip-card--create:hover { border-color: var(--clr-primary-dark); background: rgba(255,255,255,0.5); }
         .trip-card--create svg { width: 40px; height: 40px; color: #999; margin-bottom: 12px; }
         .trip-card--create span {
-            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
-            font-size: 15px; color: #666;
+            font-family: var(--ff-body);
+            font-size: 15px; color: var(--clr-text-muted);
         }
 
         /* Trip detail view */
         .trip-detail__back {
             display: inline-flex; align-items: center; gap: 6px;
-            font-family: 'Montserrat', system-ui, sans-serif;
-            font-size: 14px; color: #0078CD; cursor: pointer; background: none;
-            border: none; margin-bottom: 16px; padding: 0;
+            font-family: var(--ff-body);
+            font-size: 13px; color: var(--clr-primary); cursor: pointer; background: none;
+            border: none; margin-bottom: 20px; padding: 0;
+            text-transform: uppercase; letter-spacing: 1px;
         }
         .trip-detail__back:hover { text-decoration: underline; }
         .trip-detail__header {
             display: flex; align-items: flex-start; justify-content: space-between;
-            margin-bottom: 24px;
+            margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--clr-border);
         }
         .trip-detail__name {
-            font-family: 'DuplicateIonic-Light', Georgia, serif;
-            font-size: 36px; color: #1a1a1a; margin: 0;
+            font-family: var(--ff-display);
+            font-size: 40px; color: var(--clr-text); margin: 0; line-height: 1.1;
         }
         .trip-detail__count {
-            font-family: 'Montserrat', system-ui, sans-serif;
-            font-size: 14px; color: #888; margin-top: 4px;
+            font-family: var(--ff-body);
+            font-size: 13px; color: var(--clr-text-faint); margin-top: 6px;
+            text-transform: uppercase; letter-spacing: 0.8px;
         }
-        .trip-detail__actions { display: flex; gap: 8px; }
+        .trip-detail__actions { display: flex; gap: 8px; align-items: center; }
         .trip-detail__action {
-            padding: 8px 16px; font-size: 13px; border: 1px solid #ddd;
-            background: #fff; cursor: pointer; border-radius: 4px; font-family: inherit;
+            padding: 8px 16px; font-size: 12px;
+            border: 1px solid var(--clr-border-med);
+            background: var(--clr-bg-card); cursor: pointer; border-radius: 0;
+            font-family: var(--ff-body); color: var(--clr-text);
+            transition: background 0.15s;
         }
-        .trip-detail__action:hover { background: #f5f5f5; }
-        .trip-detail__action.danger { color: #E04F5F; border-color: #E04F5F; }
+        .trip-detail__action:hover { background: var(--clr-bg-warm); }
+        .trip-detail__action.danger { color: var(--clr-accent); border-color: var(--clr-accent); }
         .trip-detail__action.danger:hover { background: #fef2f2; }
 
         /* Favorites items grid */
@@ -578,45 +633,57 @@
             gap: 20px;
         }
         .fav-item-card {
-            background: #fff; border-radius: 8px; overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            background: var(--clr-bg-card);
+            border: var(--card-border);
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: box-shadow 0.2s;
         }
-        .fav-item-card--resort { background: #DCF3F2; }
+        .fav-item-card:hover { box-shadow: var(--card-shadow-h); }
+        .fav-item-card--resort { background: var(--clr-bg-resort); border-color: #b8e0dc; }
         .fav-item-card__img {
-            width: 100%; height: 180px; object-fit: cover; display: block;
-            position: relative;
+            width: 100%; height: 200px; object-fit: cover; display: block;
         }
         .fav-item-card__img-wrap { position: relative; }
         .fav-item-card__img-wrap .favorite-btn { top: 8px; right: 8px; }
         .fav-item-card__type {
-            position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6);
-            color: #fff; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
-            padding: 3px 8px; border-radius: 3px;
-            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
+            position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.55);
+            color: #fff; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+            padding: 3px 8px; border-radius: 0;
+            font-family: var(--ff-body-bold);
         }
-        .fav-item-card__body { padding: 14px 16px; }
+        .fav-item-card__body { padding: 16px 18px 18px; }
         .fav-item-card__title {
-            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
-            font-size: 15px; color: #1a1a1a; margin-bottom: 4px;
+            font-family: var(--ff-display-bold);
+            font-size: 18px; line-height: 1.3; color: var(--clr-text); margin-bottom: 4px;
         }
         .fav-item-card__subtitle {
-            font-family: 'Montserrat', system-ui, sans-serif;
-            font-size: 12px; color: #888; margin-bottom: 10px;
+            font-family: var(--ff-body);
+            font-size: 12px; color: var(--clr-text-faint); margin-bottom: 14px;
+            text-transform: uppercase; letter-spacing: 0.8px;
         }
         .fav-item-card__cta {
             display: flex; gap: 12px; align-items: center;
         }
         .fav-item-card__book {
-            display: inline-block; border: 1px solid #1a1a1a; color: #1a1a1a;
-            padding: 8px 16px; font-size: 12px; text-decoration: none;
-            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            display: inline-block;
+            border: var(--btn-border);
+            border-radius: var(--btn-radius);
+            color: var(--clr-text);
+            padding: 9px 18px;
+            font-size: 12px;
+            font-family: var(--ff-body-med);
+            letter-spacing: var(--btn-tracking);
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
         }
-        .fav-item-card__book:hover { background: #1a1a1a; color: #fff; }
+        .fav-item-card__book:hover { background: var(--clr-text); color: #fff; }
         .fav-item-card__remove {
-            font-size: 12px; color: #999; cursor: pointer; background: none;
-            border: none; font-family: inherit;
+            font-size: 12px; color: var(--clr-text-faint); cursor: pointer; background: none;
+            border: none; font-family: var(--ff-body); padding: 0;
         }
-        .fav-item-card__remove:hover { color: #E04F5F; text-decoration: underline; }
+        .fav-item-card__remove:hover { color: var(--clr-accent); text-decoration: underline; }
 
         /* Empty trip state */
         .trip-detail__empty {
@@ -624,12 +691,12 @@
         }
         .trip-detail__empty svg { width: 56px; height: 56px; color: #ccc; margin-bottom: 16px; }
         .trip-detail__empty h3 {
-            font-family: 'DuplicateIonic-Light', Georgia, serif;
-            font-size: 22px; color: #004561; margin: 0 0 6px;
+            font-family: var(--ff-display);
+            font-size: 26px; color: var(--clr-primary-dark); margin: 0 0 8px;
         }
         .trip-detail__empty p {
-            font-family: 'Montserrat', system-ui, sans-serif;
-            font-size: 14px; color: #888;
+            font-family: var(--ff-body);
+            font-size: 14px; color: var(--clr-text-muted);
         }
 
         /* ============================================
@@ -657,8 +724,8 @@
             font-family: 'DuplicateSans-Regular', system-ui, sans-serif; font-size: 15px; color: #1a1a1a;
         }
         .fav-tray__badge {
-            background: #E04F5F; color: #fff; font-size: 11px; font-weight: 600;
-            padding: 2px 7px; border-radius: 10px; font-family: 'Montserrat', system-ui, sans-serif;
+            background: var(--clr-accent); color: #fff; font-size: 11px; font-weight: 700;
+            padding: 2px 7px; border-radius: 10px; font-family: var(--ff-body-bold);
         }
         .fav-tray__close {
             background: none; border: none; cursor: pointer; padding: 4px;
@@ -684,8 +751,8 @@
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .fav-tray__item-sub {
-            font-family: 'Montserrat', system-ui, sans-serif;
-            font-size: 11px; color: #999;
+            font-family: var(--ff-body);
+            font-size: 11px; color: var(--clr-text-faint);
         }
         .fav-tray__item-remove {
             width: 24px; height: 24px; border: none; background: transparent;
@@ -752,8 +819,8 @@
             font-size: 14px; color: #1a1a1a; font-weight: 600;
         }
         .fav-tray__collection-count {
-            font-family: 'Montserrat', system-ui, sans-serif;
-            font-size: 12px; color: #999;
+            font-family: var(--ff-body);
+            font-size: 12px; color: var(--clr-text-faint);
         }
 
         /* Tray section headers */
@@ -780,12 +847,12 @@
         }
         .fav-tray__signup-btn {
             display: inline-block; width: 100%; padding: 14px 20px;
-            font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
-            font-size: 14px; color: #fff; background: #0F4A5A;
-            border: none; border-radius: 6px; cursor: pointer;
+            font-family: var(--ff-body-med);
+            font-size: 14px; color: #fff; background: var(--clr-primary);
+            border: none; border-radius: var(--btn-radius); cursor: pointer;
             transition: background 0.2s; text-align: center;
         }
-        .fav-tray__signup-btn:hover { background: #004561; }
+        .fav-tray__signup-btn:hover { background: var(--clr-primary-dark); }
 
         /* Tray empty inline state (signed up, no items) */
         .fav-tray__empty-inline {
@@ -801,20 +868,20 @@
         .fav-tray__view-all-btn {
             display: block; width: calc(100% - 40px); margin: 12px 20px;
             padding: 12px; text-align: center;
-            font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
-            font-size: 13px; color: #0F4A5A; background: #f4f4f2;
-            border: 1px solid #e0ddd6; border-radius: 6px; cursor: pointer;
+            font-family: var(--ff-body-med);
+            font-size: 13px; color: var(--clr-primary); background: var(--clr-bg-warm);
+            border: 1px solid var(--clr-border-med); border-radius: 0; cursor: pointer;
             transition: background 0.2s;
         }
         .fav-tray__view-all-btn:hover { background: #e8e6de; }
 
         /* Collection mini-cards in tray (Option A) */
         .fav-tray__card {
-            margin: 10px 20px; border-radius: 10px; overflow: hidden;
-            background: #fff; border: 1px solid #e8e5de; cursor: pointer;
+            margin: 10px 20px; border-radius: 0; overflow: hidden;
+            background: var(--clr-bg-card); border: var(--card-border); cursor: pointer;
             transition: box-shadow 0.2s;
         }
-        .fav-tray__card:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.08); }
+        .fav-tray__card:hover { box-shadow: var(--card-shadow-h); }
         .fav-tray__card-thumbs {
             display: flex; height: 80px; gap: 2px; background: #e8e5de;
         }
@@ -836,8 +903,8 @@
             font-size: 14px; color: #1a1a1a;
         }
         .fav-tray__card-count {
-            font-family: 'Montserrat', system-ui, sans-serif;
-            font-size: 11px; color: #999; white-space: nowrap;
+            font-family: var(--ff-body);
+            font-size: 11px; color: var(--clr-text-faint); white-space: nowrap;
         }
         .fav-tray__card-arrow {
             margin-left: 8px; flex-shrink: 0;
@@ -865,10 +932,10 @@
         .fav-tray__quiz-cta { padding: 8px 20px 0; }
         .fav-tray__quiz-card {
             display: block; text-decoration: none; color: inherit;
-            border-radius: 8px; overflow: hidden;
-            background: #fff; border: 1px solid #e8e5de; transition: box-shadow 0.2s;
+            border-radius: 0; overflow: hidden;
+            background: var(--clr-bg-card); border: var(--card-border); transition: box-shadow 0.2s;
         }
-        .fav-tray__quiz-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .fav-tray__quiz-card:hover { box-shadow: var(--card-shadow-h); }
         .fav-tray__quiz-img {
             width: 100%; height: 140px; overflow: hidden;
         }
@@ -1008,17 +1075,18 @@
         .fav-resort-group__view-link:hover { text-decoration: underline; }
         /* Resort sub-grouping: each resort in its own contained visual block */
         .fav-resort-subgroup {
-            background: #f8f9fa; border-radius: 8px;
+            background: var(--clr-bg-warm); border-radius: 0;
+            border: 1px solid var(--clr-border);
             padding: 20px 24px 24px; margin: 0 0 24px;
         }
         .fav-resort-subgroup__header {
             display: flex; justify-content: space-between; align-items: baseline;
             padding: 0 0 12px; margin-bottom: 16px;
-            border-bottom: 1px solid #e0ddd6;
+            border-bottom: 1px solid var(--clr-border-med);
         }
         .fav-resort-subgroup__name {
-            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
-            font-size: 16px; color: #0F4A5A;
+            font-family: var(--ff-display-bold);
+            font-size: 18px; color: var(--clr-primary);
         }
         /* Resort card standalone — col 1 of a 3-col grid = exact same width as a room card */
         .fav-resort-standalone {
@@ -1032,10 +1100,10 @@
         /* Header badge — iOS-style red notification dot */
         .header-fav-badge {
             position: absolute; top: -6px; right: -8px;
-            background: #E04F5F; color: #fff; font-size: 11px; font-weight: 700;
+            background: var(--clr-accent); color: #fff; font-size: 11px; font-weight: 700;
             min-width: 20px; height: 20px; border-radius: 10px;
             display: none; align-items: center; justify-content: center;
-            font-family: 'Montserrat', system-ui, sans-serif;
+            font-family: var(--ff-body-bold);
             padding: 0 5px; box-sizing: border-box;
             line-height: 1; pointer-events: none; z-index: 10;
             transform: scale(0); transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -1052,8 +1120,8 @@
         .toast-msg {
             position: fixed; bottom: 64px; left: 50%; z-index: 20001;
             transform: translateX(-50%) translateY(80px); opacity: 0;
-            background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 8px;
-            font-family: 'Montserrat', system-ui, sans-serif; font-size: 13px;
+            background: var(--clr-text); color: #fff; padding: 10px 20px; border-radius: 0;
+            font-family: var(--ff-body); font-size: 13px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.3s ease;
             display: flex; align-items: center; gap: 8px; white-space: nowrap;
         }
@@ -1083,22 +1151,22 @@
         }
         .create-collection-modal .create-row input[type="text"] {
             flex: 1; height: 42px; border: 1px solid #bbb; border-right: none;
-            padding: 0 12px; font-size: 13px; font-family: inherit;
-            border-radius: 4px 0 0 4px; margin: 0;
+            padding: 0 12px; font-size: 13px; font-family: var(--ff-body);
+            border-radius: 0; margin: 0;
         }
         .create-collection-modal .create-row input[type="text"]::placeholder {
             color: #aaa; font-size: 13px;
         }
         .create-collection-modal .create-row input[type="text"]:focus {
-            outline: 2px solid #004561; border-color: #004561; z-index: 1;
+            outline: 2px solid var(--clr-primary-dark); border-color: var(--clr-primary-dark); z-index: 1;
         }
         .create-collection-modal .create-row button {
             height: 42px; padding: 0 20px; font-size: 13px; font-weight: 600;
-            background: #0F4A5A; color: #fff; border: 1px solid #0F4A5A;
-            cursor: pointer; font-family: inherit; border-radius: 0 4px 4px 0;
+            background: var(--clr-primary); color: #fff; border: 1px solid var(--clr-primary);
+            cursor: pointer; font-family: var(--ff-body-med); border-radius: 0;
             white-space: nowrap;
         }
-        .create-collection-modal .create-row button:hover { background: #004561; }
+        .create-collection-modal .create-row button:hover { background: var(--clr-primary-dark); }
 
         /* Confirm delete modal */
         .confirm-modal .modal-card { max-width: 380px; padding: 24px; background: #fff; }

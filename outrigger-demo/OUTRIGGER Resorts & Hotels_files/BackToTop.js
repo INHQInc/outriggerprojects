@@ -1,0 +1,1 @@
+(function(){"use strict";$(document).ready(function(){var o=$(window).height(),i=$(".back-to-top");$(window).scroll(function(){$(this).scrollTop()>6*o?i.addClass("is-visible"):i.removeClass("is-visible")}),i.length>0&&i.click(function(){return $("html, body").animate({scrollTop:0},100),!1})})})();
