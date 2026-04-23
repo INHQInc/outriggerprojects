@@ -1,6 +1,6 @@
 {
-  "outputDirectory": "favorites-prototype/public",
-  "buildCommand": "",
+  "outputDirectory": "public",
+  "buildCommand": "mkdir -p public/demo && cp -r favorites-prototype/public/. public/ && cp -r outrigger-demo/. public/demo/",
   "installCommand": "",
   "framework": null
 }
