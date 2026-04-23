@@ -2,7 +2,8 @@ export default async function handler(req) {
   // Reconstruct the full outrigger URL from all query params
   // The URL comes as ?url=https://www.outrigger.com/path?quality=100&width=986...
   // So 'url' param gets just the base, and quality/width/etc become separate params
-  const params = req.nextUrl.searchParams;
+  const reqUrl = new URL(req.url);
+  const params = reqUrl.searchParams;
   let url = params.get('url');
 
   if (!url || !url.startsWith('https://www.outrigger.com/')) {
