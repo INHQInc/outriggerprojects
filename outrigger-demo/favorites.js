@@ -163,7 +163,8 @@
   // ── Inject: offer cards ───────────────────────────────────────────────────
 
   function injectOfferHearts() {
-    document.querySelectorAll('.card.swiper-slide:not(.promo-card):not(.card-image-overlay)').forEach(function (card, i) {
+    // Exclude property cards (have property_id) and room cards (have data-room-id or .loaded class)
+    document.querySelectorAll('.card.swiper-slide:not(.promo-card):not(.card-image-overlay):not([property_id]):not([data-room-id]):not(.loaded)').forEach(function (card, i) {
       var titleEl = card.querySelector('.card-title, span.card-title');
       var name = titleEl ? titleEl.textContent.trim() : ('Offer ' + (i + 1));
       var id = 'offer-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').substring(0, 50);
@@ -237,18 +238,12 @@
 
   // ── Init ──────────────────────────────────────────────────────────────────
 
-  function init() {
+  function earlyInit() {
     injectStyles();
 
     var path = window.location.pathname;
     var page = path.split('/').pop() || 'index.html';
     injectDemoNav(page);
-
-    if (document.querySelector('.card[property_id]')) injectPropertyHearts();
-    if (document.querySelector('.card.loaded[data-room-id]')) injectRoomHearts();
-    if (document.querySelector('.card.swiper-slide:not(.promo-card):not(.card-image-overlay) .card-title')) injectOfferHearts();
-
-    restoreHearts();
     updateBadge();
 
     var offcanvas = document.getElementById('favoritesOffcanvas');
@@ -257,10 +252,23 @@
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
+  function injectHearts() {
+    if (document.querySelector('.card[property_id]')) injectPropertyHearts();
+    if (document.querySelector('.card.loaded[data-room-id]')) injectRoomHearts();
+    if (document.querySelector('.card.swiper-slide:not(.promo-card):not(.card-image-overlay) .card-title')) injectOfferHearts();
+    restoreHearts();
   }
+
+  // Early init runs as soon as DOM is parsed (styles, nav, badge, offcanvas wiring)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', earlyInit);
+  } else {
+    earlyInit();
+  }
+
+  // Heart injection is deferred until after all page JS (Swiper etc) has settled
+  window.addEventListener('load', function () {
+    setTimeout(injectHearts, 200);
+  });
 
 })();
