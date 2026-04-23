@@ -15,9 +15,11 @@ if [ -d "outrigger-demo/cdn" ]; then
   echo "Copied self-hosted CDN assets"
 fi
 
-# CSS keeps absolute outrigger.com URLs for fonts and images
-# Fonts will fall back to system fonts if cross-origin blocked
-# CSS background images may not load but are mostly decorative
-echo "CSS uses absolute outrigger.com URLs for fonts/images (fallback safe)"
+# Rewrite CSS paths from absolute outrigger.com to local /cdn/
+if [ -f public/cdn/dist/css/main.css ]; then
+  sed -i 's|url("https://www.outrigger.com/dist/|url("/cdn/dist/|g' public/cdn/dist/css/main.css
+  sed -i 's|url(https://www.outrigger.com/dist/|url(/cdn/dist/|g' public/cdn/dist/css/main.css
+  echo "Rewrote CSS paths to local /cdn/"
+fi
 
 echo "Build complete!"
