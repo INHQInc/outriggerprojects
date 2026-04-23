@@ -1916,6 +1916,14 @@ function syncUI() {
     var tpBtn = document.querySelector('[data-bs-target="#favoritesOffcanvas"], .header-trip-planner, [aria-label*="Trip Planner"]');
     if (tpBtn && !tpBtn.querySelector('.fav-injected-badge')) {
         tpBtn.style.position = 'relative';
+        tpBtn.style.overflow = 'visible';
+        // Also fix overflow on parent containers up the chain
+        var p = tpBtn.parentElement;
+        while (p && p !== document.body) {
+            var ov = getComputedStyle(p).overflow;
+            if (ov === 'hidden') { p.style.overflow = 'visible'; }
+            p = p.parentElement;
+        }
         var b = document.createElement('span');
         b.className = 'fav-injected-badge';
         b.id = 'headerBadge';
