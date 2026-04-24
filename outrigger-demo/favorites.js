@@ -2070,6 +2070,37 @@ function initFavorites() {
   loadState();
   syncUI();
   updateDemoCount();
+  initPropertyCarouselArrows();
+}
+
+function initPropertyCarouselArrows() {
+  var slider = document.querySelector('.destination-selection-slider');
+  if (!slider) return;
+  var wrapper = slider.querySelector('.swiper-wrapper');
+  var nextBtn = slider.querySelector('.swiper-button-next');
+  var prevBtn = slider.querySelector('.swiper-button-prev');
+  if (!wrapper || !nextBtn) return;
+  var slideW = 0;
+  var firstSlide = slider.querySelector('.swiper-slide');
+  if (firstSlide) slideW = firstSlide.offsetWidth + 12;
+  function updateArrows() {
+    if (prevBtn) prevBtn.style.display = wrapper.scrollLeft > 10 ? '' : 'none';
+    if (nextBtn) nextBtn.style.display = (wrapper.scrollLeft + wrapper.clientWidth) >= (wrapper.scrollWidth - 10) ? 'none' : '';
+  }
+  nextBtn.addEventListener('click', function(e) {
+    e.preventDefault(); e.stopPropagation();
+    wrapper.scrollBy({ left: slideW || 500, behavior: 'smooth' });
+    setTimeout(updateArrows, 400);
+  });
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function(e) {
+      e.preventDefault(); e.stopPropagation();
+      wrapper.scrollBy({ left: -(slideW || 500), behavior: 'smooth' });
+      setTimeout(updateArrows, 400);
+    });
+  }
+  wrapper.addEventListener('scroll', function() { setTimeout(updateArrows, 100); });
+  updateArrows();
 }
 
 function updateDemoCount() {
