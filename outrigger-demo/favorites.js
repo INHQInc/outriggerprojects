@@ -1,21 +1,11 @@
-    /* Capture the original carousel card HTML for rendering in collection detail */
-    var cardEl = btn.closest('.card') || btn.closest('.card-simplified-slider')?.closest('.card') || btn.parentElement?.closest('.card');
-    var cardHTML = '';
-    if (cardEl) {
-        var clone = cardEl.cloneNode(true);
-        /* Remove the favorite button from the clone so we can add our own */
-        var clonedBtns = clone.querySelectorAll('.favorite-btn');
-        clonedBtns.forEach(function(b) { b.remove(); });
-        cardHTML = clone.outerHTML;
-    }
 "use strict";
 
-// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-// OUTRIGGER FAVORITES â Full-Featured Demo Script
+// ═══════════════════════════════════════════════════════════════
+// OUTRIGGER FAVORITES — Full-Featured Demo Script
 // Injects: CSS, modal HTML, tray, toast, heart buttons, all logic
-// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════════════════════════
 
-// ââ Inject CSS ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Inject CSS ──────────────────────────────────────────────────
 var style = document.createElement("style");
 style.textContent = `:root {
             /* Brand colors */
@@ -33,7 +23,7 @@ style.textContent = `:root {
             --clr-border:       #e8e5de;
             --clr-border-med:   #e0ddd6;
 
-            /* Typography â DuplicateIonic (display), DuplicateSans (UI), Montserrat (nav/hero only) */
+            /* Typography — DuplicateIonic (display), DuplicateSans (UI), Montserrat (nav/hero only) */
             --ff-display:       'DuplicateIonic-Light', Georgia, serif;
             --ff-display-bold:  'DuplicateIonic-Bold', Georgia, serif;
             --ff-body:          'DuplicateSans-Regular', system-ui, sans-serif;
@@ -47,7 +37,7 @@ style.textContent = `:root {
             --card-shadow:      none;
             --card-shadow-h:    0 4px 16px rgba(0,0,0,0.10);
 
-            /* CTAs â Outrigger style: square corners, bold border, no fill */
+            /* CTAs — Outrigger style: square corners, bold border, no fill */
             --btn-border:       2px solid var(--clr-text);
             --btn-border-brand: 2px solid var(--clr-primary);
             --btn-radius:       3px;
@@ -77,7 +67,7 @@ style.textContent = `:root {
         .card-simplified-slider { position: relative; }
 
         /* ============================================
-           ROOM CARDS â match www.outrigger.com/rooms-suites
+           ROOM CARDS — match www.outrigger.com/rooms-suites
            ============================================ */
         .destination-selection .destination-selection-tabs {
             flex-direction: column !important; align-items: flex-start !important;
@@ -151,23 +141,12 @@ style.textContent = `:root {
             display: flex; align-items: center; justify-content: center;
         }
 
-        /* Cloned carousel cards in collection detail view */
-        .fav-cloned-card {
-            position: relative;
-            border-radius: var(--card-radius);
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-            transition: box-shadow 0.2s;
-        }
-        .fav-cloned-card:hover { box-shadow: var(--card-shadow-h); }
-        .fav-cloned-card .card {
-            margin: 0 !important;
-            width: 100% !important;
-            max-width: 100% !important;
-            flex: none !important;
-        }
-        .fav-cloned-card .card-simplified-slider { position: relative; }
-        .fav-cloned-card .fav-item-card__remove:hover { color: var(--clr-accent); text-decoration: underline; }
+        /* Cloned card styles for collection detail */
+        .fav-cloned-card { position:relative; border-radius:var(--card-radius); overflow:hidden; box-shadow:var(--card-shadow); transition:box-shadow 0.2s; }
+        .fav-cloned-card:hover { box-shadow:var(--card-shadow-h); }
+        .fav-cloned-card .card { margin:0!important; width:100%!important; max-width:100%!important; flex:none!important; }
+        .fav-cloned-card .card-simplified-slider { position:relative; }
+        .fav-cloned-card .fav-item-card__remove:hover { color:var(--clr-accent); text-decoration:underline; }
 
         /* ============================================
            EMAIL CAPTURE MODAL
@@ -767,7 +746,7 @@ style.textContent = `:root {
         }
         .fav-tray__more-collections:hover { color: #004561; text-decoration: underline; }
 
-        /* Quiz section â warm background to visually separate from favorites */
+        /* Quiz section — warm background to visually separate from favorites */
         .fav-tray__quiz-section {
             background: #f8f6f2; margin-top: 8px; padding-bottom: 20px;
         }
@@ -935,7 +914,7 @@ style.textContent = `:root {
             font-family: var(--ff-display-bold);
             font-size: 18px; color: var(--clr-primary);
         }
-        /* Resort card standalone â col 1 of a 3-col grid = exact same width as a room card */
+        /* Resort card standalone — col 1 of a 3-col grid = exact same width as a room card */
         .fav-resort-standalone {
             display: grid; grid-template-columns: repeat(3, 1fr);
             gap: 20px; margin-bottom: 16px;
@@ -944,7 +923,7 @@ style.textContent = `:root {
         .fav-item-card--resort-unfav { background: #fff; }
         .fav-item-card--resort-unfav .favorite-btn svg path { fill: none; stroke: #aaa; stroke-width: 1.5px; }
 
-        /* Header badge â iOS-style red notification dot */
+        /* Header badge — iOS-style red notification dot */
         .header-fav-badge {
             position: absolute; top: -6px; right: -8px;
             background: var(--clr-accent); color: #fff; font-size: 11px; font-weight: 700;
@@ -1035,7 +1014,7 @@ style.textContent = `:root {
 `;
 document.head.appendChild(style);
 
-// ââ Inject modal HTML âââââââââââââââââââââââââââââââââââââââââââ
+// ── Inject modal HTML ───────────────────────────────────────────
 var wrapper = document.createElement("div");
 wrapper.id = "fav-injected-elements";
 wrapper.innerHTML = `<!-- Email Capture -->
@@ -1159,13 +1138,14 @@ wrapper.innerHTML = `<!-- Email Capture -->
 <div class="toast-msg" id="toast"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span id="toastText"></span></div>`;
 document.body.appendChild(wrapper);
 
-// ââ Inject heart buttons onto existing Outrigger cards ââââââââââ
+// ── Inject heart buttons onto existing Outrigger cards ──────────
 function injectHeartsOnCards() {
   var heartSVG = '<svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
 
   // Property cards (homepage)
   document.querySelectorAll(".card[property_id]").forEach(function(card) {
     if (card.querySelector(".favorite-btn")) return;
+    if(card.querySelector("[room_type_name]")||card.querySelector(".card-body[room_type_name]"))return;
     var slider = card.querySelector(".card-simplified-slider");
     if (!slider) return;
     slider.style.position = "relative";
@@ -1216,42 +1196,33 @@ function injectHeartsOnCards() {
     slider.appendChild(btn);
   });
 
-  // Suite room cards (rooms page) — these have .card.swiper-slide without data-room-id
-  // but with room_type_name on a child .card-body element
-  document.querySelectorAll(".card.swiper-slide:not([data-room-id])").forEach(function(card) {
-    if (card.querySelector(".favorite-btn")) return;
-    var roomBody = card.querySelector("[room_type_name]") || card.querySelector(".card-body[room_type_name]");
-    if (!roomBody) return; // Not a room card
-    var slider = card.querySelector(".card-simplified-slider");
-    if (!slider) return;
-    slider.style.position = "relative";
-    var roomName = roomBody.getAttribute("room_type_name") || "Suite";
-    var resortName = roomBody.getAttribute("property_name") || card.getAttribute("property_name") || "";
-    var roomId = roomName.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-    var img = card.querySelector(".carousel-item.active img, .carousel-item img, img");
-    var imgSrc = img ? (img.getAttribute("data-local-src") || img.src) : "";
-    var link = card.querySelector("a.card-title, a.card-view-property, a[href]");
-    var url = link ? link.href : "#";
-    var btn = document.createElement("button");
-    btn.className = "favorite-btn";
-    btn.setAttribute("data-id", "room-" + roomId);
-    btn.setAttribute("data-type", "Room");
-    btn.setAttribute("data-name", roomName);
-    btn.setAttribute("data-sub", resortName);
-    btn.setAttribute("data-img", imgSrc);
-    btn.setAttribute("data-room-url", url);
-    btn.setAttribute("data-room-code", roomId);
-    btn.setAttribute("onclick", "onHeartClick(this)");
-    btn.innerHTML = heartSVG;
-    slider.appendChild(btn);
+  // Suite room cards (cards with room_type_name inside nested elements)
+  document.querySelectorAll(".card.swiper-slide:not([data-room-id])").forEach(function(card){
+    if(card.querySelector(".favorite-btn"))return;
+    var rb=card.querySelector("[room_type_name]")||card.querySelector(".card-body[room_type_name]");
+    if(!rb)return;
+    var sl=card.querySelector(".card-simplified-slider");
+    if(!sl)return;
+    sl.style.position="relative";
+    var roomId=rb.getAttribute("room_type_name")||"suite-"+(Math.random()*1e6|0);
+    card.setAttribute("data-room-id",roomId);
+    var btn=document.createElement("button");
+    btn.className="favorite-btn";
+    btn.dataset.type="Room";
+    btn.dataset.id=roomId;
+    btn.dataset.roomId=roomId;
+    btn.innerHTML=heartSVG;
+    var trips=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
+    var isFav=trips.some(function(t){return t.items&&t.items.some(function(it){return it.id===roomId;});});
+    if(isFav)btn.classList.add("is-favorited");
+    btn.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();handleFavoriteClick(btn);});
+    sl.appendChild(btn);
   });
 
     // Offer cards (offers page + homepage offer sliders)
   var offerSel = ".card.swiper-slide:not([property_id]):not([data-room-id])";
   document.querySelectorAll(offerSel).forEach(function(card, i) {
     if (card.querySelector(".favorite-btn")) return;
-    // Skip suite room cards that lack data-room-id on outer div but have room_type_name on child
-    if (card.querySelector("[room_type_name]") || card.querySelector(".card-body[room_type_name]")) return;
     // Skip if it's a promo/overlay card with no real content
     var titleEl = card.querySelector(".card-title, span.card-title, h4, .card-body h4 a");
     if (!titleEl) return;
@@ -1279,7 +1250,7 @@ function injectHeartsOnCards() {
   });
 }
 
-// ââ Demo navigation bar âââââââââââââââââââââââââââââââââââââââââ
+// ── Demo navigation bar ─────────────────────────────────────────
 function injectDemoNav() {
   if (document.querySelector(".demo-nav-bar")) return;
   var page = window.location.pathname.split("/").pop() || "index.html";
@@ -1300,7 +1271,7 @@ function injectDemoNav() {
   document.body.appendChild(nav);
 }
 
-// ââ MAIN JS LOGIC (from prototype) ââââââââââââââââââââââââââââââ
+// ── MAIN JS LOGIC (from prototype) ──────────────────────────────
 
 // ============================
 // STATE
@@ -1474,6 +1445,9 @@ function saveToTrip() {
     if (!state.selectedTripId || !state.pendingBtn) return;
     const btn = state.pendingBtn;
     const trip = state.trips.find(t => t.id === state.selectedTripId);
+    var cardEl=btn.closest(".card")||btn.closest(".card-simplified-slider")?.closest(".card")||btn.parentElement?.closest(".card");
+    var cardHTML="";
+    if(cardEl){var cl=cardEl.cloneNode(true);cl.querySelectorAll(".favorite-btn").forEach(function(b){b.remove();});cardHTML=cl.outerHTML;}
     const item = {
         id: btn.dataset.id,
         type: btn.dataset.type,
@@ -1487,7 +1461,7 @@ function saveToTrip() {
         hotelUrl: btn.dataset.hotelUrl || null,
         roomUrl: btn.dataset.roomUrl || null,
         offerUrl: btn.dataset.offerUrl || null,
-        cardHTML: cardHTML
+      cardHTML: cardHTML
     };
     if (!trip.items.find(i => i.id === item.id)) trip.items.push(item);
     btn.classList.add('is-favorited');
@@ -1567,7 +1541,7 @@ function renderTripDetail(el) {
     if (trip.items.length === 0) {
         html += '<div class="trip-detail__empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><h3>No items yet</h3><p>Browse resorts and rooms, then tap the heart icon to save items to this collection.</p></div>';
     } else {
-        /* Destination-first grouping: Destination â Resort â Rooms, Offers at the end.
+        /* Destination-first grouping: Destination → Resort → Rooms, Offers at the end.
            Resort items carry sub=destination (e.g. "Oahu, Hawaii").
            Room items carry sub=resortName (e.g. "OUTRIGGER Reef Waikiki Beach Resort").
            Two-pass: first index resorts so rooms can find their destination. */
@@ -1583,9 +1557,9 @@ function renderTripDetail(el) {
         var resortImgMap = {
             'OUTRIGGER Reef Waikiki Beach Resort': 'https://www.outrigger.com/AdaptiveImages/optimizely/753dec1f-a09b-42b5-85f5-44a03e3c5b4a/outrigger-reef-waikiki-beach-resort-coral-reef-penthouse-2-bedroom-suite-11.jpg?quality=100&width=700&height=393&stamp=cf85c663435ead22a0f47d4bec2162a1466a4886&format=webp',
             'OUTRIGGER Waikiki Beach Resort': 'https://www.outrigger.com/AdaptiveImages/optimizely/b1c81086-a2b1-46b2-96c8-064a18400d6f/outrigger-waikiki-beach-resort-exterior-1.jpg?quality=100&width=700&height=391&stamp=3d81afea29f058bbf289dade28b1b2355b22d0b3&format=webp',
-            'OUTRIGGER WaikÄ«kÄ« Paradise Hotel': 'https://www.outrigger.com/AdaptiveImages/optimizely/27cfc36f-efb3-4d16-a2f6-b796fa863261/ohana-waikiki-east-pool-lifestyle-20.jpg?quality=100&width=700&height=467&stamp=b175cee916f8da0f9b787960bb02d471546f2979&format=webp'
+            'OUTRIGGER Waikīkī Paradise Hotel': 'https://www.outrigger.com/AdaptiveImages/optimizely/27cfc36f-efb3-4d16-a2f6-b796fa863261/ohana-waikiki-east-pool-lifestyle-20.jpg?quality=100&width=700&height=467&stamp=b175cee916f8da0f9b787960bb02d471546f2979&format=webp'
         };
-        /* Maps resort name â destination label, used when the resort itself isn't favorited */
+        /* Maps resort name → destination label, used when the resort itself isn't favorited */
         var resortToDestMap = {
             'OUTRIGGER Reef Waikiki Beach Resort': 'Oahu, Hawaii',
             'OUTRIGGER Waik\u012Bk\u012B Paradise Hotel': 'Oahu, Hawaii',
@@ -1614,7 +1588,7 @@ function renderTripDetail(el) {
             }
         });
 
-        /* Pass 2: rooms â resorts now indexed so we can find their destination */
+        /* Pass 2: rooms — resorts now indexed so we can find their destination */
         trip.items.forEach(function(item) {
             if (item.type === 'Room') {
                 var resortName = item.sub || 'Unknown Resort';
@@ -1630,19 +1604,17 @@ function renderTripDetail(el) {
 
         var heartSVG = '<svg viewBox="0 0 24 24"><path class="heart-outline" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
         var renderItemCard = function(item, tripId, url) {
-                        /* If we captured the original carousel card HTML, render that instead of custom markup */
-            if (item.cardHTML) {
-                var h = '<div class="fav-cloned-card" style="position:relative;">';
-                h += item.cardHTML;
-                h += '<div class="fav-cloned-card__overlay" style="position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:10;">';
-                h += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + tripId + '\',\'' + item.id + '\')" style="position:static;">' + heartSVG + '</button>';
-                h += '</div>';
-                h += '<button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + tripId + '\',\'' + item.id + '\')" style="display:block;margin:4px auto 0;padding:6px 12px;background:none;border:none;color:#999;font-size:12px;cursor:pointer;font-family:var(--ff-body);">Remove</button>';
-                h += '</div>';
-                return h;
-            }
-            /* Fallback for items saved before cardHTML was captured */
-var h = '<div class="fav-item-card' + (item.type === 'Resort' ? ' fav-item-card--resort' : '') + '">';
+    if(item.cardHTML){
+      var h='<div class="fav-cloned-card" style="position:relative;">';
+      h+=item.cardHTML;
+      h+='<div class="fav-cloned-card__overlay" style="position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:10;">';
+      h+='<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\''+tripId+'\',\''+item.id+'\')" style="position:static;">'+heartSVG+'</button>';
+      h+='</div>';
+      h+='<button class="fav-item-card__remove" onclick="removeItemFromTrip(\''+tripId+'\',\''+item.id+'\')" style="display:block;margin:4px auto 0;padding:6px 12px;background:none;border:none;color:#999;font-size:12px;cursor:pointer;font-family:var(--ff-body);">Remove</button>';
+      h+='</div>';
+      return h;
+    }
+            var h = '<div class="fav-item-card' + (item.type === 'Resort' ? ' fav-item-card--resort' : '') + '">';
             h += '<div class="fav-item-card__img-wrap"><img class="fav-item-card__img" src="' + item.img + '"><span class="fav-item-card__type">' + item.type + '</span>';
             h += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + tripId + '\',\'' + item.id + '\')">' + heartSVG + '</button></div>';
             h += '<div class="fav-item-card__body"><div class="fav-item-card__title"><a href="' + url + '" target="_blank" style="color:inherit;text-decoration:none;">' + item.name + '</a></div>';
@@ -1687,7 +1659,7 @@ var h = '<div class="fav-item-card' + (item.type === 'Resort' ? ' fav-item-card-
                     html += '<a href="' + resortUrl + '" target="_blank" class="fav-resort-group__view-link">View Resort &rsaquo;</a>';
                 }
                 html += '</div>';
-                /* Always render resort card â favorited (teal + filled heart) or not (white + outline) */
+                /* Always render resort card — favorited (teal + filled heart) or not (white + outline) */
                 html += '<div class="fav-resort-standalone">';
                 if (rg.resortItem) {
                     html += renderItemCard(rg.resortItem, trip.id, rg.resortItem.hotelUrl || resortUrl || '#');
@@ -1819,7 +1791,7 @@ function confirmDelete() {
 // ============================
 // TRAY
 // ============================
-/* ââ Mobile Navigation ââ */
+/* ── Mobile Navigation ── */
 function openMobileNav() {
     document.getElementById('mobileNav').classList.add('open');
     document.getElementById('mobileNavBackdrop').classList.add('show');
@@ -1848,11 +1820,11 @@ function renderTray() {
     const allItems = state.trips.flatMap(t => t.items.map(i => ({ ...i, tripName: t.name, tripId: t.id })));
     let html = '';
 
-    /* ââ SECTION 1: MY FAVORITES ââ */
+    /* ── SECTION 1: MY FAVORITES ── */
     html += '<div class="fav-tray__section-header"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> My Favorites</div>';
 
     if (!state.hasRIID) {
-        /* ââ STATE 1: Not signed up â entice them to create an account ââ */
+        /* ── STATE 1: Not signed up — entice them to create an account ── */
         html += '<div class="fav-tray__signup-cta">';
         html += '<div class="fav-tray__signup-icon"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0F4A5A" stroke-width="1.2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>';
         html += '<div class="fav-tray__signup-title">Save your dream getaway</div>';
@@ -1860,14 +1832,14 @@ function renderTray() {
         html += '<button class="fav-tray__signup-btn" onclick="openModal(\'emailModal\');">Sign Up to Save Favorites &rsaquo;</button>';
         html += '</div>';
     } else if (allItems.length === 0) {
-        /* ââ STATE 2: Signed up but no saved items ââ */
+        /* ── STATE 2: Signed up but no saved items ── */
         html += '<div class="fav-tray__empty-inline">';
         html += '<div class="fav-tray__empty-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>';
         html += '<div class="fav-tray__empty-text">You haven\'t saved any favorites yet. Browse resorts and rooms, then tap the heart icon to start building your collection.</div>';
         html += '</div>';
         html += '<button class="fav-tray__view-all-btn" onclick="switchView(\'view-favorites\');closeTray();">View All Favorites</button>';
     } else {
-        /* ââ STATE 3: Signed up with saved items â Collection cards (Option A) ââ */
+        /* ── STATE 3: Signed up with saved items — Collection cards (Option A) ── */
         var MAX_CARDS = 3;
         var visibleTrips = state.trips.slice(0, MAX_CARDS);
         var remainingCount = state.trips.length - MAX_CARDS;
@@ -1877,12 +1849,12 @@ function renderTray() {
             var onclick = "switchView('view-favorites');setTimeout(function(){viewTrip('" + t.id + "')},100);closeTray();";
             html += '<div class="fav-tray__card" onclick="' + onclick + '">';
 
-            /* Thumbnail strip â show up to 3 images */
+            /* Thumbnail strip — show up to 3 images */
             html += '<div class="fav-tray__card-thumbs">';
             var thumbItems = t.items.slice(0, 3);
             var placeholderSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
             if (thumbItems.length === 0) {
-                /* Empty collection â 3 placeholders */
+                /* Empty collection — 3 placeholders */
                 for (var p = 0; p < 3; p++) {
                     html += '<div class="fav-tray__card-placeholder">' + placeholderSVG + '</div>';
                 }
@@ -1897,7 +1869,7 @@ function renderTray() {
             }
             html += '</div>';
 
-            /* Card body â name, count, chevron */
+            /* Card body — name, count, chevron */
             html += '<div class="fav-tray__card-body">';
             html += '<div><div class="fav-tray__card-name">' + t.name + '</div>';
             html += '<div class="fav-tray__card-count">' + t.items.length + ' item' + (t.items.length !== 1 ? 's' : '') + ' saved</div></div>';
@@ -1913,7 +1885,7 @@ function renderTray() {
         html += '<button class="fav-tray__view-all-btn" onclick="switchView(\'view-favorites\');closeTray();">View All Favorites</button>';
     }
 
-    /* ââ SECTION 2: TRIP PLANNER QUIZ â warm bg shift ââ */
+    /* ── SECTION 2: TRIP PLANNER QUIZ — warm bg shift ── */
     html += '<div class="fav-tray__quiz-section">';
     html += '<div class="fav-tray__section-header"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Trip Planner Quiz</div>';
     html += '<div class="fav-tray__quiz-cta">';
@@ -2040,12 +2012,12 @@ function resetAll() {
     toast('Reset! Starting fresh as unknown user.');
 }
 
-// Init â restore saved state then update UI
+// Init — restore saved state then update UI
 
 
-// ââ Init on page load âââââââââââââââââââââââââââââââââââââââââââ
+// ── Init on page load ───────────────────────────────────────────
 
-// ââ Favorites Full Page Overlay (for demo) ââââââââââââââââââââââ
+// ── Favorites Full Page Overlay (for demo) ──────────────────────
 function showFavoritesOverlay() {
   var overlay = document.getElementById("favOverlay");
   if (!overlay) {
