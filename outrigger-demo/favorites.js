@@ -2050,6 +2050,7 @@ var _origRenderFavoritesPage = typeof renderFavoritesPage === "function" ? rende
 
 function initFavorites() {
   injectHeartsOnCards();
+  document.querySelectorAll('.room-and-suites-slider .favorite-btn').forEach(function(b){b.remove();});
   injectDemoNav();
   loadState();
   syncUI();
@@ -2073,6 +2074,7 @@ if (document.readyState === "loading") {
 window.addEventListener("load", function() {
   setTimeout(function() {
     injectHeartsOnCards();
+    document.querySelectorAll('.room-and-suites-slider .favorite-btn').forEach(function(b){b.remove();});
     loadState();
     syncUI();
   }, 300);
