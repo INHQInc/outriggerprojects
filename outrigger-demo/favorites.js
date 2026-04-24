@@ -1,18 +1,3 @@
-
-        /* Make property carousel scrollable on homepage */
-        .destination-selection-slider .swiper-wrapper {
-            display: flex !important;
-            overflow-x: auto !important;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            gap: 12px;
-        }
-        .destination-selection-slider .swiper-wrapper::-webkit-scrollbar { display: none; }
-        .destination-selection-slider .swiper-slide {
-            flex: 0 0 auto !important;
-            scroll-snap-align: start;
-        }
 "use strict";
 
 // ═══════════════════════════════════════════════════════════════
@@ -1026,6 +1011,21 @@ style.textContent = `:root {
 .demo-nav-bar a:hover,.demo-nav-bar button:hover{background:rgba(255,255,255,.13);}
 .demo-nav-bar a.active{background:rgba(255,255,255,.18);}
 .demo-nav-bar .demo-sep{width:1px;height:20px;background:rgba(255,255,255,.2);margin:0 2px;flex-shrink:0;}
+
+        /* Make property carousel scrollable on homepage */
+        .destination-selection-slider .swiper-wrapper {
+            display: flex !important;
+            overflow-x: auto !important;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            gap: 12px;
+        }
+        .destination-selection-slider .swiper-wrapper::-webkit-scrollbar { display: none; }
+        .destination-selection-slider .swiper-slide {
+            flex: 0 0 auto !important;
+            scroll-snap-align: start;
+        }
 `;
 document.head.appendChild(style);
 
