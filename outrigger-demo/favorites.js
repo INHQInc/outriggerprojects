@@ -1146,7 +1146,6 @@ function injectHeartsOnCards() {
   document.querySelectorAll(".card[property_id]").forEach(function(card) {
     if (card.querySelector(".favorite-btn")) return;
     if(card.querySelector("[room_type_name]")||card.querySelector(".card-body[room_type_name]"))return;
-    if(card.closest('.food-and-drinks-slider')||card.closest('.related-articles-slider'))return;
     var slider = card.querySelector(".card-simplified-slider");
     if (!slider) return;
     slider.style.position = "relative";
@@ -1224,6 +1223,7 @@ function injectHeartsOnCards() {
   var offerSel = ".card.swiper-slide:not([property_id]):not([data-room-id])";
   document.querySelectorAll(offerSel).forEach(function(card, i) {
     if (card.querySelector(".favorite-btn")) return;
+    if(card.closest('.food-and-drinks-slider')||card.closest('.related-articles-slider'))return;
     // Skip if it's a promo/overlay card with no real content
     var titleEl = card.querySelector(".card-title, span.card-title, h4, .card-body h4 a");
     if (!titleEl) return;
