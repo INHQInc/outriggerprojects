@@ -1146,6 +1146,7 @@ function injectHeartsOnCards() {
   document.querySelectorAll(".card[property_id]").forEach(function(card) {
     if (card.querySelector(".favorite-btn")) return;
     if(card.querySelector("[room_type_name]")||card.querySelector(".card-body[room_type_name]"))return;
+    if(card.closest('.food-and-drinks-slider')||card.closest('.related-articles-slider'))return;
     var slider = card.querySelector(".card-simplified-slider");
     if (!slider) return;
     slider.style.position = "relative";
