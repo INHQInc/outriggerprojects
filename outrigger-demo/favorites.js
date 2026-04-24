@@ -1225,6 +1225,7 @@ function injectHeartsOnCards() {
   document.querySelectorAll(offerSel).forEach(function(card, i) {
     if (card.querySelector(".favorite-btn")) return;
     if(card.closest('.food-and-drinks-slider')||card.closest('.related-articles-slider'))return;
+    if(card.classList.contains('promo-card'))return;
     // Skip if it's a promo/overlay card with no real content
     var titleEl = card.querySelector(".card-title, span.card-title, h4, .card-body h4 a");
     if (!titleEl) return;
