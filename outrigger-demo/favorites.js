@@ -1,3 +1,18 @@
+
+        /* Make property carousel scrollable on homepage */
+        .destination-selection-slider .swiper-wrapper {
+            display: flex !important;
+            overflow-x: auto !important;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            gap: 12px;
+        }
+        .destination-selection-slider .swiper-wrapper::-webkit-scrollbar { display: none; }
+        .destination-selection-slider .swiper-slide {
+            flex: 0 0 auto !important;
+            scroll-snap-align: start;
+        }
 "use strict";
 
 // ═══════════════════════════════════════════════════════════════
@@ -455,7 +470,7 @@ style.textContent = `:root {
 
         /* Favorites items grid */
         .fav-items-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
             gap: 20px;
         }
         .fav-item-card {
@@ -1431,7 +1446,7 @@ function renderTripList() {
         const imgSrc = t.items.length > 0 ? t.items[0].img : '';
         const sel = t.id === state.selectedTripId ? ' selected' : '';
         return '<div class="trip-list__item' + sel + '" onclick="selectTrip(\'' + t.id + '\')">' +
-            (imgSrc ? '<img class="trip-list__item-img" src="' + imgSrc + '">' : '<div class="trip-list__item-img" style="background:#f0ede6;"></div>') +
+            (imgSrc ? '<img class="trip-list__item-img" src="' + imgSrc + '">' : '<div class="trip-list__item-img" style="background:#f0ede6;display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="#c0392b" stroke="none" style="width:36px;height:36px;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>') +
             '<div class="trip-list__item-info"><div class="trip-list__item-name">' + t.name + '</div><div class="trip-list__item-count">' + t.items.length + ' saved</div></div>' +
             '<div class="trip-list__item-check"></div></div>';
     }).join('');
@@ -1518,7 +1533,7 @@ function renderTripsGrid(el) {
             if (imgs[i]) {
                 html += '<img src="' + imgs[i].img + '" alt="">';
             } else {
-                html += '<div class="placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>';
+                html += '<div class="placeholder"><svg viewBox="0 0 24 24" fill="#c0392b" stroke="none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>';
             }
         }
         html += '</div><div class="trip-card__body"><div class="trip-card__name">' + t.name + '</div><div class="trip-card__meta">' + t.items.length + ' saved</div>';
@@ -1854,7 +1869,7 @@ function renderTray() {
             /* Thumbnail strip — show up to 3 images */
             html += '<div class="fav-tray__card-thumbs">';
             var thumbItems = t.items.slice(0, 3);
-            var placeholderSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+            var placeholderSVG = '<svg viewBox="0 0 24 24" fill="#c0392b" stroke="none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
             if (thumbItems.length === 0) {
                 /* Empty collection — 3 placeholders */
                 for (var p = 0; p < 3; p++) {
