@@ -1172,7 +1172,7 @@ function injectHeartsOnCards() {
   // Room cards (rooms page)
   document.querySelectorAll(".card[data-room-id]").forEach(function(card) {
     if (card.querySelector(".favorite-btn")) return;
-    if(card.closest('.room-and-suites-slider'))return;
+    if(card.classList.contains('swiper-slide'))return;
     var slider = card.querySelector(".card-simplified-slider");
     if (!slider) return;
     slider.style.position = "relative";
