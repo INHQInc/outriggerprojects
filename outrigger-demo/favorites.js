@@ -1213,7 +1213,7 @@ function injectHeartsOnCards() {
     btn.dataset.id=roomId;
     btn.dataset.roomId=roomId;
     btn.innerHTML=heartSVG;
-    var trips=JSON.parse(localStorage.getItem('outrigger_proto_state')||"[]");
+    var _st=JSON.parse(localStorage.getItem('outrigger_proto_state')||"{}");var trips=(_st.trips||[]);
     var isFav=trips.some(function(t){return t.items&&t.items.some(function(it){return it.id===roomId;});});
     if(isFav)btn.classList.add("is-favorited");
     btn.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();handleFavoriteClick(btn);});
