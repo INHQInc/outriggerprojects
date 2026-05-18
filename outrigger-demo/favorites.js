@@ -1094,7 +1094,7 @@ style.textContent = `:root {
             font-family: var(--ff-display-bold); font-size: 20px; color: var(--clr-primary);
         }
         .offers-section-header__count {
-            font-family: var(--ff-body); font-size: 13px; color: var(--clr-text-faint);
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif; font-size: 16px; font-weight: 500; color: rgb(0, 0, 0);
         }
         .offer-card__type {
             position: absolute; top: 6px; left: 6px;
