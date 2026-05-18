@@ -26,8 +26,8 @@ style.textContent = `:root {
             --clr-border:       #e8e5de;
             --clr-border-med:   #e0ddd6;
 
-            /* Typography — DuplicateIonic (display), DuplicateSans (UI), Montserrat (nav/hero only) */
-            --ff-display:       'DuplicateIonic-Light', Georgia, serif;
+            /* Typography — matched to outrigger.com pages */
+            --ff-display:       'DuplicateIonic-Medium', Georgia, serif;
             --ff-display-bold:  'DuplicateIonic-Bold', Georgia, serif;
             --ff-body:          'DuplicateSans-Regular', system-ui, sans-serif;
             --ff-body-med:      'DuplicateSans-Medium', system-ui, sans-serif;
@@ -436,7 +436,7 @@ style.textContent = `:root {
             margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--clr-border);
         }
         .trip-detail__name {
-            font-family: var(--ff-display);
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
             font-size: 40px; color: var(--clr-text); margin: 0; line-height: 1.1;
         }
         .trip-detail__count {
@@ -446,15 +446,16 @@ style.textContent = `:root {
         }
         .trip-detail__actions { display: flex; gap: 8px; align-items: center; }
         .trip-detail__action {
-            padding: 8px 16px; font-size: 12px;
-            border: 1px solid var(--clr-border-med);
-            background: var(--clr-bg-card); cursor: pointer; border-radius: 0;
-            font-family: var(--ff-body); color: var(--clr-text);
-            transition: background 0.15s;
+            padding: 10px 20px; font-size: 13px;
+            border: 2px solid #000;
+            background: transparent; cursor: pointer; border-radius: 0;
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif; color: #000;
+            text-transform: uppercase; letter-spacing: 1px;
+            transition: background 0.2s, color 0.2s;
         }
-        .trip-detail__action:hover { background: var(--clr-bg-warm); }
+        .trip-detail__action:hover { background: #000; color: #fff; }
         .trip-detail__action.danger { color: var(--clr-accent); border-color: var(--clr-accent); }
-        .trip-detail__action.danger:hover { background: #fef2f2; }
+        .trip-detail__action.danger:hover { background: var(--clr-accent); color: #fff; }
 
         /* Favorites items grid */
         .fav-items-grid {
@@ -932,7 +933,7 @@ style.textContent = `:root {
             margin-bottom: 20px;
         }
         .fav-dest-header__name {
-            font-family: var(--ff-display-bold); font-size: 20px; color: var(--clr-primary);
+            font-family: 'DuplicateIonic-Medium', Georgia, serif; font-size: 24px; color: var(--clr-primary);
         }
         .fav-dest-header__count {
             font-family: var(--ff-body); font-size: 13px; color: var(--clr-text-faint);
@@ -940,10 +941,10 @@ style.textContent = `:root {
 
         /* Resort banner card — full-width horizontal layout */
         .resort-banner {
-            display: flex; min-height: 160px;
+            display: flex; min-height: 180px;
             background: var(--clr-bg-card);
             border: 1px solid var(--clr-border);
-            border-radius: 0; overflow: hidden;
+            border-radius: 12px; overflow: hidden;
             margin-bottom: 0;
             transition: box-shadow 0.2s;
         }
@@ -951,7 +952,7 @@ style.textContent = `:root {
         .resort-banner--favorited { border-color: #b8e0dc; }
         .resort-banner--unfavorited { border-color: var(--clr-border); }
         .resort-banner__img {
-            width: 280px; flex-shrink: 0; position: relative; overflow: hidden;
+            width: 300px; flex-shrink: 0; position: relative; overflow: hidden;
         }
         .resort-banner__img img {
             width: 100%; height: 100%; object-fit: cover; display: block;
@@ -962,12 +963,12 @@ style.textContent = `:root {
             display: flex; flex-direction: column; justify-content: center;
         }
         .resort-banner__eyebrow {
-            font-family: var(--ff-body-bold); font-size: 10px;
-            letter-spacing: 1.5px; text-transform: uppercase;
+            font-family: 'DuplicateIonic-Black', Georgia, serif; font-size: 12px;
+            letter-spacing: 3px; text-transform: uppercase;
             color: #8B6F47; margin-bottom: 6px;
         }
         .resort-banner__name {
-            font-family: var(--ff-display); font-size: 22px;
+            font-family: 'DuplicateIonic-Medium', Georgia, serif; font-size: 22px;
             color: var(--clr-text); margin: 0 0 4px; line-height: 1.2;
         }
         .resort-banner__meta {
@@ -976,20 +977,20 @@ style.textContent = `:root {
         }
         .resort-banner__ctas { display: flex; gap: 10px; }
         .resort-banner__cta-primary {
-            display: inline-block; background: var(--clr-primary); color: #fff;
-            border: 1px solid var(--clr-primary); padding: 9px 18px;
-            font-family: var(--ff-body-med); font-size: 12px;
-            letter-spacing: var(--btn-tracking); text-decoration: none;
-            cursor: pointer; transition: opacity 0.2s;
+            display: inline-block; background: transparent; color: #000;
+            border: 2px solid #000; padding: 12px 18px;
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif; font-size: 14px;
+            letter-spacing: 1px; text-transform: uppercase; text-decoration: none;
+            cursor: pointer; transition: background 0.2s, color 0.2s;
         }
-        .resort-banner__cta-primary:hover { opacity: 0.85; }
+        .resort-banner__cta-primary:hover { background: #000; color: #fff; }
         .resort-banner__cta-secondary {
-            display: inline-block; border: var(--btn-border); color: var(--clr-text);
-            padding: 9px 18px; font-family: var(--ff-body-med); font-size: 12px;
-            letter-spacing: var(--btn-tracking); text-decoration: none;
-            background: transparent; cursor: pointer; transition: background 0.2s;
+            display: inline-block; border: 2px solid #000; color: #000;
+            padding: 12px 18px; font-family: 'DuplicateSans-Medium', system-ui, sans-serif; font-size: 14px;
+            letter-spacing: 1px; text-transform: uppercase; text-decoration: none;
+            background: transparent; cursor: pointer; transition: background 0.2s, color 0.2s;
         }
-        .resort-banner__cta-secondary:hover { background: var(--clr-bg-warm); }
+        .resort-banner__cta-secondary:hover { background: #000; color: #fff; }
 
         /* Room rail — left border connecting rooms to resort */
         .room-rail {
@@ -999,8 +1000,8 @@ style.textContent = `:root {
             margin-bottom: 28px;
         }
         .room-rail__label {
-            font-family: var(--ff-body-bold); font-size: 11px;
-            letter-spacing: 1.5px; text-transform: uppercase;
+            font-family: 'DuplicateIonic-Black', Georgia, serif; font-size: 12px;
+            letter-spacing: 3px; text-transform: uppercase;
             color: var(--clr-text-faint); margin-bottom: 12px;
         }
         .room-rail__grid {
@@ -1009,11 +1010,11 @@ style.textContent = `:root {
         }
         .room-card {
             background: var(--clr-bg-card); border: 1px solid var(--clr-border);
-            border-radius: 0; overflow: hidden; transition: box-shadow 0.2s;
+            border-radius: 10px; overflow: hidden; transition: box-shadow 0.2s;
         }
         .room-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
         .room-card__img-wrap { position: relative; overflow: hidden; }
-        .room-card__img-wrap img { width: 100%; height: 160px; object-fit: cover; display: block; }
+        .room-card__img-wrap img { width: 100%; height: 180px; object-fit: cover; display: block; }
         .room-card__img-wrap .favorite-btn { top: 6px; right: 6px; }
         .room-card__type {
             position: absolute; top: 6px; left: 6px;
@@ -1023,8 +1024,8 @@ style.textContent = `:root {
         }
         .room-card__body { padding: 12px 14px 14px; }
         .room-card__name {
-            font-family: var(--ff-body-bold); font-size: 14px;
-            color: var(--clr-text); margin-bottom: 10px;
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif; font-size: 14px;
+            color: var(--clr-text); margin-bottom: 10px; line-height: 1.3;
         }
         .room-card__cta { display: flex; gap: 10px; align-items: center; }
 
@@ -1131,11 +1132,11 @@ style.textContent = `:root {
         .confirm-modal__cancel { background: #fff; color: #333; border: 1px solid #ccc; }
     
 /* Demo nav bar */
-.demo-nav-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:99999;display:flex;align-items:center;gap:2px;background:#1a1a1a;border-radius:40px;padding:4px;box-shadow:0 4px 20px rgba(0,0,0,.4);white-space:nowrap;}
+.demo-nav-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:99999;display:flex;align-items:center;gap:2px;background:#E85D2A;border-radius:40px;padding:4px;box-shadow:0 4px 20px rgba(232,93,42,.5);white-space:nowrap;}
 .demo-nav-bar a,.demo-nav-bar button{color:#fff;font-size:12px;font-weight:600;text-decoration:none;padding:7px 15px;border-radius:36px;white-space:nowrap;transition:background .15s;letter-spacing:.02em;border:none;background:transparent;cursor:pointer;font-family:inherit;}
-.demo-nav-bar a:hover,.demo-nav-bar button:hover{background:rgba(255,255,255,.13);}
-.demo-nav-bar a.active{background:rgba(255,255,255,.18);}
-.demo-nav-bar .demo-sep{width:1px;height:20px;background:rgba(255,255,255,.2);margin:0 2px;flex-shrink:0;}
+.demo-nav-bar a:hover,.demo-nav-bar button:hover{background:rgba(255,255,255,.25);}
+.demo-nav-bar a.active{background:rgba(255,255,255,.3);}
+.demo-nav-bar .demo-sep{width:1px;height:20px;background:rgba(255,255,255,.35);margin:0 2px;flex-shrink:0;}
 
         /* Make property carousel scrollable on homepage */
         .destination-selection-slider .swiper-wrapper {
@@ -2194,29 +2195,24 @@ function resetAll() {
 
 // ── Init on page load ───────────────────────────────────────────
 
-// ── Favorites Full Page Overlay (for demo) ──────────────────────
+// ── Favorites Full Page (navigate to favorites.html) ──────────────────────
 function showFavoritesOverlay() {
-  var overlay = document.getElementById("favOverlay");
-  if (!overlay) {
-    overlay = document.createElement("div");
-    overlay.id = "favOverlay";
-    overlay.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:#ffffff;z-index:18000;overflow-y:auto;display:none;";
-    overlay.innerHTML = '<div style="position:sticky;top:0;z-index:1;background:#fff;padding:12px 20px;border-bottom:1px solid #e8e5de;display:flex;align-items:center;justify-content:space-between;">' +
-      '<button onclick="closeFavoritesOverlay()" style="border:none;background:none;cursor:pointer;font-size:14px;color:#0F4A5A;font-family:inherit;">&larr; Back to browsing</button>' +
-      '<span style="font-size:12px;color:#999;">Trip Planner</span>' +
-    '</div>' +
-    '<div id="favOverlayBody"></div>';
-    document.body.appendChild(overlay);
+  // If we're already on favorites.html, just render in place
+  if (window.location.pathname.indexOf('favorites.html') !== -1) {
+    renderFavoritesPage();
+    return;
   }
-  overlay.style.display = "block";
-  document.body.style.overflow = "hidden";
-  renderFavoritesPage();
+  // Navigate to the dedicated favorites page
+  window.location.href = '/demo/favorites.html';
 }
 
 function closeFavoritesOverlay() {
-  var overlay = document.getElementById("favOverlay");
-  if (overlay) overlay.style.display = "none";
-  document.body.style.overflow = "";
+  // Go back to previous page
+  if (document.referrer && document.referrer.indexOf('/demo/') !== -1) {
+    window.history.back();
+  } else {
+    window.location.href = '/demo/';
+  }
 }
 
 // Monkey-patch renderFavoritesPage to target overlay body if overlay is open
