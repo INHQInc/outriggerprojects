@@ -1022,10 +1022,13 @@ style.textContent = `:root {
             padding-top: 16px; padding-bottom: 4px;
             margin-bottom: 28px;
         }
+        .room-rail__header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 12px;
+        }
         .room-rail__label {
-            font-family: 'DuplicateIonic-Black', Georgia, serif; font-size: 14px;
-            letter-spacing: 4px; text-transform: uppercase;
-            color: var(--clr-text-faint); margin-bottom: 12px;
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif; font-size: 16px;
+            color: rgb(37, 37, 37); margin-bottom: 0;
         }
         .room-rail__grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -1113,7 +1116,7 @@ style.textContent = `:root {
             font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
             font-size: 15px; color: rgb(0, 120, 205);
             background: none; border: none; cursor: pointer; padding: 0;
-            margin-top: 14px;
+            margin-top: 0;
         }
         .resort-banner__toggle:hover { text-decoration: underline; }
         .resort-banner__toggle-chevron {
@@ -2023,21 +2026,22 @@ function renderTripDetail(el) {
                 html += '<a href="' + resortUrl + '" target="_blank" class="resort-banner__cta-primary">Check Availability</a>';
                 html += '<a href="' + resortUrl + '" target="_blank" class="resort-banner__cta-secondary">View Resort</a>';
                 html += '</div>';
-                /* Toggle button — own line below CTAs, only when rooms exist */
-                if (roomCount > 0) {
-                    var railId = 'room-rail-' + resortName.replace(/[^a-zA-Z0-9]/g, '-');
-                    html += '<button class="resort-banner__toggle" onclick="toggleRooms(\'' + railId + '\', this)">';
-                    html += '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--up">&#9650;</span>';
-                    html += ' Hide rooms</button>';
-                }
                 html += '</div></div>';
 
                 /* Room rail — connected to resort via left teal border */
                 if (roomCount > 0) {
-                    var railId2 = 'room-rail-' + resortName.replace(/[^a-zA-Z0-9]/g, '-');
-                    html += '<div id="' + railId2 + '" class="room-rail-wrap room-rail-wrap--expanded">';
+                    var railId = 'room-rail-' + resortName.replace(/[^a-zA-Z0-9]/g, '-');
+                    /* Toggle + label row */
                     html += '<div class="room-rail">';
-                    html += '<div class="room-rail__label">Saved Rooms (' + roomCount + ')</div>';
+                    html += '<div class="room-rail__header">';
+                    html += '<div class="room-rail__label">Rooms (' + roomCount + ')</div>';
+                    html += '<button class="resort-banner__toggle" onclick="toggleRooms(\'' + railId + '\', this)">';
+                    html += '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--up">&#9650;</span>';
+                    html += ' Hide rooms</button>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '<div id="' + railId + '" class="room-rail-wrap room-rail-wrap--expanded">';
+                    html += '<div class="room-rail" style="margin-top: 0; padding-top: 0;">';
                     html += '<div class="room-rail__grid">';
                     rg.rooms.forEach(function(room) {
                         var roomUrl = room.roomUrl || room.hotelUrl || '#';
