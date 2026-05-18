@@ -1790,6 +1790,10 @@ function renderTripDetail(el) {
             'OUTRIGGER Waikiki Beach Resort': 'An iconic beachfront resort on the sands of Waikiki with legendary views of Diamond Head.',
             'OUTRIGGER Waikīkī Paradise Hotel': 'A modern oasis in the heart of Waikiki, steps from world-class shopping, dining, and the beach.'
         };
+        var offerDescMap = {
+            'Ocean views on sale': 'Save up to 30% on ocean view rooms at select OUTRIGGER resorts across Hawaii. Wake up to stunning Pacific views at an unbeatable price.',
+            'Limited Time Never-Ending Summer!': 'Extend your summer with special rates on stays through the season. Enjoy warm weather, beach days, and island adventures for less.'
+        };
         var roomDescMap = {
             'Oceanfront Suite': 'Unforgettable sunrises and sunsets with dramatic views of Diamond Head and the Pacific Ocean.',
             'Diamond Head Oceanfront': 'Soak in sweeping views of the Pacific from your private lanai in a space designed for effortless comfort and island ease.',
@@ -1966,6 +1970,8 @@ function renderTripDetail(el) {
                 html += '</div>';
                 html += '<div class="room-card__body">';
                 html += '<div class="room-card__name">' + offer.name + '</div>';
+                var offerDesc = offer.desc || offerDescMap[offer.name] || '';
+                if (offerDesc) html += '<div class="room-card__desc">' + offerDesc + '</div>';
                 html += '<div class="room-card__cta">';
                 html += '<a href="' + offerUrl + '" target="_blank" class="resort-banner__cta-primary" style="font-size:14px;padding:12px 16px;">View Offer</a>';
                 html += '<button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + offer.id + '\')">Remove</button>';
