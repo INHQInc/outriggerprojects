@@ -1038,7 +1038,7 @@ style.textContent = `:root {
         }
         .room-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
         .room-card__img-wrap { position: relative; overflow: hidden; }
-        .room-card__img-wrap img { width: 100%; height: 180px; object-fit: cover; display: block; }
+        .room-card__img-wrap img { width: 100%; height: 220px; object-fit: cover; display: block; }
         .room-card__img-wrap .favorite-btn { top: 6px; right: 6px; }
         .room-card__type {
             position: absolute; top: 6px; left: 6px;
@@ -1106,6 +1106,29 @@ style.textContent = `:root {
             gap: 14px;
         }
         .resort-banner__no-rooms { margin-bottom: 28px; }
+
+        /* Room toggle — own line below CTAs */
+        .resort-banner__toggle {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
+            font-size: 15px; color: rgb(0, 120, 205);
+            background: none; border: none; cursor: pointer; padding: 0;
+            margin-top: 14px;
+        }
+        .resort-banner__toggle:hover { text-decoration: underline; }
+        .resort-banner__toggle-chevron {
+            display: inline-block; font-size: 12px; transition: transform 0.2s;
+        }
+        .resort-banner__toggle-chevron--up { transform: rotate(0deg); }
+        .resort-banner__toggle-chevron--down { transform: rotate(180deg); }
+
+        /* Collapsible room rail wrapper */
+        .room-rail-wrap { overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s ease; }
+        .room-rail-wrap--expanded { max-height: 3000px; opacity: 1; }
+        .room-rail-wrap--collapsed { max-height: 0; opacity: 0; }
+
+        /* Fix mobile horizontal overflow */
+        .fav-page, .trip-detail-view { overflow-x: hidden; max-width: 100vw; box-sizing: border-box; }
 
         /* Header badge — iOS-style red notification dot */
         .header-fav-badge {
@@ -2000,10 +2023,19 @@ function renderTripDetail(el) {
                 html += '<a href="' + resortUrl + '" target="_blank" class="resort-banner__cta-primary">Check Availability</a>';
                 html += '<a href="' + resortUrl + '" target="_blank" class="resort-banner__cta-secondary">View Resort</a>';
                 html += '</div>';
+                /* Toggle button — own line below CTAs, only when rooms exist */
+                if (roomCount > 0) {
+                    var railId = 'room-rail-' + resortName.replace(/[^a-zA-Z0-9]/g, '-');
+                    html += '<button class="resort-banner__toggle" onclick="toggleRooms(\'' + railId + '\', this)">';
+                    html += '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--up">&#9650;</span>';
+                    html += ' Hide rooms</button>';
+                }
                 html += '</div></div>';
 
                 /* Room rail — connected to resort via left teal border */
                 if (roomCount > 0) {
+                    var railId2 = 'room-rail-' + resortName.replace(/[^a-zA-Z0-9]/g, '-');
+                    html += '<div id="' + railId2 + '" class="room-rail-wrap room-rail-wrap--expanded">';
                     html += '<div class="room-rail">';
                     html += '<div class="room-rail__label">Saved Rooms (' + roomCount + ')</div>';
                     html += '<div class="room-rail__grid">';
@@ -2026,7 +2058,7 @@ function renderTripDetail(el) {
                         html += '<a href="' + roomUrl + '" target="_blank" class="resort-banner__cta-secondary" style="font-size:14px;padding:12px 16px;">View Room</a>';
                         html += '</div></div></div>';
                     });
-                    html += '</div></div>';
+                    html += '</div></div></div>';
                 } else {
                     html += '<div class="resort-banner__no-rooms"></div>';
                 }
@@ -2062,6 +2094,28 @@ function renderTripDetail(el) {
 }
 
 function viewTrip(id) { state.currentTripView = id; renderFavoritesPage(); }
+function toggleRooms(railId, btn) {
+    var wrap = document.getElementById(railId);
+    if (!wrap) return;
+    var isExpanded = wrap.classList.contains('room-rail-wrap--expanded');
+    var chevron = btn.querySelector('.resort-banner__toggle-chevron');
+    if (isExpanded) {
+        wrap.classList.remove('room-rail-wrap--expanded');
+        wrap.classList.add('room-rail-wrap--collapsed');
+        chevron.classList.remove('resort-banner__toggle-chevron--up');
+        chevron.classList.add('resort-banner__toggle-chevron--down');
+        var count = wrap.querySelectorAll('.room-card').length;
+        btn.innerHTML = '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--down">&#9650;</span> Show ' + count + ' room' + (count !== 1 ? 's' : '');
+    } else {
+        wrap.classList.remove('room-rail-wrap--collapsed');
+        wrap.classList.add('room-rail-wrap--expanded');
+        chevron = btn.querySelector('.resort-banner__toggle-chevron');
+        chevron.classList.remove('resort-banner__toggle-chevron--down');
+        chevron.classList.add('resort-banner__toggle-chevron--up');
+        btn.innerHTML = '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--up">&#9650;</span> Hide rooms';
+    }
+}
+
 function backToTrips() { state.currentTripView = null; renderFavoritesPage(); }
 
 function addResortToFavorites(tripId, infoJson) {
