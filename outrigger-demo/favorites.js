@@ -949,6 +949,7 @@ style.textContent = `:root {
         /* Destination header */
         .fav-dest-header {
             display: flex; justify-content: space-between; align-items: baseline;
+            border-bottom: 2px solid var(--clr-primary); padding-bottom: 10px;
             margin-bottom: 20px;
         }
         .fav-dest-header__name {
@@ -2074,7 +2075,7 @@ function renderTripDetail(el) {
 
         /* ---- Offers section — separate gold accent area ---- */
         if (offerItems.length > 0) {
-            html += '<div class="offers-section-header"><div class="offers-section-header__name">Saved Offers</div></div>';
+            html += '<div class="offers-section-header"><div class="offers-section-header__name">Offers</div></div>';
             html += '<div class="offers-grid">';
             offerItems.forEach(function(offer) {
                 var offerUrl = offer.offerUrl || '#';
