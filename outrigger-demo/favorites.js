@@ -1028,6 +1028,8 @@ style.textContent = `:root {
         }
 `;
 document.head.appendChild(style);
+// Hide the blue rooms carousel hero on rooms.html
+var roomsSlider = document.querySelector(".room-and-suites-slider.card-slider"); if (roomsSlider) roomsSlider.style.display = "none";
 
 // ── Inject modal HTML ───────────────────────────────────────────
 var wrapper = document.createElement("div");
