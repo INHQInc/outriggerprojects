@@ -1210,6 +1210,83 @@ style.textContent = `:root {
             flex: 0 0 auto !important;
             scroll-snap-align: start;
         }
+
+        /* ============================================
+           MOBILE RESPONSIVE — Collection Detail
+           ============================================ */
+        @media (max-width: 768px) {
+            /* Back link */
+            .trip-detail__back {
+                margin: 20px 0 16px; font-size: 14px; padding-left: 20px;
+            }
+            .trip-detail__back::before { width: 14px; height: 14px; }
+
+            /* Header — stack name and actions vertically */
+            .trip-detail__header {
+                flex-direction: column; gap: 16px;
+                margin-bottom: 20px; padding-bottom: 16px;
+            }
+            .trip-detail__name { font-size: 28px; }
+            .trip-detail__count { font-size: 15px; }
+            .trip-detail__actions { width: 100%; }
+            .trip-detail__action { flex: 1; text-align: center; padding: 10px 14px; font-size: 13px; }
+
+            /* Destination header */
+            .fav-dest-header { flex-direction: column; gap: 4px; align-items: flex-start; }
+
+            /* Resort banner — stack vertically */
+            .resort-banner {
+                flex-direction: column; min-height: auto;
+            }
+            .resort-banner__img {
+                width: 100%; height: 200px; flex-shrink: unset;
+            }
+            .resort-banner__info { padding: 16px; }
+            .resort-banner__name { font-size: 20px; }
+            .resort-banner__desc { font-size: 14px; }
+            .resort-banner__ctas { flex-wrap: wrap; }
+            .resort-banner__cta-primary,
+            .resort-banner__cta-secondary { padding: 12px; font-size: 14px; flex: 1; text-align: center; }
+
+            /* Room rail — reduce indent */
+            .room-rail {
+                margin-left: 12px; padding-left: 16px;
+            }
+            .room-rail__grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Room cards */
+            .room-card__img-wrap img { height: 160px; }
+            .room-card__name { font-size: 17px; }
+            .room-card__desc { font-size: 13px; }
+
+            /* Offers grid — single column */
+            .offers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Fav page listing */
+            .fav-page__grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Modal */
+            .modal-card { padding: 24px 20px; margin: 0 16px; }
+            .modal-card h2 { font-size: 24px; }
+            .modal-card input[type="email"] { width: 100%; }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            /* Tablet — 2 columns for room and offer grids */
+            .room-rail__grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .offers-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .resort-banner__img { width: 250px; }
+        }
 `;
 document.head.appendChild(style);
 
