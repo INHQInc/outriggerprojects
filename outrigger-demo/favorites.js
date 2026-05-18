@@ -1982,8 +1982,8 @@ function syncUI() {
         // Also fix overflow on parent containers up the chain
         var p = tpBtn.parentElement;
         while (p && p !== document.body) {
-            var ov = getComputedStyle(p).overflow;
-            if (ov === 'hidden') { p.style.overflow = 'visible'; }
+            var cs = getComputedStyle(p);
+            if (cs.overflow === 'hidden' || cs.overflowX === 'hidden' || cs.overflowY === 'hidden' || cs.overflow.includes('hidden')) { p.style.overflow = 'visible'; }
             p = p.parentElement;
         }
         var b = document.createElement('span');
