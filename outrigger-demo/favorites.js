@@ -1118,7 +1118,9 @@ style.textContent = `:root {
             background: none; border: none; cursor: pointer; padding: 0;
             margin-top: 0;
         }
-        .resort-banner__toggle:hover { text-decoration: underline; }
+        .resort-banner__toggle:hover { text-decoration: none; }
+        .resort-banner__toggle:hover .resort-banner__toggle-text { text-decoration: underline; }
+        .resort-banner__toggle { margin-bottom: 16px; }
         .resort-banner__toggle-chevron {
             display: inline-block; font-size: 12px; transition: transform 0.2s;
         }
@@ -1131,7 +1133,14 @@ style.textContent = `:root {
         .room-rail-wrap--collapsed { max-height: 0; opacity: 0; }
 
         /* Fix mobile horizontal overflow */
-        .fav-page, .trip-detail-view { overflow-x: hidden; max-width: 100vw; box-sizing: border-box; }
+        html, body { overflow-x: hidden !important; max-width: 100vw !important; }
+        .fav-page { overflow-x: hidden !important; max-width: 100vw; box-sizing: border-box; }
+        .resort-banner, .room-rail, .room-rail-wrap, .room-rail__grid, .room-card, .offers-grid,
+        .fav-dest-header, .trip-detail__header, .trip-detail__actions { max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
+        .resort-banner__ctas { flex-wrap: wrap; }
+        .resort-banner__info { min-width: 0; word-wrap: break-word; overflow: hidden; }
+        .resort-banner__name { word-wrap: break-word; overflow-wrap: break-word; }
+        .fav-page img { max-width: 100%; }
 
         /* Header badge — iOS-style red notification dot */
         .header-fav-badge {
@@ -2034,7 +2043,7 @@ function renderTripDetail(el) {
                     html += '<div class="room-rail">';
                     html += '<button class="resort-banner__toggle" onclick="toggleRooms(\'' + railId + '\', this, ' + roomCount + ')">';
                     html += '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--up">&#9650;</span>';
-                    html += ' Hide Rooms (' + roomCount + ')</button>';
+                    html += ' <span class="resort-banner__toggle-text">Hide Rooms (' + roomCount + ')</span></button>';
                     html += '<div id="' + railId + '" class="room-rail-wrap room-rail-wrap--expanded">';
                     html += '<div class="room-rail__grid">';
                     rg.rooms.forEach(function(room) {
@@ -2099,11 +2108,11 @@ function toggleRooms(railId, btn, count) {
     if (isExpanded) {
         wrap.classList.remove('room-rail-wrap--expanded');
         wrap.classList.add('room-rail-wrap--collapsed');
-        btn.innerHTML = '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--down">&#9650;</span> Show Rooms (' + count + ')';
+        btn.innerHTML = '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--down">&#9650;</span> <span class="resort-banner__toggle-text">Show Rooms (' + count + ')</span>';
     } else {
         wrap.classList.remove('room-rail-wrap--collapsed');
         wrap.classList.add('room-rail-wrap--expanded');
-        btn.innerHTML = '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--up">&#9650;</span> Hide Rooms (' + count + ')';
+        btn.innerHTML = '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--up">&#9650;</span> <span class="resort-banner__toggle-text">Hide Rooms (' + count + ')</span>';
     }
 }
 
