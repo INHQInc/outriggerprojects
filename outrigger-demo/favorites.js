@@ -436,11 +436,19 @@ style.textContent = `:root {
 
         /* Trip detail view */
         .trip-detail__back {
-            display: inline-flex; align-items: center; gap: 6px;
-            font-family: var(--ff-body);
-            font-size: 13px; color: var(--clr-primary); cursor: pointer; background: none;
-            border: none; margin-bottom: 20px; padding: 0;
-            text-transform: uppercase; letter-spacing: 1px;
+            display: inline-block; position: relative;
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
+            font-size: 16px; line-height: 16px; color: rgb(0, 120, 205);
+            cursor: pointer; background: none;
+            border: none; margin: 40px 0 32px; padding: 0 0 0 24px;
+            text-transform: none; letter-spacing: normal; text-decoration: none;
+        }
+        .trip-detail__back::before {
+            content: ''; position: absolute; left: 0; top: 0;
+            width: 16px; height: 16px; display: block;
+            background-image: url('https://www.outrigger.com/dist/images/right-arrow.png');
+            background-position: 100% 50%; background-size: auto;
+            transform: rotate(180deg);
         }
         .trip-detail__back:hover { text-decoration: underline; }
         .trip-detail__header {
@@ -1027,6 +1035,7 @@ style.textContent = `:root {
         .room-card {
             background: var(--clr-bg-card); border: 1px solid var(--clr-border);
             border-radius: 10px; overflow: hidden; transition: box-shadow 0.2s;
+            display: flex; flex-direction: column;
         }
         .room-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
         .room-card__img-wrap { position: relative; overflow: hidden; }
@@ -1038,7 +1047,7 @@ style.textContent = `:root {
             font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px;
             padding: 2px 7px; font-family: var(--ff-body-bold);
         }
-        .room-card__body { padding: 12px 14px 14px; }
+        .room-card__body { padding: 12px 14px 14px; display: flex; flex-direction: column; flex: 1; }
         .room-card__name {
             font-family: 'DuplicateSans-Medium', system-ui, sans-serif; font-size: 20px;
             color: rgb(37, 37, 37); margin-bottom: 12px; line-height: 1.25;
@@ -1047,7 +1056,7 @@ style.textContent = `:root {
             font-family: 'DuplicateSans-Regular', system-ui, sans-serif; font-size: 14px;
             color: rgb(100, 100, 100); line-height: 1.5; margin-bottom: 12px;
         }
-        .room-card__cta { display: flex; gap: 10px; align-items: center; }
+        .room-card__cta { display: flex; gap: 10px; align-items: center; margin-top: auto; }
 
         /* Image slider dots — match outrigger.com swiper pagination */
         .img-slider-dots {
@@ -1748,7 +1757,7 @@ function renderTripDetail(el) {
     const trip = state.trips.find(t => t.id === state.currentTripView);
     if (!trip) { state.currentTripView = null; renderTripsGrid(el); return; }
     let html = '<div class="fav-page">';
-    html += '<button class="trip-detail__back" onclick="backToTrips()">&larr; Back to all collections</button>';
+    html += '<button class="trip-detail__back" onclick="backToTrips()">Back to all collections</button>';
     html += '<div class="trip-detail__header"><div><h1 class="trip-detail__name">' + trip.name + '</h1><div class="trip-detail__count">' + trip.items.length + ' saved items</div></div>';
     html += '<div class="trip-detail__actions"><button class="trip-detail__action" onclick="renameTrip(\'' + trip.id + '\')">Rename</button><button class="trip-detail__action danger" onclick="deleteTrip(\'' + trip.id + '\')">Delete collection</button></div></div>';
 
