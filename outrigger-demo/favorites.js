@@ -369,7 +369,7 @@ style.textContent = `:root {
             font-size: 44px; line-height: 1.1; color: var(--clr-text); margin: 0;
         }
         .fav-page__subtitle {
-            font-family: var(--ff-body);
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
             font-size: 12px; color: var(--clr-text-faint); margin-top: 6px;
             text-transform: uppercase; letter-spacing: 1px;
         }
@@ -405,8 +405,8 @@ style.textContent = `:root {
             font-size: 18px; line-height: 1.3; color: var(--clr-text); margin-bottom: 4px;
         }
         .trip-card__meta {
-            font-family: var(--ff-body);
-            font-size: 13px; color: var(--clr-text-faint);
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            font-size: 16px; font-weight: 500; color: rgb(0, 0, 0);
         }
         .trip-card__actions {
             display: flex; gap: 8px; margin-top: 12px;
@@ -414,7 +414,7 @@ style.textContent = `:root {
         .trip-card__action-btn {
             font-size: 12px; color: var(--clr-text-muted); background: none;
             border: 1px solid var(--clr-border-med);
-            padding: 5px 12px; border-radius: 0; cursor: pointer; font-family: var(--ff-body);
+            padding: 5px 12px; border-radius: 0; cursor: pointer; font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
             transition: background 0.15s;
         }
         .trip-card__action-btn:hover { background: #f5f3ee; border-color: #bbb; }
@@ -430,7 +430,7 @@ style.textContent = `:root {
         .trip-card--create:hover { border-color: var(--clr-primary-dark); background: rgba(255,255,255,0.5); }
         .trip-card--create svg { width: 40px; height: 40px; color: #999; margin-bottom: 12px; }
         .trip-card--create span {
-            font-family: var(--ff-body);
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
             font-size: 15px; color: var(--clr-text-muted);
         }
 
@@ -462,7 +462,6 @@ style.textContent = `:root {
         .trip-detail__count {
             font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
             font-size: 18px; font-weight: 500; color: rgb(0, 0, 0); margin-top: 6px;
-            text-transform: uppercase; letter-spacing: 0.8px;
         }
         .trip-detail__actions { display: flex; gap: 8px; align-items: center; }
         .trip-detail__action {
@@ -509,9 +508,9 @@ style.textContent = `:root {
             font-size: 18px; line-height: 1.3; color: var(--clr-text); margin-bottom: 4px;
         }
         .fav-item-card__subtitle {
-            font-family: var(--ff-body);
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
             font-size: 12px; color: var(--clr-text-faint); margin-bottom: 14px;
-            text-transform: uppercase; letter-spacing: 0.8px;
+            
         }
         .fav-item-card__cta {
             display: flex; gap: 12px; align-items: center;
@@ -531,7 +530,7 @@ style.textContent = `:root {
         .fav-item-card__book:hover { background: var(--clr-text); color: #fff; }
         .fav-item-card__remove {
             font-size: 12px; color: var(--clr-text-faint); cursor: pointer; background: none;
-            border: none; font-family: var(--ff-body); padding: 0;
+            border: none; font-family: 'DuplicateSans-Regular', system-ui, sans-serif; padding: 0;
         }
         .fav-item-card__remove:hover { color: var(--clr-accent); text-decoration: underline; }
 
@@ -545,7 +544,7 @@ style.textContent = `:root {
             font-size: 26px; color: var(--clr-primary-dark); margin: 0 0 8px;
         }
         .trip-detail__empty p {
-            font-family: var(--ff-body);
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
             font-size: 14px; color: var(--clr-text-muted);
         }
 
@@ -601,7 +600,7 @@ style.textContent = `:root {
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .fav-tray__item-sub {
-            font-family: var(--ff-body);
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
             font-size: 11px; color: var(--clr-text-faint);
         }
         .fav-tray__item-remove {
@@ -669,7 +668,7 @@ style.textContent = `:root {
             font-size: 14px; color: #1a1a1a; font-weight: 600;
         }
         .fav-tray__collection-count {
-            font-family: var(--ff-body);
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
             font-size: 12px; color: var(--clr-text-faint);
         }
 
@@ -753,7 +752,7 @@ style.textContent = `:root {
             font-size: 14px; color: #1a1a1a;
         }
         .fav-tray__card-count {
-            font-family: var(--ff-body);
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
             font-size: 11px; color: var(--clr-text-faint); white-space: nowrap;
         }
         .fav-tray__card-arrow {
@@ -996,7 +995,7 @@ style.textContent = `:root {
             color: rgb(100, 100, 100); line-height: 1.5; margin-bottom: 12px;
         }
         .resort-banner__meta {
-            font-family: var(--ff-body); font-size: 13px;
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif; font-size: 13px;
             color: var(--clr-text-muted); margin-bottom: 16px;
         }
         .resort-banner__ctas { display: flex; gap: 10px; }
@@ -1128,7 +1127,7 @@ style.textContent = `:root {
             position: fixed; bottom: 64px; left: 50%; z-index: 20001;
             transform: translateX(-50%) translateY(80px); opacity: 0;
             background: var(--clr-text); color: #fff; padding: 10px 20px; border-radius: 0;
-            font-family: var(--ff-body); font-size: 13px;
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif; font-size: 13px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.3s ease;
             display: flex; align-items: center; gap: 8px; white-space: nowrap;
         }
@@ -1158,7 +1157,7 @@ style.textContent = `:root {
         }
         .create-collection-modal .create-row input[type="text"] {
             flex: 1; height: 42px; border: 1px solid #bbb; border-right: none;
-            padding: 0 12px; font-size: 13px; font-family: var(--ff-body);
+            padding: 0 12px; font-size: 13px; font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
             border-radius: 0; margin: 0;
         }
         .create-collection-modal .create-row input[type="text"]::placeholder {
@@ -1729,7 +1728,7 @@ function renderFavoritesPage() {
 function renderTripsGrid(el) {
     if (!el) { el = document.getElementById('favOverlayBody'); if (!el) return; }
     const totalItems = state.trips.reduce((s, t) => s + t.items.length, 0);
-    let html = '<div class="fav-page"><div class="fav-page__header"><div><h1 class="fav-page__title">My Favorites</h1><div class="fav-page__subtitle">' + state.trips.length + ' collection' + (state.trips.length !== 1 ? 's' : '') + ' &middot; ' + totalItems + ' saved items</div></div></div>';
+    let html = '<div class="fav-page"><div class="fav-page__header"><div><h1 class="fav-page__title">My Favorites</h1><div class="fav-page__subtitle">' + state.trips.length + ' collection' + (state.trips.length !== 1 ? 's' : '') + ' &middot; ' + totalItems + ' Saved Items</div></div></div>';
     html += '<div class="trips-grid">';
     state.trips.forEach(t => {
         const imgs = t.items.slice(0, 4);
@@ -1758,7 +1757,7 @@ function renderTripDetail(el) {
     if (!trip) { state.currentTripView = null; renderTripsGrid(el); return; }
     let html = '<div class="fav-page">';
     html += '<button class="trip-detail__back" onclick="backToTrips()">Back to all collections</button>';
-    html += '<div class="trip-detail__header"><div><h1 class="trip-detail__name">' + trip.name + '</h1><div class="trip-detail__count">' + trip.items.length + ' saved items</div></div>';
+    html += '<div class="trip-detail__header"><div><h1 class="trip-detail__name">' + trip.name + '</h1><div class="trip-detail__count">' + trip.items.length + ' Saved Items</div></div>';
     html += '<div class="trip-detail__actions"><button class="trip-detail__action" onclick="renameTrip(\'' + trip.id + '\')">Rename</button><button class="trip-detail__action danger" onclick="deleteTrip(\'' + trip.id + '\')">Delete collection</button></div></div>';
 
     if (trip.items.length === 0) {
