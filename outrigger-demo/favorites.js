@@ -453,15 +453,15 @@ style.textContent = `:root {
         .trip-detail__back:hover { text-decoration: underline; }
         .trip-detail__header {
             display: flex; align-items: flex-start; justify-content: space-between;
-            margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--clr-border);
+            margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid rgb(205, 195, 179);
         }
         .trip-detail__name {
             font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
             font-size: 40px; color: var(--clr-text); margin: 0; line-height: 1.1;
         }
         .trip-detail__count {
-            font-family: var(--ff-body);
-            font-size: 13px; color: var(--clr-text-faint); margin-top: 6px;
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
+            font-size: 18px; font-weight: 500; color: rgb(0, 0, 0); margin-top: 6px;
             text-transform: uppercase; letter-spacing: 0.8px;
         }
         .trip-detail__actions { display: flex; gap: 8px; align-items: center; }
@@ -956,7 +956,7 @@ style.textContent = `:root {
             font-family: 'DuplicateIonic-Medium', Georgia, serif; font-size: 24px; color: var(--clr-primary);
         }
         .fav-dest-header__count {
-            font-family: var(--ff-body); font-size: 13px; color: var(--clr-text-faint);
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif; font-size: 16px; font-weight: 500; color: rgb(0, 0, 0);
         }
 
         /* Resort banner card — full-width horizontal layout */
@@ -1018,7 +1018,7 @@ style.textContent = `:root {
 
         /* Room rail — left border connecting rooms to resort */
         .room-rail {
-            border-left: 1px solid var(--clr-primary);
+            border-left: 1px solid rgb(205, 195, 179);
             margin-left: 24px; padding-left: 28px;
             padding-top: 16px; padding-bottom: 4px;
             margin-bottom: 28px;
