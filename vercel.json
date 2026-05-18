@@ -2,5 +2,8 @@
   "outputDirectory": "public",
   "buildCommand": "bash build.sh",
   "installCommand": "",
-  "framework": null
+  "framework": null,
+  "redirects": [
+    { "source": "/", "destination": "/demo/", "permanent": false }
+  ]
 }
