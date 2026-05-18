@@ -446,14 +446,14 @@ style.textContent = `:root {
         }
         .trip-detail__actions { display: flex; gap: 8px; align-items: center; }
         .trip-detail__action {
-            padding: 10px 20px; font-size: 13px;
-            border: 2px solid #000;
+            padding: 16px; font-size: 16px;
+            border: 1px solid rgb(37, 37, 37);
             background: transparent; cursor: pointer; border-radius: 0;
-            font-family: 'DuplicateSans-Medium', system-ui, sans-serif; color: #000;
-            text-transform: uppercase; letter-spacing: 1px;
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif; color: rgb(37, 37, 37);
+            text-transform: none; letter-spacing: normal;
             transition: background 0.2s, color 0.2s;
         }
-        .trip-detail__action:hover { background: #000; color: #fff; }
+        .trip-detail__action:hover { background: var(--clr-primary); color: #fff; border-color: var(--clr-primary); }
         .trip-detail__action.danger { color: var(--clr-accent); border-color: var(--clr-accent); }
         .trip-detail__action.danger:hover { background: var(--clr-accent); color: #fff; }
 
@@ -949,7 +949,7 @@ style.textContent = `:root {
             transition: box-shadow 0.2s;
         }
         .resort-banner:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-        .resort-banner--favorited { border-color: #b8e0dc; }
+        .resort-banner--favorited { border-color: var(--clr-border); }
         .resort-banner--unfavorited { border-color: var(--clr-border); }
         .resort-banner__img {
             width: 300px; flex-shrink: 0; position: relative; overflow: hidden;
@@ -963,13 +963,13 @@ style.textContent = `:root {
             display: flex; flex-direction: column; justify-content: center;
         }
         .resort-banner__eyebrow {
-            font-family: 'DuplicateIonic-Black', Georgia, serif; font-size: 12px;
-            letter-spacing: 3px; text-transform: uppercase;
-            color: #8B6F47; margin-bottom: 6px;
+            font-family: 'DuplicateIonic-Black', Georgia, serif; font-size: 14px;
+            letter-spacing: 4px; text-transform: uppercase;
+            color: var(--clr-primary); margin-bottom: 6px;
         }
         .resort-banner__name {
-            font-family: 'DuplicateIonic-Medium', Georgia, serif; font-size: 22px;
-            color: var(--clr-text); margin: 0 0 4px; line-height: 1.2;
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif; font-size: 24px;
+            color: rgb(37, 37, 37); margin: 0 0 4px; line-height: 1.25;
         }
         .resort-banner__meta {
             font-family: var(--ff-body); font-size: 13px;
@@ -977,31 +977,31 @@ style.textContent = `:root {
         }
         .resort-banner__ctas { display: flex; gap: 10px; }
         .resort-banner__cta-primary {
-            display: inline-block; background: transparent; color: #000;
-            border: 2px solid #000; padding: 12px 18px;
-            font-family: 'DuplicateSans-Medium', system-ui, sans-serif; font-size: 14px;
-            letter-spacing: 1px; text-transform: uppercase; text-decoration: none;
+            display: inline-block; background: transparent; color: rgb(37, 37, 37);
+            border: 1px solid rgb(37, 37, 37); padding: 16px;
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif; font-size: 16px;
+            letter-spacing: normal; text-transform: none; text-decoration: none;
             cursor: pointer; transition: background 0.2s, color 0.2s;
         }
-        .resort-banner__cta-primary:hover { background: #000; color: #fff; }
+        .resort-banner__cta-primary:hover { background: var(--clr-primary); color: #fff; border-color: var(--clr-primary); }
         .resort-banner__cta-secondary {
-            display: inline-block; border: 2px solid #000; color: #000;
-            padding: 12px 18px; font-family: 'DuplicateSans-Medium', system-ui, sans-serif; font-size: 14px;
-            letter-spacing: 1px; text-transform: uppercase; text-decoration: none;
+            display: inline-block; border: 1px solid rgb(37, 37, 37); color: rgb(37, 37, 37);
+            padding: 16px; font-family: 'DuplicateSans-Medium', system-ui, sans-serif; font-size: 16px;
+            letter-spacing: normal; text-transform: none; text-decoration: none;
             background: transparent; cursor: pointer; transition: background 0.2s, color 0.2s;
         }
-        .resort-banner__cta-secondary:hover { background: #000; color: #fff; }
+        .resort-banner__cta-secondary:hover { background: var(--clr-primary); color: #fff; border-color: var(--clr-primary); }
 
         /* Room rail — left border connecting rooms to resort */
         .room-rail {
-            border-left: 2px solid #b8e0dc;
+            border-left: 2px solid var(--clr-border);
             margin-left: 20px; padding-left: 24px;
             padding-top: 16px; padding-bottom: 4px;
             margin-bottom: 28px;
         }
         .room-rail__label {
-            font-family: 'DuplicateIonic-Black', Georgia, serif; font-size: 12px;
-            letter-spacing: 3px; text-transform: uppercase;
+            font-family: 'DuplicateIonic-Black', Georgia, serif; font-size: 14px;
+            letter-spacing: 4px; text-transform: uppercase;
             color: var(--clr-text-faint); margin-bottom: 12px;
         }
         .room-rail__grid {
@@ -1024,26 +1024,52 @@ style.textContent = `:root {
         }
         .room-card__body { padding: 12px 14px 14px; }
         .room-card__name {
-            font-family: 'DuplicateSans-Regular', system-ui, sans-serif; font-size: 14px;
-            color: var(--clr-text); margin-bottom: 10px; line-height: 1.3;
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif; font-size: 20px;
+            color: rgb(37, 37, 37); margin-bottom: 12px; line-height: 1.25;
         }
         .room-card__cta { display: flex; gap: 10px; align-items: center; }
+
+        /* Image slider dots — match outrigger.com swiper pagination */
+        .img-slider-dots {
+            position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 6px; z-index: 2;
+        }
+        .img-slider-dots__dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: rgba(255,255,255,0.5); border: none; padding: 0; cursor: pointer;
+            transition: background 0.2s;
+        }
+        .img-slider-dots__dot.active { background: #fff; }
+
+        /* Slider arrows */
+        .img-slider-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            z-index: 2; width: 28px; height: 28px; border-radius: 50%;
+            background: rgba(255,255,255,0.85); border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; color: rgb(37, 37, 37); opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .room-card:hover .img-slider-arrow,
+        .resort-banner:hover .img-slider-arrow { opacity: 1; }
+        .img-slider-arrow--prev { left: 8px; }
+        .img-slider-arrow--next { right: 8px; }
 
         /* Offers section header */
         .offers-section-header {
             display: flex; justify-content: space-between; align-items: baseline;
-            border-bottom: 2px solid #8B6F47; padding-bottom: 10px;
+            border-bottom: 2px solid var(--clr-primary); padding-bottom: 10px;
             margin-bottom: 16px; margin-top: 20px;
         }
         .offers-section-header__name {
-            font-family: var(--ff-display-bold); font-size: 20px; color: #8B6F47;
+            font-family: var(--ff-display-bold); font-size: 20px; color: var(--clr-primary);
         }
         .offers-section-header__count {
             font-family: var(--ff-body); font-size: 13px; color: var(--clr-text-faint);
         }
         .offer-card__type {
             position: absolute; top: 6px; left: 6px;
-            background: rgba(139,111,71,0.85); color: #fff;
+            background: rgba(15,74,90,0.85); color: #fff;
             font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px;
             padding: 2px 7px; font-family: var(--ff-body-bold);
         }
@@ -1811,12 +1837,11 @@ function renderTripDetail(el) {
                 }
                 html += '</div>';
                 html += '<div class="resort-banner__info">';
-                html += '<div class="resort-banner__eyebrow">' + (isFavorited ? 'Saved Resort' : 'Resort') + '</div>';
                 html += '<div class="resort-banner__name">' + resortName + '</div>';
                 html += '<div class="resort-banner__meta">' + roomCount + ' room' + (roomCount !== 1 ? 's' : '') + ' saved</div>';
                 html += '<div class="resort-banner__ctas">';
-                html += '<a href="' + resortUrl + '" target="_blank" class="resort-banner__cta-primary">View Resort</a>';
-                html += '<a href="' + resortUrl + '" target="_blank" class="resort-banner__cta-secondary">Book Now</a>';
+                html += '<a href="' + resortUrl + '" target="_blank" class="resort-banner__cta-primary">Check Availability</a>';
+                html += '<a href="' + resortUrl + '" target="_blank" class="resort-banner__cta-secondary">View Resort</a>';
                 html += '</div>';
                 html += '</div></div>';
 
@@ -1830,13 +1855,15 @@ function renderTripDetail(el) {
                         html += '<div class="room-card">';
                         html += '<div class="room-card__img-wrap">';
                         html += '<img src="' + room.img + '" alt="">';
-                        html += '<span class="room-card__type">Room</span>';
+                        html += '<div class="img-slider-dots"><span class="img-slider-dots__dot active"></span><span class="img-slider-dots__dot"></span><span class="img-slider-dots__dot"></span><span class="img-slider-dots__dot"></span><span class="img-slider-dots__dot"></span></div>';
+                        html += '<button class="img-slider-arrow img-slider-arrow--prev">&#8249;</button>';
+                        html += '<button class="img-slider-arrow img-slider-arrow--next">&#8250;</button>';
                         html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + room.id + '\')">' + heartSVG + '</button>';
                         html += '</div>';
                         html += '<div class="room-card__body">';
                         html += '<div class="room-card__name">' + room.name + '</div>';
                         html += '<div class="room-card__cta">';
-                        html += '<a href="' + roomUrl + '" target="_blank" class="resort-banner__cta-primary" style="font-size:11px;padding:7px 14px;">View Room</a>';
+                        html += '<a href="' + roomUrl + '" target="_blank" class="resort-banner__cta-primary" style="font-size:14px;padding:12px 16px;">Check Availability</a>';
                         html += '<button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + room.id + '\')">Remove</button>';
                         html += '</div></div></div>';
                     });
@@ -1863,7 +1890,7 @@ function renderTripDetail(el) {
                 html += '<div class="room-card__body">';
                 html += '<div class="room-card__name">' + offer.name + '</div>';
                 html += '<div class="room-card__cta">';
-                html += '<a href="' + offerUrl + '" target="_blank" class="resort-banner__cta-primary" style="font-size:11px;padding:7px 14px;background:#8B6F47;border-color:#8B6F47;">View Offer</a>';
+                html += '<a href="' + offerUrl + '" target="_blank" class="resort-banner__cta-primary" style="font-size:14px;padding:12px 16px;">View Offer</a>';
                 html += '<button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + offer.id + '\')">Remove</button>';
                 html += '</div></div></div>';
             });
