@@ -2030,7 +2030,7 @@ function renderTripDetail(el) {
                 html += '<div class="resort-banner__name">' + resortName + '</div>';
                 var resortDesc = (rg.resortItem && rg.resortItem.desc) || resortDescMap[resortName] || '';
                 if (resortDesc) html += '<div class="resort-banner__desc">' + resortDesc + '</div>';
-                html += '<div class="resort-banner__meta">' + roomCount + ' room' + (roomCount !== 1 ? 's' : '') + ' saved</div>';
+                /* room count removed — now shown in the toggle */
                 html += '<div class="resort-banner__ctas">';
                 html += '<a href="' + resortUrl + '" target="_blank" class="resort-banner__cta-primary">Check Availability</a>';
                 html += '<a href="' + resortUrl + '" target="_blank" class="resort-banner__cta-secondary">View Resort</a>';
