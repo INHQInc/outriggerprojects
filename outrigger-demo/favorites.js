@@ -2032,12 +2032,9 @@ function renderTripDetail(el) {
                 if (roomCount > 0) {
                     var railId = 'room-rail-' + resortName.replace(/[^a-zA-Z0-9]/g, '-');
                     html += '<div class="room-rail">';
-                    html += '<div class="room-rail__header">';
-                    html += '<div class="room-rail__label">Rooms (' + roomCount + ')</div>';
-                    html += '<button class="resort-banner__toggle" onclick="toggleRooms(\'' + railId + '\', this)">';
+                    html += '<button class="resort-banner__toggle" onclick="toggleRooms(\'' + railId + '\', this, ' + roomCount + ')">';
                     html += '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--up">&#9650;</span>';
-                    html += ' Hide rooms</button>';
-                    html += '</div>';
+                    html += ' Hide Rooms (' + roomCount + ')</button>';
                     html += '<div id="' + railId + '" class="room-rail-wrap room-rail-wrap--expanded">';
                     html += '<div class="room-rail__grid">';
                     rg.rooms.forEach(function(room) {
@@ -2095,25 +2092,18 @@ function renderTripDetail(el) {
 }
 
 function viewTrip(id) { state.currentTripView = id; renderFavoritesPage(); }
-function toggleRooms(railId, btn) {
+function toggleRooms(railId, btn, count) {
     var wrap = document.getElementById(railId);
     if (!wrap) return;
     var isExpanded = wrap.classList.contains('room-rail-wrap--expanded');
-    var chevron = btn.querySelector('.resort-banner__toggle-chevron');
     if (isExpanded) {
         wrap.classList.remove('room-rail-wrap--expanded');
         wrap.classList.add('room-rail-wrap--collapsed');
-        chevron.classList.remove('resort-banner__toggle-chevron--up');
-        chevron.classList.add('resort-banner__toggle-chevron--down');
-        var count = wrap.querySelectorAll('.room-card').length;
-        btn.innerHTML = '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--down">&#9650;</span> Show ' + count + ' room' + (count !== 1 ? 's' : '');
+        btn.innerHTML = '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--down">&#9650;</span> Show Rooms (' + count + ')';
     } else {
         wrap.classList.remove('room-rail-wrap--collapsed');
         wrap.classList.add('room-rail-wrap--expanded');
-        chevron = btn.querySelector('.resort-banner__toggle-chevron');
-        chevron.classList.remove('resort-banner__toggle-chevron--down');
-        chevron.classList.add('resort-banner__toggle-chevron--up');
-        btn.innerHTML = '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--up">&#9650;</span> Hide rooms';
+        btn.innerHTML = '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--up">&#9650;</span> Hide Rooms (' + count + ')';
     }
 }
 
