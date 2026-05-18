@@ -127,8 +127,8 @@
 
                 <!-- Center: Logo -->
                 <div class="col-sm-8 col-md-4 col-lg-4 text-center">
-                    <a href="https://www.outrigger.com/" class="header-logo-dark-bg"><img class="header-logo" src="/cdn/globalassets/outrigger/images/logo/outrigger-logo-only-white.svg" alt="outrigger logo only white"></a>
-                    <a href="https://www.outrigger.com/" class="header-logo-light-bg"><img class="header-logo" src="/cdn/globalassets/outrigger/images/logo/outrigger-logo-only-sig-blue-rgb.svg" alt="outrigger logo only sig blue rgb"></a>
+                    <a href="/demo/" class="header-logo-dark-bg"><img class="header-logo" src="/cdn/globalassets/outrigger/images/logo/outrigger-logo-only-white.svg" alt="outrigger logo only white"></a>
+                    <a href="/demo/" class="header-logo-light-bg"><img class="header-logo" src="/cdn/globalassets/outrigger/images/logo/outrigger-logo-only-sig-blue-rgb.svg" alt="outrigger logo only sig blue rgb"></a>
                 </div>
 
                 <!--Book Now -->
@@ -350,7 +350,7 @@
                 <path d="M3.62846 3.62854L22.8775 22.8776" stroke="white" stroke-width="2" stroke-linecap="square"></path>
             </svg>
         </button>
-        <a href="https://www.outrigger.com/" class="header-logo-dark-bg" tabindex="-1"><img class="header-logo" src="/cdn/globalassets/outrigger/images/logo/outrigger-logo-only-white.svg" alt="outrigger logo only white"></a>
+        <a href="/demo/" class="header-logo-dark-bg" tabindex="-1"><img class="header-logo" src="/cdn/globalassets/outrigger/images/logo/outrigger-logo-only-white.svg" alt="outrigger logo only white"></a>
 
     </div>
     <div class="offcanvas-body"><div class="ou-stack"><div class="ou-col ou-col-lvl-1" data-level="1"><div class="oc-menu"><ul><li><button type="button" class="oc-btn js-open-children" data-tag-item="nav_link_select" tabindex="-1" aria-expanded="false"><span>Resorts &amp; Hotels</span><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14" fill="none"><path d="M1 1L7 7L1 13" stroke="#fff" stroke-width="1.5"></path></svg></button></li><li><button type="button" class="oc-btn js-open-children" data-tag-item="nav_link_select" tabindex="-1" aria-expanded="false"><span>Offers</span><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14" fill="none"><path d="M1 1L7 7L1 13" stroke="#fff" stroke-width="1.5"></path></svg></button></li><li><button type="button" class="oc-btn js-open-children" data-tag-item="nav_link_select" tabindex="-1" aria-expanded="false"><span>DISCOVERY Loyalty</span><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14" fill="none"><path d="M1 1L7 7L1 13" stroke="#fff" stroke-width="1.5"></path></svg></button></li></ul></div><div class="oc-menu-link"><ul><li><a class="oc-link" data-tag-item="nav_link_select" href="https://www.outrigger.com/landing-pages/premier-suite-collection" target="_self" tabindex="-1">Premier Suite Collection</a></li><li><a class="oc-link" data-tag-item="nav_link_select" href="https://inte.hawaiivacationcondos.outrigger.com/" target="_self" tabindex="-1">Vacation Rentals</a></li><li><a class="oc-link" data-tag-item="nav_link_select" href="https://www.outrigger.com/meetings-and-groups" target="_self" tabindex="-1">Meetings &amp; Groups</a></li><li><a class="oc-link" data-tag-item="nav_link_select" href="https://www.outrigger.com/weddings" target="_self" tabindex="-1">Weddings</a></li><li><a class="oc-link" data-tag-item="nav_link_select" href="https://www.outrigger.com/stories" target="_self" tabindex="-1">OUTRIGGER Stories</a></li><li><a class="oc-link" data-tag-item="nav_link_select" href="https://reservation.outrigger.com/signin?chain=18497&amp;level=chain&amp;locale=en-US" target="_self" tabindex="-1">Find My Reservation</a></li><li><a class="oc-link" data-tag-item="nav_link_select" href="https://wwws-usa2.givex.com/cws4.0/outrigger/" target="_self" tabindex="-1">Gift Cards</a></li><li><a class="oc-link" data-tag-item="nav_link_select" href="https://www.outrigger.com/search" target="_self" tabindex="-1">Search</a></li>
@@ -529,7 +529,7 @@
 
 <footer class="global-footer">
         <div class="footer-logo global-footer-inner">
-            <a href="https://www.outrigger.com/" data-tag-item="footer_logo_click"><img src="https://www.outrigger.com/globalassets/outrigger/images/logo/outrigger-logo-only-white.png" class="card-img-top" alt="outrigger-logo-only-white"></a>
+            <a href="/demo/" data-tag-item="footer_logo_click"><img src="https://www.outrigger.com/globalassets/outrigger/images/logo/outrigger-logo-only-white.png" class="card-img-top" alt="outrigger-logo-only-white"></a>
         </div>
     <div class="footer-list global-footer-inner">
 
@@ -877,6 +877,12 @@ if(a){a=a.getCampaignStates({isActive:!0});for(var d in a)g(d)}};k();h()},initOp
 document.addEventListener('DOMContentLoaded', function() {
     // Wait for favorites.js to init
     setTimeout(function() {
+        // Check for ?trip= parameter to open a specific collection
+        var params = new URLSearchParams(window.location.search);
+        var tripParam = params.get('trip');
+        if (tripParam && typeof state !== 'undefined') {
+            state.currentTripView = tripParam;
+        }
         var el = document.getElementById('view-favorites');
         if (el && typeof renderFavoritesPage === 'function') {
             renderFavoritesPage();

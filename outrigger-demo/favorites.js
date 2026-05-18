@@ -8,6 +8,9 @@
 // ── Hide blue rooms carousel hero on rooms.html ────────────────
 var roomsSlider = document.querySelector(".room-and-suites-slider.card-slider"); if (roomsSlider) roomsSlider.style.display = "none";
 
+// ── Rewrite logo links to point to /demo/ ────────────────
+document.querySelectorAll('a.header-logo-dark-bg, a.header-logo-light-bg').forEach(function(a) { a.href = '/demo/'; });
+
 // ── Inject CSS ──────────────────────────────────────────────────
 var style = document.createElement("style");
 style.textContent = `:root {
@@ -998,7 +1001,7 @@ style.textContent = `:root {
 
         /* Room rail — left border connecting rooms to resort */
         .room-rail {
-            border-left: 2px solid var(--clr-primary);
+            border-left: 1px solid var(--clr-primary);
             margin-left: 24px; padding-left: 28px;
             padding-top: 16px; padding-bottom: 4px;
             margin-bottom: 28px;
@@ -1348,14 +1351,18 @@ function injectHeartsOnCards() {
   });
 
   // Room cards (rooms page)
-  document.querySelectorAll(".card.loaded[data-room-id]").forEach(function(card) {
+  var pageResortName = "";
+  var h1El = document.querySelector("h1");
+  if (h1El) pageResortName = h1El.textContent.trim();
+  document.querySelectorAll(".card[data-room-id]").forEach(function(card) {
     if (card.querySelector(".favorite-btn")) return;
+    if (card.classList.contains("promo-card")) return;
     var slider = card.querySelector(".card-simplified-slider");
-    if (!slider) return;
+    if (!slider) { slider = card; }
     slider.style.position = "relative";
     var roomId = card.getAttribute("data-room-id") || "";
-    var roomName = card.getAttribute("room_type_name") || (card.querySelector("[room_type_name]") ? card.querySelector("[room_type_name]").getAttribute("room_type_name") : "") || roomId || "Room";
-    var resortName = card.getAttribute("property_name") || card.closest("[property_name]")?.getAttribute("property_name") || (card.querySelector("[property_name]") ? card.querySelector("[property_name]").getAttribute("property_name") : "") || "";
+    var roomName = card.getAttribute("room_type_name") || (card.querySelector("[room_type_name]") ? card.querySelector("[room_type_name]").getAttribute("room_type_name") : "") || card.getAttribute("data-room-id") || "Room";
+    var resortName = card.getAttribute("property_name") || card.closest("[property_name]")?.getAttribute("property_name") || (card.querySelector("[property_name]") ? card.querySelector("[property_name]").getAttribute("property_name") : "") || pageResortName || "";
     var img = card.querySelector(".carousel-item.active img, .carousel-item img, img");
     var imgSrc = img ? (img.getAttribute("data-local-src") || img.src) : "";
     var link = card.querySelector("a.card-title, a.card-view-property, a[href]");
@@ -1387,16 +1394,27 @@ function injectHeartsOnCards() {
     sl.style.position="relative";
     var roomId=rb.getAttribute("room_type_name")||"suite-"+(Math.random()*1e6|0);
     card.setAttribute("data-room-id",roomId);
+    var img=card.querySelector(".carousel-item.active img, .carousel-item img, img");
+    var imgSrc=img?(img.getAttribute("data-local-src")||img.src):"";
+    var descEl=card.querySelector(".card-text");
+    var desc=descEl?descEl.textContent.trim():"";
+    var link=card.querySelector("a.card-title, a[href]");
+    var url=link?link.href:"#";
     var btn=document.createElement("button");
     btn.className="favorite-btn";
-    btn.dataset.type="Room";
-    btn.dataset.id=roomId;
-    btn.dataset.roomId=roomId;
+    btn.setAttribute("data-id","room-"+roomId.replace(/[^a-z0-9]/gi,"-"));
+    btn.setAttribute("data-type","Room");
+    btn.setAttribute("data-name",roomId);
+    btn.setAttribute("data-sub",pageResortName||"");
+    btn.setAttribute("data-img",imgSrc);
+    btn.setAttribute("data-desc",desc);
+    btn.setAttribute("data-room-url",url);
+    btn.setAttribute("data-room-code",roomId);
+    btn.setAttribute("onclick","onHeartClick(this)");
     btn.innerHTML=heartSVG;
     var _st=JSON.parse(localStorage.getItem('outrigger_proto_state')||"{}");var trips=(_st.trips||[]);
-    var isFav=trips.some(function(t){return t.items&&t.items.some(function(it){return it.id===roomId;});});
+    var isFav=trips.some(function(t){return t.items&&t.items.some(function(it){return it.id==="room-"+roomId.replace(/[^a-z0-9]/gi,"-");});});
     if(isFav)btn.classList.add("is-favorited");
-    btn.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();handleFavoriteClick(btn);});
     sl.appendChild(btn);
   });
 
@@ -2088,7 +2106,7 @@ function renderTray() {
 
         /* Render each collection as a mini-card with thumbnail strip */
         visibleTrips.forEach(function(t) {
-            var onclick = "switchView('view-favorites');setTimeout(function(){viewTrip('" + t.id + "')},100);closeTray();";
+            var onclick = "openCollection('" + t.id + "');";
             html += '<div class="fav-tray__card" onclick="' + onclick + '">';
 
             /* Thumbnail strip — show up to 3 images */
@@ -2262,6 +2280,16 @@ function resetAll() {
 // ── Init on page load ───────────────────────────────────────────
 
 // ── Favorites Full Page (navigate to favorites.html) ──────────────────────
+function openCollection(tripId) {
+  closeTray();
+  if (window.location.pathname.indexOf('favorites.html') !== -1) {
+    state.currentTripView = tripId;
+    renderFavoritesPage();
+    return;
+  }
+  window.location.href = '/demo/favorites.html?trip=' + encodeURIComponent(tripId);
+}
+
 function showFavoritesOverlay() {
   // If we're already on favorites.html, just render in place
   if (window.location.pathname.indexOf('favorites.html') !== -1) {
