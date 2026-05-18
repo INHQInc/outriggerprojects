@@ -5,6 +5,9 @@
 // Injects: CSS, modal HTML, tray, toast, heart buttons, all logic
 // ═══════════════════════════════════════════════════════════════
 
+// ── Hide blue rooms carousel hero on rooms.html ────────────────
+var roomsSlider = document.querySelector(".room-and-suites-slider.card-slider"); if (roomsSlider) roomsSlider.style.display = "none";
+
 // ── Inject CSS ──────────────────────────────────────────────────
 var style = document.createElement("style");
 style.textContent = `:root {
@@ -923,6 +926,128 @@ style.textContent = `:root {
         .fav-item-card--resort-unfav { background: #fff; }
         .fav-item-card--resort-unfav .favorite-btn svg path { fill: none; stroke: #aaa; stroke-width: 1.5px; }
 
+        /* Destination header */
+        .fav-dest-header {
+            display: flex; justify-content: space-between; align-items: baseline;
+            margin-bottom: 20px;
+        }
+        .fav-dest-header__name {
+            font-family: var(--ff-display-bold); font-size: 20px; color: var(--clr-primary);
+        }
+        .fav-dest-header__count {
+            font-family: var(--ff-body); font-size: 13px; color: var(--clr-text-faint);
+        }
+
+        /* Resort banner card — full-width horizontal layout */
+        .resort-banner {
+            display: flex; min-height: 160px;
+            background: var(--clr-bg-card);
+            border: 1px solid var(--clr-border);
+            border-radius: 0; overflow: hidden;
+            margin-bottom: 0;
+            transition: box-shadow 0.2s;
+        }
+        .resort-banner:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .resort-banner--favorited { border-color: #b8e0dc; }
+        .resort-banner--unfavorited { border-color: var(--clr-border); }
+        .resort-banner__img {
+            width: 280px; flex-shrink: 0; position: relative; overflow: hidden;
+        }
+        .resort-banner__img img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+        .resort-banner__img .favorite-btn { top: 10px; right: 10px; }
+        .resort-banner__info {
+            flex: 1; padding: 24px 28px;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .resort-banner__eyebrow {
+            font-family: var(--ff-body-bold); font-size: 10px;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            color: #8B6F47; margin-bottom: 6px;
+        }
+        .resort-banner__name {
+            font-family: var(--ff-display); font-size: 22px;
+            color: var(--clr-text); margin: 0 0 4px; line-height: 1.2;
+        }
+        .resort-banner__meta {
+            font-family: var(--ff-body); font-size: 13px;
+            color: var(--clr-text-muted); margin-bottom: 16px;
+        }
+        .resort-banner__ctas { display: flex; gap: 10px; }
+        .resort-banner__cta-primary {
+            display: inline-block; background: var(--clr-primary); color: #fff;
+            border: 1px solid var(--clr-primary); padding: 9px 18px;
+            font-family: var(--ff-body-med); font-size: 12px;
+            letter-spacing: var(--btn-tracking); text-decoration: none;
+            cursor: pointer; transition: opacity 0.2s;
+        }
+        .resort-banner__cta-primary:hover { opacity: 0.85; }
+        .resort-banner__cta-secondary {
+            display: inline-block; border: var(--btn-border); color: var(--clr-text);
+            padding: 9px 18px; font-family: var(--ff-body-med); font-size: 12px;
+            letter-spacing: var(--btn-tracking); text-decoration: none;
+            background: transparent; cursor: pointer; transition: background 0.2s;
+        }
+        .resort-banner__cta-secondary:hover { background: var(--clr-bg-warm); }
+
+        /* Room rail — left border connecting rooms to resort */
+        .room-rail {
+            border-left: 2px solid #b8e0dc;
+            margin-left: 20px; padding-left: 24px;
+            padding-top: 16px; padding-bottom: 4px;
+            margin-bottom: 28px;
+        }
+        .room-rail__label {
+            font-family: var(--ff-body-bold); font-size: 11px;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--clr-text-faint); margin-bottom: 12px;
+        }
+        .room-rail__grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 14px;
+        }
+        .room-card {
+            background: var(--clr-bg-card); border: 1px solid var(--clr-border);
+            border-radius: 0; overflow: hidden; transition: box-shadow 0.2s;
+        }
+        .room-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+        .room-card__img-wrap { position: relative; overflow: hidden; }
+        .room-card__img-wrap img { width: 100%; height: 160px; object-fit: cover; display: block; }
+        .room-card__img-wrap .favorite-btn { top: 6px; right: 6px; }
+        .room-card__type {
+            position: absolute; top: 6px; left: 6px;
+            background: rgba(0,0,0,0.55); color: #fff;
+            font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px;
+            padding: 2px 7px; font-family: var(--ff-body-bold);
+        }
+        .room-card__body { padding: 12px 14px 14px; }
+        .room-card__name {
+            font-family: var(--ff-body-bold); font-size: 14px;
+            color: var(--clr-text); margin-bottom: 10px;
+        }
+        .room-card__cta { display: flex; gap: 10px; align-items: center; }
+
+        /* Offers section header */
+        .offers-section-header {
+            display: flex; justify-content: space-between; align-items: baseline;
+            border-bottom: 2px solid #8B6F47; padding-bottom: 10px;
+            margin-bottom: 16px; margin-top: 20px;
+        }
+        .offers-section-header__name {
+            font-family: var(--ff-display-bold); font-size: 20px; color: #8B6F47;
+        }
+        .offers-section-header__count {
+            font-family: var(--ff-body); font-size: 13px; color: var(--clr-text-faint);
+        }
+        .offer-card__type {
+            position: absolute; top: 6px; left: 6px;
+            background: rgba(139,111,71,0.85); color: #fff;
+            font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px;
+            padding: 2px 7px; font-family: var(--ff-body-bold);
+        }
+        .resort-banner__no-rooms { margin-bottom: 28px; }
+
         /* Header badge — iOS-style red notification dot */
         .header-fav-badge {
             position: absolute; top: -6px; right: -8px;
@@ -1028,8 +1153,6 @@ style.textContent = `:root {
         }
 `;
 document.head.appendChild(style);
-// Hide the blue rooms carousel hero on rooms.html
-var roomsSlider = document.querySelector(".room-and-suites-slider.card-slider"); if (roomsSlider) roomsSlider.style.display = "none";
 
 // ── Inject modal HTML ───────────────────────────────────────────
 var wrapper = document.createElement("div");
@@ -1654,7 +1777,7 @@ function renderTripDetail(el) {
             return h;
         };
 
-        /* Render destination groups */
+        /* ---- Render destination groups (banner + rail hierarchy) ---- */
         destOrder.forEach(function(dest) {
             var destData = destMap[dest];
             var totalItems = 0;
@@ -1664,53 +1787,86 @@ function renderTripDetail(el) {
                 totalItems += rg.rooms.length;
             });
 
-            html += '<div class="fav-resort-group">';
-            html += '<div class="fav-resort-group__header"><div class="fav-resort-group__name">' + dest + '</div>';
-            html += '<div class="fav-resort-group__header-right"><span class="fav-resort-group__count">' + totalItems + ' saved</span></div></div>';
+            /* Destination header */
+            html += '<div class="fav-dest-header"><div class="fav-dest-header__name">' + dest + '</div>';
+            html += '<div class="fav-dest-header__count">' + totalItems + ' saved</div></div>';
 
             destData.resortOrder.forEach(function(resortName) {
                 var rg = destData.resorts[resortName];
-                var resortUrl = (rg.resortItem && rg.resortItem.hotelUrl) || (rg.rooms.length > 0 ? rg.rooms[0].hotelUrl : null) || resortUrlsMap[resortName] || null;
+                var isFavorited = !!rg.resortItem;
+                var resortUrl = (rg.resortItem && rg.resortItem.hotelUrl) || (rg.rooms.length > 0 ? rg.rooms[0].hotelUrl : null) || resortUrlsMap[resortName] || '#';
+                var resortImg = (rg.resortItem && rg.resortItem.img) || resortImgMap[resortName] || (rg.rooms.length > 0 ? rg.rooms[0].img : '');
+                var roomCount = rg.rooms.length;
 
-                html += '<div class="fav-resort-subgroup">';
-                html += '<div class="fav-resort-subgroup__header"><div class="fav-resort-subgroup__name">' + resortName + '</div>';
-                if (resortUrl) {
-                    html += '<a href="' + resortUrl + '" target="_blank" class="fav-resort-group__view-link">View Resort &rsaquo;</a>';
-                }
-                html += '</div>';
-                /* Always render resort card — favorited (teal + filled heart) or not (white + outline) */
-                html += '<div class="fav-resort-standalone">';
-                if (rg.resortItem) {
-                    html += renderItemCard(rg.resortItem, trip.id, rg.resortItem.hotelUrl || resortUrl || '#');
+                /* Resort banner — full-width horizontal card */
+                html += '<div class="resort-banner ' + (isFavorited ? 'resort-banner--favorited' : 'resort-banner--unfavorited') + '">';
+                html += '<div class="resort-banner__img">';
+                if (resortImg) html += '<img src="' + resortImg + '" alt="">';
+                if (isFavorited) {
+                    html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + rg.resortItem.id + '\')">' + heartSVG + '</button>';
                 } else {
-                    var resortImg = resortImgMap[resortName] || (rg.rooms.length > 0 ? rg.rooms[0].img : '');
-                    var resortDest = resortToDestMap[resortName] || dest;
-                    html += renderUnfavoritedResortCard(resortName, resortImg, resortUrl || '#', trip.id, resortDest);
+                    var info = encodeURIComponent(JSON.stringify({ name: resortName, img: resortImg, url: resortUrl, dest: resortToDestMap[resortName] || dest }));
+                    html += '<button class="favorite-btn" title="Save resort" onclick="addResortToFavorites(\'' + trip.id + '\',\'' + info + '\')">' + heartSVG + '</button>';
                 }
                 html += '</div>';
-                if (rg.rooms.length > 0) {
-                    html += '<div class="fav-items-grid">';
-                    rg.rooms.forEach(function(room) {
-                        html += renderItemCard(room, trip.id, room.roomUrl || room.hotelUrl || '#');
-                    });
-                    html += '</div>';
-                }
+                html += '<div class="resort-banner__info">';
+                html += '<div class="resort-banner__eyebrow">' + (isFavorited ? 'Saved Resort' : 'Resort') + '</div>';
+                html += '<div class="resort-banner__name">' + resortName + '</div>';
+                html += '<div class="resort-banner__meta">' + roomCount + ' room' + (roomCount !== 1 ? 's' : '') + ' saved</div>';
+                html += '<div class="resort-banner__ctas">';
+                html += '<a href="' + resortUrl + '" target="_blank" class="resort-banner__cta-primary">View Resort</a>';
+                html += '<a href="' + resortUrl + '" target="_blank" class="resort-banner__cta-secondary">Book Now</a>';
                 html += '</div>';
-            });
+                html += '</div></div>';
 
-            html += '</div>';
+                /* Room rail — connected to resort via left teal border */
+                if (roomCount > 0) {
+                    html += '<div class="room-rail">';
+                    html += '<div class="room-rail__label">Saved Rooms (' + roomCount + ')</div>';
+                    html += '<div class="room-rail__grid">';
+                    rg.rooms.forEach(function(room) {
+                        var roomUrl = room.roomUrl || room.hotelUrl || '#';
+                        html += '<div class="room-card">';
+                        html += '<div class="room-card__img-wrap">';
+                        html += '<img src="' + room.img + '" alt="">';
+                        html += '<span class="room-card__type">Room</span>';
+                        html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + room.id + '\')">' + heartSVG + '</button>';
+                        html += '</div>';
+                        html += '<div class="room-card__body">';
+                        html += '<div class="room-card__name">' + room.name + '</div>';
+                        html += '<div class="room-card__cta">';
+                        html += '<a href="' + roomUrl + '" target="_blank" class="resort-banner__cta-primary" style="font-size:11px;padding:7px 14px;">View Room</a>';
+                        html += '<button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + room.id + '\')">Remove</button>';
+                        html += '</div></div></div>';
+                    });
+                    html += '</div></div>';
+                } else {
+                    html += '<div class="resort-banner__no-rooms"></div>';
+                }
+            });
         });
 
-        /* Offers section */
+        /* ---- Offers section — separate gold accent area ---- */
         if (offerItems.length > 0) {
-            html += '<div class="fav-resort-group">';
-            html += '<div class="fav-resort-group__header"><div class="fav-resort-group__name">Special Offers</div>';
-            html += '<div class="fav-resort-group__header-right"><span class="fav-resort-group__count">' + offerItems.length + ' offer' + (offerItems.length !== 1 ? 's' : '') + '</span></div></div>';
-            html += '<div class="fav-items-grid">';
+            html += '<div class="offers-section-header"><div class="offers-section-header__name">Saved Offers</div>';
+            html += '<div class="offers-section-header__count">' + offerItems.length + ' offer' + (offerItems.length !== 1 ? 's' : '') + '</div></div>';
+            html += '<div class="room-rail__grid" style="border:none;margin:0;padding:0;">';
             offerItems.forEach(function(offer) {
-                html += renderItemCard(offer, trip.id, offer.offerUrl || '#');
+                var offerUrl = offer.offerUrl || '#';
+                html += '<div class="room-card">';
+                html += '<div class="room-card__img-wrap">';
+                html += '<img src="' + offer.img + '" alt="">';
+                html += '<span class="offer-card__type">Offer</span>';
+                html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + offer.id + '\')">' + heartSVG + '</button>';
+                html += '</div>';
+                html += '<div class="room-card__body">';
+                html += '<div class="room-card__name">' + offer.name + '</div>';
+                html += '<div class="room-card__cta">';
+                html += '<a href="' + offerUrl + '" target="_blank" class="resort-banner__cta-primary" style="font-size:11px;padding:7px 14px;background:#8B6F47;border-color:#8B6F47;">View Offer</a>';
+                html += '<button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + offer.id + '\')">Remove</button>';
+                html += '</div></div></div>';
             });
-            html += '</div></div>';
+            html += '</div>';
         }
     }
     html += '</div>';
@@ -1985,7 +2141,9 @@ function syncUI() {
         var p = tpBtn.parentElement;
         while (p && p !== document.body) {
             var cs = getComputedStyle(p);
-            if (cs.overflow === 'hidden' || cs.overflowX === 'hidden' || cs.overflowY === 'hidden' || cs.overflow.includes('hidden')) { p.style.overflow = 'visible'; }
+            if (cs.overflow === 'hidden' || cs.overflowX === 'hidden' || cs.overflowY === 'hidden' || cs.overflow.includes('hidden')) {
+                p.style.overflow = 'visible';
+            }
             p = p.parentElement;
         }
         var b = document.createElement('span');
