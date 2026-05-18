@@ -1101,6 +1101,10 @@ style.textContent = `:root {
             font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px;
             padding: 2px 7px; font-family: var(--ff-body-bold);
         }
+        .offers-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
         .resort-banner__no-rooms { margin-bottom: 28px; }
 
         /* Header badge — iOS-style red notification dot */
@@ -1951,7 +1955,7 @@ function renderTripDetail(el) {
         /* ---- Offers section — separate gold accent area ---- */
         if (offerItems.length > 0) {
             html += '<div class="offers-section-header"><div class="offers-section-header__name">Saved Offers</div></div>';
-            html += '<div class="room-rail__grid" style="border:none;margin:0;padding:0;">';
+            html += '<div class="offers-grid">';
             offerItems.forEach(function(offer) {
                 var offerUrl = offer.offerUrl || '#';
                 html += '<div class="room-card">';
