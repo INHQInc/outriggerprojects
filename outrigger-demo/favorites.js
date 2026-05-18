@@ -971,6 +971,10 @@ style.textContent = `:root {
             font-family: 'DuplicateSans-Medium', system-ui, sans-serif; font-size: 24px;
             color: rgb(37, 37, 37); margin: 0 0 4px; line-height: 1.25;
         }
+        .resort-banner__desc {
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif; font-size: 15px;
+            color: rgb(100, 100, 100); line-height: 1.5; margin-bottom: 12px;
+        }
         .resort-banner__meta {
             font-family: var(--ff-body); font-size: 13px;
             color: var(--clr-text-muted); margin-bottom: 16px;
@@ -994,7 +998,7 @@ style.textContent = `:root {
 
         /* Room rail — left border connecting rooms to resort */
         .room-rail {
-            border-left: 3px solid var(--clr-primary);
+            border-left: 2px solid var(--clr-primary);
             margin-left: 24px; padding-left: 28px;
             padding-top: 16px; padding-bottom: 4px;
             margin-bottom: 28px;
@@ -1026,6 +1030,10 @@ style.textContent = `:root {
         .room-card__name {
             font-family: 'DuplicateSans-Medium', system-ui, sans-serif; font-size: 20px;
             color: rgb(37, 37, 37); margin-bottom: 12px; line-height: 1.25;
+        }
+        .room-card__desc {
+            font-family: 'DuplicateSans-Regular', system-ui, sans-serif; font-size: 14px;
+            color: rgb(100, 100, 100); line-height: 1.5; margin-bottom: 12px;
         }
         .room-card__cta { display: flex; gap: 10px; align-items: center; }
 
@@ -1320,6 +1328,8 @@ function injectHeartsOnCards() {
     var propName = card.getAttribute("property_name") || "Resort";
     var img = card.querySelector(".carousel-item.active img, .carousel-item img, img");
     var imgSrc = img ? (img.getAttribute("data-local-src") || img.src) : "";
+    var descEl = card.querySelector(".card-text");
+    var desc = descEl ? descEl.textContent.trim() : "";
     var link = card.querySelector("a.card-title, a.card-view-property, a[href]");
     var url = link ? link.href : "#";
     var btn = document.createElement("button");
@@ -1329,6 +1339,7 @@ function injectHeartsOnCards() {
     btn.setAttribute("data-name", propName);
     btn.setAttribute("data-sub", "Hawaii");
     btn.setAttribute("data-img", imgSrc);
+    btn.setAttribute("data-desc", desc);
     btn.setAttribute("data-hotel-url", url);
     btn.setAttribute("data-hotel-code", propId);
     btn.setAttribute("onclick", "onHeartClick(this)");
@@ -1351,11 +1362,14 @@ function injectHeartsOnCards() {
     var url = link ? link.href : "#";
     var btn = document.createElement("button");
     btn.className = "favorite-btn";
+    var descEl = card.querySelector(".card-text");
+    var desc = descEl ? descEl.textContent.trim() : "";
     btn.setAttribute("data-id", "room-" + roomId.replace(/[^a-z0-9]/gi, "-"));
     btn.setAttribute("data-type", "Room");
     btn.setAttribute("data-name", roomName);
     btn.setAttribute("data-sub", resortName);
     btn.setAttribute("data-img", imgSrc);
+    btn.setAttribute("data-desc", desc);
     btn.setAttribute("data-room-url", url);
     btn.setAttribute("data-room-code", roomId);
     btn.setAttribute("onclick", "onHeartClick(this)");
@@ -1403,6 +1417,8 @@ function injectHeartsOnCards() {
     container.style.position = "relative";
     var img = card.querySelector("img");
     var imgSrc = img ? img.src : "";
+    var descEl = card.querySelector(".card-text");
+    var desc = descEl ? descEl.textContent.trim() : "";
     var link = card.querySelector("a[href]");
     var url = link ? link.href : "#";
     var btn = document.createElement("button");
@@ -1412,6 +1428,7 @@ function injectHeartsOnCards() {
     btn.setAttribute("data-name", name);
     btn.setAttribute("data-sub", "Special Offers");
     btn.setAttribute("data-img", imgSrc);
+    btn.setAttribute("data-desc", desc);
     btn.setAttribute("data-offer-url", url);
     btn.setAttribute("onclick", "onHeartClick(this)");
     btn.innerHTML = heartSVG;
@@ -1627,6 +1644,7 @@ function saveToTrip() {
         name: btn.dataset.name,
         sub: btn.dataset.sub,
         img: btn.dataset.img,
+        desc: btn.dataset.desc || null,
         hotelUrl: btn.dataset.hotelUrl || null,
         roomUrl: btn.dataset.roomUrl || null,
         offerUrl: btn.dataset.offerUrl || null,
@@ -1727,6 +1745,18 @@ function renderTripDetail(el) {
             'OUTRIGGER Reef Waikiki Beach Resort': 'https://www.outrigger.com/AdaptiveImages/optimizely/753dec1f-a09b-42b5-85f5-44a03e3c5b4a/outrigger-reef-waikiki-beach-resort-coral-reef-penthouse-2-bedroom-suite-11.jpg?quality=100&width=700&height=393&stamp=cf85c663435ead22a0f47d4bec2162a1466a4886&format=webp',
             'OUTRIGGER Waikiki Beach Resort': 'https://www.outrigger.com/AdaptiveImages/optimizely/b1c81086-a2b1-46b2-96c8-064a18400d6f/outrigger-waikiki-beach-resort-exterior-1.jpg?quality=100&width=700&height=391&stamp=3d81afea29f058bbf289dade28b1b2355b22d0b3&format=webp',
             'OUTRIGGER Waikīkī Paradise Hotel': 'https://www.outrigger.com/AdaptiveImages/optimizely/27cfc36f-efb3-4d16-a2f6-b796fa863261/ohana-waikiki-east-pool-lifestyle-20.jpg?quality=100&width=700&height=467&stamp=b175cee916f8da0f9b787960bb02d471546f2979&format=webp'
+        };
+        var resortDescMap = {
+            'OUTRIGGER Reef Waikiki Beach Resort': 'Home of authentic Hawaiian music & culture. A contemporary beachfront retreat just steps from the sand.',
+            'OUTRIGGER Waikiki Beach Resort': 'An iconic beachfront resort on the sands of Waikiki with legendary views of Diamond Head.',
+            'OUTRIGGER Waikīkī Paradise Hotel': 'A modern oasis in the heart of Waikiki, steps from world-class shopping, dining, and the beach.'
+        };
+        var roomDescMap = {
+            'Oceanfront Suite': 'Unforgettable sunrises and sunsets with dramatic views of Diamond Head and the Pacific Ocean.',
+            'Diamond Head Oceanfront': 'Soak in sweeping views of the Pacific from your private lanai in a space designed for effortless comfort and island ease.',
+            'Coral Reef Penthouse Suite': 'Enjoy the ultimate Waikiki experience in this penthouse suite with two bedrooms, a private elevator and lanai with an unbeatable view of iconic Diamond Head.',
+            'Club 1 Bedroom Oceanfront Suite': 'A vacation haven where the sky meets the sea.',
+            'Grand Navigator Suite': 'Luxurious and spacious with breathtaking views of Waikiki Beach and Diamond Head.'
         };
         /* Maps resort name → destination label, used when the resort itself isn't favorited */
         var resortToDestMap = {
@@ -1843,6 +1873,8 @@ function renderTripDetail(el) {
                 html += '</div>';
                 html += '<div class="resort-banner__info">';
                 html += '<div class="resort-banner__name">' + resortName + '</div>';
+                var resortDesc = (rg.resortItem && rg.resortItem.desc) || resortDescMap[resortName] || '';
+                if (resortDesc) html += '<div class="resort-banner__desc">' + resortDesc + '</div>';
                 html += '<div class="resort-banner__meta">' + roomCount + ' room' + (roomCount !== 1 ? 's' : '') + ' saved</div>';
                 html += '<div class="resort-banner__ctas">';
                 html += '<a href="' + resortUrl + '" target="_blank" class="resort-banner__cta-primary">Check Availability</a>';
@@ -1867,9 +1899,11 @@ function renderTripDetail(el) {
                         html += '</div>';
                         html += '<div class="room-card__body">';
                         html += '<div class="room-card__name">' + room.name + '</div>';
+                        var roomDesc = room.desc || roomDescMap[room.name] || '';
+                        if (roomDesc) html += '<div class="room-card__desc">' + roomDesc + '</div>';
                         html += '<div class="room-card__cta">';
                         html += '<a href="' + roomUrl + '" target="_blank" class="resort-banner__cta-primary" style="font-size:14px;padding:12px 16px;">Check Availability</a>';
-                        html += '<button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + room.id + '\')">Remove</button>';
+                        html += '<a href="' + roomUrl + '" target="_blank" class="resort-banner__cta-secondary" style="font-size:14px;padding:12px 16px;">View Room</a>';
                         html += '</div></div></div>';
                     });
                     html += '</div></div>';
