@@ -446,16 +446,16 @@ style.textContent = `:root {
         }
         .trip-detail__actions { display: flex; gap: 8px; align-items: center; }
         .trip-detail__action {
-            padding: 16px; font-size: 16px;
+            padding: 12px 20px; font-size: 14px;
             border: 1px solid rgb(37, 37, 37);
             background: transparent; cursor: pointer; border-radius: 0;
             font-family: 'DuplicateSans-Medium', system-ui, sans-serif; color: rgb(37, 37, 37);
             text-transform: none; letter-spacing: normal;
-            transition: background 0.2s, color 0.2s;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
         }
         .trip-detail__action:hover { background: var(--clr-primary); color: #fff; border-color: var(--clr-primary); }
-        .trip-detail__action.danger { color: var(--clr-accent); border-color: var(--clr-accent); }
-        .trip-detail__action.danger:hover { background: var(--clr-accent); color: #fff; }
+        .trip-detail__action.danger { color: #c0392b; border-color: #c0392b; }
+        .trip-detail__action.danger:hover { background: #c0392b; color: #fff; }
 
         /* Favorites items grid */
         .fav-items-grid {
@@ -994,8 +994,8 @@ style.textContent = `:root {
 
         /* Room rail — left border connecting rooms to resort */
         .room-rail {
-            border-left: 2px solid var(--clr-border);
-            margin-left: 20px; padding-left: 24px;
+            border-left: 3px solid var(--clr-primary);
+            margin-left: 24px; padding-left: 28px;
             padding-top: 16px; padding-bottom: 4px;
             margin-bottom: 28px;
         }
@@ -1828,7 +1828,12 @@ function renderTripDetail(el) {
                 /* Resort banner — full-width horizontal card */
                 html += '<div class="resort-banner ' + (isFavorited ? 'resort-banner--favorited' : 'resort-banner--unfavorited') + '">';
                 html += '<div class="resort-banner__img">';
-                if (resortImg) html += '<img src="' + resortImg + '" alt="">';
+                if (resortImg) {
+                    html += '<img src="' + resortImg + '" alt="">';
+                    html += '<div class="img-slider-dots"><span class="img-slider-dots__dot active"></span><span class="img-slider-dots__dot"></span><span class="img-slider-dots__dot"></span><span class="img-slider-dots__dot"></span><span class="img-slider-dots__dot"></span></div>';
+                    html += '<button class="img-slider-arrow img-slider-arrow--prev">&#8249;</button>';
+                    html += '<button class="img-slider-arrow img-slider-arrow--next">&#8250;</button>';
+                }
                 if (isFavorited) {
                     html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + rg.resortItem.id + '\')">' + heartSVG + '</button>';
                 } else {
