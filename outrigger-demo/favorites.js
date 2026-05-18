@@ -1023,7 +1023,7 @@ style.textContent = `:root {
             margin-bottom: 28px;
         }
         .room-rail__header {
-            display: flex; align-items: center; justify-content: space-between;
+            display: flex; align-items: center; gap: 16px;
             margin-bottom: 12px;
         }
         .room-rail__label {
@@ -2031,7 +2031,6 @@ function renderTripDetail(el) {
                 /* Room rail — connected to resort via left teal border */
                 if (roomCount > 0) {
                     var railId = 'room-rail-' + resortName.replace(/[^a-zA-Z0-9]/g, '-');
-                    /* Toggle + label row */
                     html += '<div class="room-rail">';
                     html += '<div class="room-rail__header">';
                     html += '<div class="room-rail__label">Rooms (' + roomCount + ')</div>';
@@ -2039,9 +2038,7 @@ function renderTripDetail(el) {
                     html += '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--up">&#9650;</span>';
                     html += ' Hide rooms</button>';
                     html += '</div>';
-                    html += '</div>';
                     html += '<div id="' + railId + '" class="room-rail-wrap room-rail-wrap--expanded">';
-                    html += '<div class="room-rail" style="margin-top: 0; padding-top: 0;">';
                     html += '<div class="room-rail__grid">';
                     rg.rooms.forEach(function(room) {
                         var roomUrl = room.roomUrl || room.hotelUrl || '#';
