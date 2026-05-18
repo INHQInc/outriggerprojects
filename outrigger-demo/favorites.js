@@ -1950,8 +1950,7 @@ function renderTripDetail(el) {
 
         /* ---- Offers section — separate gold accent area ---- */
         if (offerItems.length > 0) {
-            html += '<div class="offers-section-header"><div class="offers-section-header__name">Saved Offers</div>';
-            html += '<div class="offers-section-header__count">' + offerItems.length + ' offer' + (offerItems.length !== 1 ? 's' : '') + '</div></div>';
+            html += '<div class="offers-section-header"><div class="offers-section-header__name">Saved Offers</div></div>';
             html += '<div class="room-rail__grid" style="border:none;margin:0;padding:0;">';
             offerItems.forEach(function(offer) {
                 var offerUrl = offer.offerUrl || '#';
