@@ -9,7 +9,15 @@
 var roomsSlider = document.querySelector(".room-and-suites-slider.card-slider"); if (roomsSlider) roomsSlider.style.display = "none";
 
 // ── Rewrite logo links to point to /demo/ ────────────────
-document.querySelectorAll('a.header-logo-dark-bg, a.header-logo-light-bg').forEach(function(a) { a.href = '/demo/'; });
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('a.header-logo-dark-bg, a.header-logo-light-bg').forEach(function(a) { a.href = '/demo/'; });
+  // Also catch any other outrigger.com logo links
+  document.querySelectorAll('a[href*="outrigger.com"] img.header-logo').forEach(function(img) { img.parentElement.href = '/demo/'; });
+  // Tag rooms pages so room-card CSS overrides only apply there (not homepage)
+  if (window.location.pathname.indexOf('rooms') !== -1) {
+    document.body.classList.add('fav-rooms-page');
+  }
+});
 
 // ── Inject CSS ──────────────────────────────────────────────────
 var style = document.createElement("style");
@@ -74,42 +82,43 @@ style.textContent = `:root {
 
         /* ============================================
            ROOM CARDS — match www.outrigger.com/rooms-suites
+           Scoped to .fav-rooms-page so they don't bleed into homepage
            ============================================ */
-        .destination-selection .destination-selection-tabs {
+        .fav-rooms-page .destination-selection .destination-selection-tabs {
             flex-direction: column !important; align-items: flex-start !important;
         }
-        .destination-selection .card.swiper-slide {
+        .fav-rooms-page .destination-selection .card.swiper-slide {
             background: #fff !important; border: 1px solid #e8e5de; border-radius: 0;
             overflow: hidden; display: flex; flex-direction: column;
         }
-        .destination-selection .card-simplified-slider {
+        .fav-rooms-page .destination-selection .card-simplified-slider {
             position: relative; overflow: hidden;
         }
-        .destination-selection .card-simplified-slider img {
+        .fav-rooms-page .destination-selection .card-simplified-slider img {
             width: 100%; height: auto; display: block; aspect-ratio: 3/2; object-fit: cover;
         }
-        .destination-selection .card-body {
+        .fav-rooms-page .destination-selection .card-body {
             padding: 24px 28px 32px !important; background: #fff !important;
             flex: 1; display: flex; flex-direction: column;
         }
-        .destination-selection .card-body h4 {
+        .fav-rooms-page .destination-selection .card-body h4 {
             margin: 0 0 12px !important; font-family: 'DuplicateIonic-Bold', Georgia, serif !important;
             font-size: 24px !important; font-weight: 700 !important; line-height: 1.3 !important;
         }
-        .destination-selection .card-body h4 a {
+        .fav-rooms-page .destination-selection .card-body h4 a {
             color: #1a1a1a !important; text-decoration: underline !important;
             text-underline-offset: 4px; text-decoration-thickness: 1.5px;
         }
-        .destination-selection .card-body h4 a:hover { color: #0F4A5A !important; }
-        .destination-selection .card-text {
+        .fav-rooms-page .destination-selection .card-body h4 a:hover { color: #0F4A5A !important; }
+        .fav-rooms-page .destination-selection .card-text {
             font-family: 'DuplicateSans-Regular', sans-serif !important;
             font-size: 16px !important; line-height: 1.6 !important; color: #444 !important;
             margin-bottom: 24px !important; flex: 1;
         }
-        .destination-selection .card-cta-info {
+        .fav-rooms-page .destination-selection .card-cta-info {
             margin-top: auto;
         }
-        .destination-selection .card-cta-info .button {
+        .fav-rooms-page .destination-selection .card-cta-info .button {
             display: inline-flex !important; align-items: center; gap: 6px;
             border: 2px solid #1a1a1a !important; color: #1a1a1a !important;
             background: transparent !important; padding: 14px 24px !important;
@@ -117,7 +126,7 @@ style.textContent = `:root {
             font-size: 16px !important; font-weight: 600; text-decoration: none !important;
             letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s;
         }
-        .destination-selection .card-cta-info .button:hover {
+        .fav-rooms-page .destination-selection .card-cta-info .button:hover {
             background: #1a1a1a !important; color: #fff !important;
         }
         /* Image dots overlay (decorative) */
