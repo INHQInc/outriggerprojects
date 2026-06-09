@@ -949,7 +949,7 @@ style.textContent = `:root {
         /* Destination header */
         .fav-dest-header {
             display: flex; justify-content: space-between; align-items: baseline;
-            border-bottom: 2px solid var(--clr-primary); padding-bottom: 10px;
+            border-bottom: 1px solid var(--clr-border); padding-bottom: 10px;
             margin-bottom: 20px;
         }
         .fav-dest-header__name {
@@ -1090,7 +1090,7 @@ style.textContent = `:root {
         /* Offers section header */
         .offers-section-header {
             display: flex; justify-content: space-between; align-items: baseline;
-            border-bottom: 2px solid var(--clr-primary); padding-bottom: 10px;
+            border-bottom: 1px solid var(--clr-border); padding-bottom: 10px;
             margin-bottom: 16px; margin-top: 20px;
         }
         .offers-section-header__name {
