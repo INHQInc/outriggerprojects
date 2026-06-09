@@ -946,10 +946,12 @@ style.textContent = `:root {
         .fav-item-card--resort-unfav { background: #fff; }
         .fav-item-card--resort-unfav .favorite-btn svg path { fill: none; stroke: #aaa; stroke-width: 1.5px; }
 
-        /* Destination header */
+        /* Destination header — matches .trip-detail__header line
+           exactly (which IS the "test / 10 Saved Items" underline on
+           a single-trip view). rgb(205, 195, 179) = #cdc3b3. */
         .fav-dest-header {
             display: flex; justify-content: space-between; align-items: baseline;
-            border-bottom: 1px solid var(--clr-border); padding-bottom: 10px;
+            border-bottom: 1px solid rgb(205, 195, 179) !important; padding-bottom: 10px;
             margin-bottom: 20px;
         }
         .fav-dest-header__name {
