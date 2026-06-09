@@ -1,0 +1,182 @@
+:root {
+  --shs-widgets-fontFamily: Arial, sans-serif;
+  --shs-widgets-fontSize: 1rem;
+  --shs-widgets-lineHeight: 1.3;
+  --shs-widgets-fontSizeLarge: 1.5rem;
+  --shs-widgets-fontSizeSmall: 0.75rem;
+  --shs-widgets-fontWeightNormal: 400;
+  --shs-widgets-fontWeightBold: 700;
+  --shs-widgets-textColor: #404247;
+  --shs-widgets-buttonFontFamily: Arial, sans-serif;
+  --shs-widgets-buttonBackground: #404247;
+  --shs-widgets-buttonBackgroundImage: linear-gradient(225deg,#202224 0,#404247 100%);
+  --shs-widgets-buttonBorder: 3px solid #121315;
+  --shs-widgets-buttonColor: #FFF;
+  --shs-widgets-buttonBackgroundHover: #2e3034;
+  --shs-widgets-buttonBackgroundImageHover: linear-gradient(225deg,#202224 0,#2e3034 100%);
+  --shs-widgets-buttonBorderHover: 3px solid #121315;
+  --shs-widgets-buttonColorHover: #e1e2e5;
+  --shs-widgets-buttonBackgroundActive: #121315;
+  --shs-widgets-buttonBackgroundImageActive: none;
+  --shs-widgets-buttonBorderActive: 3px solid #121315;
+  --shs-widgets-buttonColorActive: #caccd1;
+  --shs-widgets-buttonBorderColorFocus: #FFF;
+  --shs-widgets-buttonShadowFocus: 0 0 0 3px #309ab5;
+  --shs-widgets-buttonBorderRadius: 1rem;
+  --shs-widgets-buttonBackgroundDisabled: #adb1b8;
+  --shs-widgets-buttonBorderDisabled: 3px solid #adb1b8;
+  --shs-widgets-buttonColorDisabled: #444444;
+  --shs-widgets-LoadingTextColor: #121315;
+  --shs-widgets-SpinnerLightColor: #e1e2e5;
+  --shs-widgets-SpinnerDarkColor: #121315;
+  --shs-widgets-SpinnerInnnerCircle: #FFF;
+  --shs-widgets-SpinnerSize: 3rem;
+  --shs-widgets-SpinnerInnnerCircleSize: calc(100% - 0.66666667rem); }
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg); }
+  100% {
+    -webkit-transform: rotate(810deg);
+    transform: rotate(810deg); } }
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg); }
+  100% {
+    -webkit-transform: rotate(810deg);
+    transform: rotate(810deg); } }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0; }
+
+.shs-widgets--best-price {
+  font-family: var(--shs-widgets-fontFamily);
+  font-size: var(--shs-widgets-fontSize);
+  line-height: var(--shs-widgets-lineHeight);
+  font-weight: var(--shs-widgets-fontWeightNormal);
+  color: var(--shs-widgets-textColor); }
+  .shs-widgets--best-price * {
+    box-sizing: border-box; }
+
+.shs-widgets--best-price__button {
+  font-family: var(--shs-widgets-buttonFontFamily);
+  background: var(--shs-widgets-buttonBackground);
+  background-image: var(--shs-widgets-buttonBackgroundImage);
+  border: var(--shs-widgets-buttonBorder);
+  color: var(--shs-widgets-buttonColor);
+  border-radius: var(--shs-widgets-buttonBorderRadius);
+  padding: 1rem 2rem;
+  cursor: pointer; }
+  .shs-widgets--best-price__button:hover {
+    background: var(--shs-widgets-buttonBackgroundHover);
+    background-image: var(--shs-widgets-buttonBackgroundImageHover);
+    border: var(--shs-widgets-buttonBorderHover);
+    color: var(--shs-widgets-buttonColorHover); }
+  .shs-widgets--best-price__button:active {
+    background: var(--shs-widgets-buttonBackgroundActive);
+    background-image: var(--shs-widgets-buttonBackgroundImageActive);
+    border: var(--shs-widgets-buttonBorderActive);
+    color: var(--shs-widgets-buttonColorActive); }
+  .shs-widgets--best-price__button:focus {
+    border-color: var(--shs-widgets-buttonBorderColorFocus);
+    -webkit-box-shadow: var(--shs-widgets-buttonShadowFocus);
+    box-shadow: var(--shs-widgets-buttonShadowFocus);
+    outline: 0; }
+
+.shs-widgets--best-price__price {
+  font-size: var(--shs-widgets-fontSizeLarge);
+  font-weight: var(--shs-widgets-fontWeightBold); }
+  .shs-widgets--best-price__price .shs-widgets--best-price__small {
+    font-size: var(--shs-widgets-fontSizeSmall);
+    font-weight: var(--shs-widgets-fontWeightNormal);
+    display: block; }
+  .shs-widgets--best-price__price .shs-widgets--best-price__normal {
+    font-size: var(--shs-widgets-fontSize); }
+
+.shs-widgets--best-price__not-available {
+  background: var(--shs-widgets-buttonBackgroundDisabled);
+  border: var(--shs-widgets-buttonBorderDisabled);
+  color: var(--shs-widgets-buttonColorDisabled);
+  border-radius: var(--shs-widgets-buttonBorderRadius);
+  font-weight: var(--shs-widgets-fontWeightBold);
+  font-size: var(--shs-widgets-fontSize);
+  padding: 1rem 2rem; }
+
+.shs-widgets--best-price__loading {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  width: auto; }
+
+.shs-widgets--best-price__loading-text {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
+  color: var(--shs-widgets-LoadingTextColor);
+  font-weight: var(--shs-widgets-fontWeightBold);
+  padding-left: 1rem; }
+
+.shs-widgets--best-price__loading-meter {
+  height: var(--shs-widgets-SpinnerSize);
+  width: var(--shs-widgets-SpinnerSize);
+  background: var(--shs-widgets-SpinnerLightColor);
+  border-radius: 50%;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  position: relative; }
+  .shs-widgets--best-price__loading-meter::before {
+    content: "";
+    height: var(--shs-widgets-SpinnerInnnerCircleSize);
+    width: var(--shs-widgets-SpinnerInnnerCircleSize);
+    background: var(--shs-widgets-SpinnerInnnerCircle);
+    border-radius: 50%;
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    -webkit-transition: background-color 0.1s ease-in-out;
+    transition: background-color 0.1s ease-in-out;
+    z-index: 5; }
+  .shs-widgets--best-price__loading-meter::after {
+    content: "";
+    background: var(--shs-widgets-SpinnerDarkColor);
+    -webkit-animation: spin 0.8s ease 0s infinite;
+    animation: spin 0.8s ease 0s infinite;
+    display: inline-block;
+    width: 50%;
+    height: 50%;
+    left: 0;
+    border-radius: 100% 0 0 0;
+    position: absolute;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    -webkit-transform-origin: bottom right;
+    transform-origin: bottom right;
+    transition: -webkit-transform 0.1s linear;
+    -webkit-transition: -webkit-transform 0.1s linear;
+    transition: transform 0.1s linear;
+    transition: transform 0.1s linear, -webkit-transform 0.1s linear;
+    transition: transform 0.1s linear,-webkit-transform 0.1s linear; }

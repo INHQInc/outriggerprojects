@@ -1,0 +1,1 @@
+(function(){"use strict";$(()=>{$(".sub-nav-container").length>0&&($("body").addClass("is-sub-nav"),setTimeout(()=>{const t=document.querySelector(".sub-nav-link.is-active");t&&t.scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"})},100))})})();
