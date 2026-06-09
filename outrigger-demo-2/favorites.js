@@ -903,7 +903,7 @@ style.textContent = `:root {
         .fav-resort-group__header {
             display: flex; justify-content: space-between; align-items: baseline;
             padding: 0 0 12px; margin-bottom: 16px;
-            border-bottom: 2px solid #0F4A5A;
+            border-bottom: 1px solid var(--clr-border);
         }
         .fav-resort-group__name {
             font-family: 'DuplicateIonic-Bold', Georgia, serif;
