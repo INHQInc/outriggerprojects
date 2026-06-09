@@ -1474,7 +1474,7 @@ function injectHeartsOnCards() {
     btn.setAttribute("data-id", "property-" + propId);
     btn.setAttribute("data-type", "Resort");
     btn.setAttribute("data-name", propName);
-    btn.setAttribute("data-sub", "Hawaii");
+    btn.setAttribute("data-sub", "Oahu, Hawaii");
     btn.setAttribute("data-img", imgSrc);
     btn.setAttribute("data-desc", desc);
     btn.setAttribute("data-hotel-url", url);
@@ -1932,12 +1932,15 @@ function renderTripDetail(el) {
             }
         };
 
-        /* Pass 1: index resorts and offers */
+        /* Pass 1: index resorts and offers.
+           Prefer the canonical destination from resortToDestMap so previously
+           saved items with stale `sub` (e.g. plain "Hawaii") get re-grouped
+           under the right island. */
         trip.items.forEach(function(item) {
             if (item.type === 'Offer') {
                 offerItems.push(item);
             } else if (item.type === 'Resort') {
-                var dest = item.sub || 'Hawaii';
+                var dest = resortToDestMap[item.name] || item.sub || 'Hawaii';
                 ensureResort(dest, item.name);
                 destMap[dest].resorts[item.name].resortItem = item;
             }
