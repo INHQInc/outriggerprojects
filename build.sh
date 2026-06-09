@@ -3,13 +3,13 @@ set -e
 
 # Create output directories
 mkdir -p public/demo
-mkdir -p public/demo2
+mkdir -p public/demo-2
 
 # Copy static site files
 cp -r favorites-prototype/public/. public/
 cp -r outrigger-demo/. public/demo/
-# /demo2/ — parallel iteration sandbox, served alongside /demo/
-cp -r outrigger-demo-2/. public/demo2/
+# /demo-2/ — parallel iteration sandbox, served alongside /demo/
+cp -r outrigger-demo-2/. public/demo-2/
 
 # Copy self-hosted CDN assets (checked into repo, fetched via Chrome to bypass Cloudflare)
 if [ -d "outrigger-demo/cdn" ]; then
