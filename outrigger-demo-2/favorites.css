@@ -1134,8 +1134,8 @@
            space at the bottom of the offer card. */
         .offers-grid .card img {
             width: 100% !important;
-            max-height: 290px !important;
-            height: 290px !important;
+            max-height: 250px !important;
+            height: 250px !important;
             object-fit: cover;
             display: block;
         }
