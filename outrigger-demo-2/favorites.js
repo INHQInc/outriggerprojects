@@ -1325,6 +1325,65 @@ style.textContent = `:root {
             }
             .resort-banner__img { width: 250px; }
         }
+
+        /* ── Favorites Collection Details — rooms-page pattern ──────────── */
+        .fav-collection-rooms {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin: 0 0 40px;
+        }
+        .fav-collection-rooms .promo-card.fav-resort-card {
+            grid-column: span 2;
+            position: relative;
+        }
+        .fav-collection-rooms .card.loaded,
+        .fav-collection-rooms .promo-card {
+            position: relative;
+        }
+        .fav-collection-rooms .fav-overlay-heart {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 10;
+        }
+        .fav-collection-rooms .fav-empty-room-tile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fafafa;
+            border: 1.5px dashed #cfd6d3;
+            border-radius: 12px;
+            min-height: 280px;
+            text-decoration: none;
+            color: var(--clr-primary, #19353d);
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .fav-collection-rooms .fav-empty-room-tile:hover {
+            background: #f3f5f3;
+            border-color: var(--clr-primary, #19353d);
+        }
+        .fav-collection-rooms .fav-empty-room-tile svg {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 12px;
+        }
+        .fav-collection-rooms .fav-empty-room-tile__label {
+            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        .fav-collection-rooms .fav-empty-room-tile__inner {
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .fav-collection-rooms {
+                grid-template-columns: 1fr;
+            }
+            .fav-collection-rooms .promo-card.fav-resort-card {
+                grid-column: span 1;
+            }
+        }
 `;
 document.head.appendChild(style);
 
@@ -2014,67 +2073,63 @@ function renderTripDetail(el) {
                 var isFavorited = !!rg.resortItem;
                 var resortUrl = (rg.resortItem && rg.resortItem.hotelUrl) || (rg.rooms.length > 0 ? rg.rooms[0].hotelUrl : null) || resortUrlsMap[resortName] || '#';
                 var resortImg = (rg.resortItem && rg.resortItem.img) || resortImgMap[resortName] || (rg.rooms.length > 0 ? rg.rooms[0].img : '');
-                var roomCount = rg.rooms.length;
+                var resortDesc = (rg.resortItem && rg.resortItem.desc) || resortDescMap[resortName] || '';
+                var resortEyebrow = (resortToDestMap[resortName] || dest || 'Hawaii');
 
-                /* Resort banner — full-width horizontal card */
-                html += '<div class="resort-banner ' + (isFavorited ? 'resort-banner--favorited' : 'resort-banner--unfavorited') + '">';
-                html += '<div class="resort-banner__img">';
-                if (resortImg) {
-                    html += '<img src="' + resortImg + '" alt="">';
-                    html += '<div class="img-slider-dots"><span class="img-slider-dots__dot active"></span><span class="img-slider-dots__dot"></span><span class="img-slider-dots__dot"></span><span class="img-slider-dots__dot"></span><span class="img-slider-dots__dot"></span></div>';
-                    html += '<button class="img-slider-arrow img-slider-arrow--prev">&#8249;</button>';
-                    html += '<button class="img-slider-arrow img-slider-arrow--next">&#8250;</button>';
+                /* Reused rooms-page grid: 3 cols, resort card spans 2, rooms wrap */
+                html += '<div class="fav-collection-rooms">';
+
+                /* Resort card — rooms.html .promo-card pattern, spans 2 cols */
+                html += '<div class="card card-image-overlay promo-card fav-resort-card">';
+                html += '<div class="card-body" style="background-image:url(\'' + resortImg + '\');">';
+                html += '<div class="card-slider-eyebrow">' + resortEyebrow.toUpperCase() + '</div>';
+                html += '<div class="card-title">' + resortName + '</div>';
+                if (resortDesc) {
+                    html += '<div class="card-text"><p>' + resortDesc + '</p></div>';
                 }
+                html += '<div class="card-cta-info">';
+                html += '<a href="' + resortUrl + '" target="_blank" class="button">Book Now <span class="icon-arrow"><svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m4.5,3.49174l4,4l-4,4" stroke="#ffffff" stroke-width="2"></path></svg></span></a>';
+                html += '</div></div>';
+                /* Heart overlay on the resort card */
                 if (isFavorited) {
-                    html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + rg.resortItem.id + '\')">' + heartSVG + '</button>';
+                    html += '<button class="favorite-btn is-favorited fav-overlay-heart" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + rg.resortItem.id + '\')">' + heartSVG + '</button>';
                 } else {
                     var info = encodeURIComponent(JSON.stringify({ name: resortName, img: resortImg, url: resortUrl, dest: resortToDestMap[resortName] || dest }));
-                    html += '<button class="favorite-btn" title="Save resort" onclick="addResortToFavorites(\'' + trip.id + '\',\'' + info + '\')">' + heartSVG + '</button>';
+                    html += '<button class="favorite-btn fav-overlay-heart" title="Save resort" onclick="addResortToFavorites(\'' + trip.id + '\',\'' + info + '\')">' + heartSVG + '</button>';
                 }
                 html += '</div>';
-                html += '<div class="resort-banner__info">';
-                html += '<div class="resort-banner__name">' + resortName + '</div>';
-                var resortDesc = (rg.resortItem && rg.resortItem.desc) || resortDescMap[resortName] || '';
-                if (resortDesc) html += '<div class="resort-banner__desc">' + resortDesc + '</div>';
-                /* room count removed — now shown in the toggle */
-                html += '<div class="resort-banner__ctas">';
-                html += '<a href="' + resortUrl + '" target="_blank" class="resort-banner__cta-primary">Check Availability</a>';
-                html += '<a href="' + resortUrl + '" target="_blank" class="resort-banner__cta-secondary">View Resort</a>';
-                html += '</div>';
-                html += '</div></div>';
 
-                /* Room rail — connected to resort via left teal border */
-                if (roomCount > 0) {
-                    var railId = 'room-rail-' + resortName.replace(/[^a-zA-Z0-9]/g, '-');
-                    html += '<div class="room-rail">';
-                    html += '<button class="resort-banner__toggle" onclick="toggleRooms(\'' + railId + '\', this, ' + roomCount + ')">';
-                    html += '<span class="resort-banner__toggle-chevron resort-banner__toggle-chevron--up">&#9650;</span>';
-                    html += ' <span class="resort-banner__toggle-text">Hide Rooms (' + roomCount + ')</span></button>';
-                    html += '<div id="' + railId + '" class="room-rail-wrap room-rail-wrap--expanded">';
-                    html += '<div class="room-rail__grid">';
+                /* Rooms or empty-state "+" tile */
+                if (rg.rooms.length === 0) {
+                    html += '<a class="fav-empty-room-tile" href="' + resortUrl + '" target="_blank">';
+                    html += '<div class="fav-empty-room-tile__inner">';
+                    html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+                    html += '<div class="fav-empty-room-tile__label">Explore Rooms & Suites</div>';
+                    html += '</div></a>';
+                } else {
                     rg.rooms.forEach(function(room) {
                         var roomUrl = room.roomUrl || room.hotelUrl || '#';
-                        html += '<div class="room-card">';
-                        html += '<div class="room-card__img-wrap">';
-                        html += '<img src="' + room.img + '" alt="">';
-                        html += '<div class="img-slider-dots"><span class="img-slider-dots__dot active"></span><span class="img-slider-dots__dot"></span><span class="img-slider-dots__dot"></span><span class="img-slider-dots__dot"></span><span class="img-slider-dots__dot"></span></div>';
-                        html += '<button class="img-slider-arrow img-slider-arrow--prev">&#8249;</button>';
-                        html += '<button class="img-slider-arrow img-slider-arrow--next">&#8250;</button>';
-                        html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + room.id + '\')">' + heartSVG + '</button>';
-                        html += '</div>';
-                        html += '<div class="room-card__body">';
-                        html += '<div class="room-card__name">' + room.name + '</div>';
                         var roomDesc = room.desc || roomDescMap[room.name] || '';
-                        if (roomDesc) html += '<div class="room-card__desc">' + roomDesc + '</div>';
-                        html += '<div class="room-card__cta">';
-                        html += '<a href="' + roomUrl + '" target="_blank" class="resort-banner__cta-primary" style="font-size:14px;padding:12px 16px;">Check Availability</a>';
-                        html += '<a href="' + roomUrl + '" target="_blank" class="resort-banner__cta-secondary" style="font-size:14px;padding:12px 16px;">View Room</a>';
+                        /* Reused rooms-page .card.loaded markup — simplified slider with one image */
+                        html += '<div class="card loaded">';
+                        html += '<div class="card-simplified-slider">';
+                        html += '<div class="carousel slide">';
+                        html += '<div class="carousel-inner">';
+                        html += '<div class="carousel-item active"><img class="d-block w-100" src="' + room.img + '" alt="' + room.name + '"></div>';
                         html += '</div></div></div>';
+                        html += '<div class="card-body">';
+                        html += '<a class="card-title" href="' + roomUrl + '" target="_blank"><span>' + room.name + '</span></a>';
+                        if (roomDesc) html += '<div class="card-text">' + roomDesc + '</div>';
+                        html += '<div class="card-cta-info">';
+                        html += '<a href="' + roomUrl + '" target="_blank" class="button">Check Availability <span class="icon-arrow"><svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m4.5,3.49174l4,4l-4,4" stroke="#332926" stroke-width="2"></path></svg></span></a>';
+                        html += '</div></div>';
+                        /* Heart overlay */
+                        html += '<button class="favorite-btn is-favorited fav-overlay-heart" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + room.id + '\')">' + heartSVG + '</button>';
+                        html += '</div>';
                     });
-                    html += '</div></div></div>';
-                } else {
-                    html += '<div class="resort-banner__no-rooms"></div>';
                 }
+
+                html += '</div>'; /* close .fav-collection-rooms */
             });
         });
 
