@@ -1317,11 +1317,17 @@
         }
 
         /* ── Favorites Collection Details — rooms-page pattern ──────────── */
+        /* Grid mirrors outrigger.com /rooms-suites .roomslist-groups:
+           12px padding on all four sides (matches outrigger.com's
+           per-card 12px margins), 24px gap between cells, 3 cols.
+           At 1320px container -> 416px per card, matching live. */
         .fav-collection-rooms {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 24px;
+            padding: 12px;
             margin: 0 0 40px;
+            box-sizing: border-box;
         }
         .fav-collection-rooms .promo-card.fav-resort-card {
             grid-column: span 2;
