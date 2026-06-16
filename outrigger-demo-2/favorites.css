@@ -1418,6 +1418,11 @@
         .fav-collection-rooms .fav-empty-room-tile {
             min-height: 512px;
         }
+        /* Offers grid: match offer-tile height so the explore tile
+           doesn't collapse when it lands on its own row. */
+        .offers-grid .fav-empty-room-tile {
+            min-height: 460px;
+        }
         @media (max-width: 768px) {
             .fav-collection-rooms {
                 grid-template-columns: 1fr;
