@@ -3,6 +3,7 @@
   "buildCommand": "bash build.sh",
   "installCommand": "",
   "framework": null,
+  "trailingSlash": true,
   "redirects": [
     { "source": "/", "destination": "/demo/", "permanent": false }
   ]
