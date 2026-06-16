@@ -315,7 +315,41 @@ function injectDemoNav() {
 // ── Dev: toggle CTA annotation overlays ─────────────────────────
 function toggleCtaNotes() {
   document.body.classList.toggle("show-cta-notes");
+  // When toggling off, also close any open tray
+  if (!document.body.classList.contains("show-cta-notes")) closeCtaNoteTray();
+  ensureCtaNoteTray();
 }
+function ensureCtaNoteTray() {
+  if (document.getElementById("ctaNoteTray")) return;
+  var tray = document.createElement("div");
+  tray.id = "ctaNoteTray";
+  tray.className = "cta-note-tray";
+  tray.innerHTML =
+    '<button class="cta-note-tray__close" onclick="closeCtaNoteTray()" aria-label="Close">&times;</button>' +
+    '<div class="cta-note-tray__label">CTA Note</div>' +
+    '<div class="cta-note-tray__body" id="ctaNoteTrayBody"></div>';
+  document.body.appendChild(tray);
+}
+function closeCtaNoteTray() {
+  var tray = document.getElementById("ctaNoteTray");
+  if (tray) tray.classList.remove("is-open");
+}
+// When notes mode is on, intercept clicks on annotated CTAs and show the tray
+document.addEventListener("click", function(e) {
+  if (!document.body.classList.contains("show-cta-notes")) return;
+  var target = e.target.closest("[data-cta-note]");
+  if (!target) {
+    // click outside any CTA -> close tray if open
+    var tray = document.getElementById("ctaNoteTray");
+    if (tray && !tray.contains(e.target)) closeCtaNoteTray();
+    return;
+  }
+  e.preventDefault();
+  e.stopPropagation();
+  ensureCtaNoteTray();
+  document.getElementById("ctaNoteTrayBody").textContent = target.getAttribute("data-cta-note");
+  document.getElementById("ctaNoteTray").classList.add("is-open");
+}, true);
 
 // ── MAIN JS LOGIC (from prototype) ──────────────────────────────
 

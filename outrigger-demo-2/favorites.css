@@ -1278,31 +1278,70 @@
 
 /* ── CTA inspector overlays ────────────────────────────────────
    Toggle on by adding `show-cta-notes` to <body>. Every element
-   with `data-cta-note="..."` then renders a semi-transparent orange
-   overlay containing the note text. Click-through enabled so the
-   underlying CTA can still be tested. */
-body.show-cta-notes [data-cta-note] { position: relative; }
+   with `data-cta-note="..."` gets a semi-transparent orange overlay
+   (no text — too small for tiny CTAs). Click the overlay to open
+   a tray at the bottom showing the note. */
+body.show-cta-notes [data-cta-note] {
+    position: relative;
+    cursor: help;
+}
 body.show-cta-notes [data-cta-note]::after {
-    content: attr(data-cta-note);
+    content: "";
     position: absolute;
     inset: 0;
-    background: rgba(232, 93, 42, 0.78);
+    background: rgba(232, 93, 42, 0.45);
     border: 2px solid rgba(160, 50, 10, 0.95);
-    color: #fff;
-    font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
-    font-size: 13px;
-    line-height: 1.35;
-    padding: 8px 10px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     z-index: 999;
     pointer-events: none;
     border-radius: inherit;
     box-sizing: border-box;
-    overflow: hidden;
 }
+
+/* CTA-note tray (bottom sheet) */
+.cta-note-tray {
+    position: fixed;
+    left: 50%;
+    bottom: -200px;
+    transform: translateX(-50%);
+    width: min(560px, calc(100vw - 32px));
+    background: #fff;
+    border: 2px solid #E85D2A;
+    border-radius: 14px 14px 0 0;
+    box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.18);
+    padding: 20px 24px 18px;
+    z-index: 100001;
+    transition: bottom 0.25s ease;
+    font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
+}
+.cta-note-tray.is-open { bottom: 0; }
+.cta-note-tray__label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #E85D2A;
+    margin-bottom: 6px;
+}
+.cta-note-tray__body {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #1a1a1a;
+    margin-bottom: 14px;
+}
+.cta-note-tray__close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 20px;
+    color: #555;
+    line-height: 1;
+}
+.cta-note-tray__close:hover { color: #000; }
 
         /* Make property carousel scrollable on homepage */
         .destination-selection-slider .swiper-wrapper {
