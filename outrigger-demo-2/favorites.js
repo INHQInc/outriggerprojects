@@ -759,6 +759,7 @@ function renderTripDetail(el) {
                 }
                 html += '<div class="card-cta-info">';
                 html += '<a href="' + resortUrl + '" target="_blank" class="button">Book Now <span class="icon-arrow"><svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m4.5,3.49174l4,4l-4,4" stroke="#ffffff" stroke-width="2"></path></svg></span></a>';
+                html += '<a href="' + resortUrl + '" target="_blank" class="card-view-property">Learn More</a>';
                 html += '</div></div>';
                 /* Heart overlay on the resort card */
                 if (isFavorited) {
