@@ -2139,12 +2139,12 @@ function renderTripDetail(el) {
                     html += '</div>';
                 });
 
-                /* Always-show "+" tile after the last room so the player can
+                /* Always-show search tile after the last room so the player can
                    add more rooms to this resort regardless of how many are
                    already favorited. */
                 html += '<a class="fav-empty-room-tile" href="' + resortUrl + '" target="_blank">';
                 html += '<div class="fav-empty-room-tile__inner">';
-                html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+                html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="20" y2="20"/></svg>';
                 html += '<div class="fav-empty-room-tile__label">Explore Rooms & Suites</div>';
                 html += '</div></a>';
 
