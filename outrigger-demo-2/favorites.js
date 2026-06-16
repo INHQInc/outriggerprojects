@@ -803,6 +803,13 @@ function renderTripDetail(el) {
                 html += '<button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + offer.id + '\')">Remove</button>';
                 html += '</div></div></div>';
             });
+            /* Always-show explore-offers tile after the last offer so
+               the player can browse more offers from inside the collection. */
+            html += '<a class="fav-empty-room-tile" href="https://www.outrigger.com/offers" target="_blank">';
+            html += '<div class="fav-empty-room-tile__inner">';
+            html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="20" y2="20"/></svg>';
+            html += '<div class="fav-empty-room-tile__label">Explore Offers</div>';
+            html += '</div></a>';
             html += '</div>';
         }
     }

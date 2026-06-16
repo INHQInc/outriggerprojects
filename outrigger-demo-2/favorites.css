@@ -1358,36 +1358,40 @@
             right: 12px;
             z-index: 10;
         }
-        .fav-collection-rooms .fav-empty-room-tile {
+        /* Explore-more placeholder tile — used inside both the rooms
+           grid (.fav-collection-rooms) and the offers grid (.offers-grid). */
+        .fav-empty-room-tile {
             display: flex;
             align-items: center;
             justify-content: center;
             background: #fafafa;
             border: 1.5px dashed #cfd6d3;
             border-radius: 12px;
-            /* Match room-card height so explore tile stays consistent
-               regardless of whether the row has any room cards. */
-            min-height: 512px;
             text-decoration: none;
             color: var(--clr-primary, #19353d);
             transition: background 0.15s, border-color 0.15s;
         }
-        .fav-collection-rooms .fav-empty-room-tile:hover {
+        .fav-empty-room-tile:hover {
             background: #f3f5f3;
             border-color: var(--clr-primary, #19353d);
         }
-        .fav-collection-rooms .fav-empty-room-tile svg {
+        .fav-empty-room-tile svg {
             width: 32px;
             height: 32px;
             margin-bottom: 12px;
         }
-        .fav-collection-rooms .fav-empty-room-tile__label {
+        .fav-empty-room-tile__label {
             font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
             font-size: 14px;
             letter-spacing: 0.5px;
         }
-        .fav-collection-rooms .fav-empty-room-tile__inner {
+        .fav-empty-room-tile__inner {
             text-align: center;
+        }
+        /* Match room-card height so the rooms-grid explore tile stays
+           consistent regardless of whether the row has any room cards. */
+        .fav-collection-rooms .fav-empty-room-tile {
+            min-height: 512px;
         }
         @media (max-width: 768px) {
             .fav-collection-rooms {
