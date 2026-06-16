@@ -800,7 +800,6 @@ function renderTripDetail(el) {
                 if (offerDesc) html += '<div class="room-card__desc">' + offerDesc + '</div>';
                 html += '<div class="room-card__cta">';
                 html += '<a href="' + offerUrl + '" target="_blank" class="resort-banner__cta-primary" style="font-size:14px;padding:12px 16px;">View Offer</a>';
-                html += '<button class="fav-item-card__remove" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + offer.id + '\')">Remove</button>';
                 html += '</div></div></div>';
             });
             /* Always-show explore-offers tile after the last offer so
