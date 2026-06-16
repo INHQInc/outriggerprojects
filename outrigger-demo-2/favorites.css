@@ -1110,13 +1110,15 @@
         }
         /* Offer tile uses the same .card.card-padding markup as the
            demo-2 homepage offers carousel so outrigger main.css styles
-           it automatically. We just need to reset the fixed swiper
-           width / margin that main.css sets on .card, and position
-           the heart overlay on top of the image. */
+           it automatically. Lock height to homepage value (500px per
+           inspector) so favorites tiles aren't taller than homepage
+           tiles. Width stays grid-fluid. Reset main.css swiper width
+           override and position heart overlay on the image. */
         .offers-grid .card.card-padding {
             position: relative;
             width: auto !important;
             max-width: none !important;
+            height: 500px !important;
             flex: 0 0 auto !important;
             margin: 0 !important;
         }
@@ -1418,10 +1420,11 @@
         .fav-collection-rooms .fav-empty-room-tile {
             min-height: 512px;
         }
-        /* Offers grid: match offer-tile height so the explore tile
-           doesn't collapse when it lands on its own row. */
+        /* Offers grid: match the demo-2 homepage offer-card height
+           (~500px per inspector) so the explore tile lines up with the
+           offer tiles in the row above. */
         .offers-grid .fav-empty-room-tile {
-            min-height: 460px;
+            min-height: 500px;
         }
         @media (max-width: 768px) {
             .fav-collection-rooms {
