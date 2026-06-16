@@ -1114,12 +1114,10 @@
            inspector) so favorites tiles aren't taller than homepage
            tiles. Width stays grid-fluid. Reset main.css swiper width
            override and position heart overlay on the image. */
-        /* Let .card.card-padding render exactly as on the demo-2
-           homepage — outrigger main.css already sets padding 20/20/40
-           and 200px image height. We only need to:
-             - reset swiper-fixed width/margin so it fits a CSS grid cell
-             - lock total card height to 512px (room-tile height)
-             - position the heart overlay on the image */
+        /* Make .offers-grid offer tiles render identically to the
+           .offers-slider tiles on the demo-2 homepage. Outrigger
+           main.css scopes the landscape 200px image to .offers-slider
+           specifically — we replicate it for .offers-grid. */
         .offers-grid .card.card-padding {
             position: relative;
             width: auto !important;
@@ -1127,6 +1125,12 @@
             height: 512px !important;
             flex: 0 0 auto !important;
             margin: 0 !important;
+        }
+        /* Mirror .offers-slider .card img { max-height: 200px } so the
+           favorites offer image is landscape (~375x200) instead of the
+           1:1 aspect-ratio default that .card img would otherwise apply. */
+        .offers-grid .card img {
+            max-height: 200px;
         }
         .offers-grid .card.card-padding > .favorite-btn.fav-overlay-heart {
             position: absolute;
