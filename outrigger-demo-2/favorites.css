@@ -1455,4 +1455,12 @@
             .fav-collection-rooms .promo-card.fav-resort-card {
                 grid-column: span 1;
             }
+            /* Mobile: shrink the explore-rooms / explore-offers tile to a
+               compact 125px banner so it doesn't eat a full screen-height
+               between resort cards. */
+            .fav-collection-rooms .fav-empty-room-tile,
+            .offers-grid .fav-empty-room-tile {
+                min-height: 125px !important;
+                height: 125px !important;
+            }
         }
