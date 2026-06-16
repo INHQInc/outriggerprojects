@@ -622,9 +622,21 @@ function renderTripDetail(el) {
             'OUTRIGGER Waikiki Beach Resort': 'An iconic beachfront resort on the sands of Waikiki with legendary views of Diamond Head.',
             'OUTRIGGER Waikīkī Paradise Hotel': 'A modern oasis in the heart of Waikiki, steps from world-class shopping, dining, and the beach.'
         };
-        var offerDescMap = {
-            'Ocean views on sale': 'Save up to 30% on ocean view rooms at select OUTRIGGER resorts across Hawaii. Wake up to stunning Pacific views at an unbeatable price.',
-            'Limited Time Never-Ending Summer!': 'Extend your summer with special rates on stays through the season. Enjoy warm weather, beach days, and island adventures for less.'
+        /* Title text for known offers — scraped from offers.html .card-value.
+           Used as fallback for older favorited offers that don't have
+           offer.title set (saved before the scraper captured it). */
+        var offerTitleMap = {
+            'Save up to 25%': 'Book direct for the best rates',
+            'Ocean views on sale': 'Save more when you book our best views',
+            'Limited Time Never-Ending Summer!': 'No resort charge & more!',
+            'Stay longer and save': 'Longer-stay packages to enjoy our iconic destinations without rushing'
+        };
+        /* Resort line — scraped from offers.html .card-text. Fallback only. */
+        var offerResortMap = {
+            'Save up to 25%': 'at OUTRIGGER Reef Waikiki Beach Resort',
+            'Ocean views on sale': 'at OUTRIGGER Reef Waikiki Beach Resort',
+            'Limited Time Never-Ending Summer!': 'at OUTRIGGER Reef Waikiki Beach Resort',
+            'Stay longer and save': 'at OUTRIGGER Reef Waikiki Beach Resort'
         };
         var roomDescMap = {
             'Oceanfront Suite': 'Unforgettable sunrises and sunsets with dramatic views of Diamond Head and the Pacific Ocean.',
@@ -798,23 +810,28 @@ function renderTripDetail(el) {
             html += '<div class="offers-grid">';
             offerItems.forEach(function(offer) {
                 var offerUrl = offer.offerUrl || '#';
-                // Real outrigger offer card has 3 lines: eyebrow / title / resort.
-                // Map onto our data: name=eyebrow, title=headline, resortName=resort.
-                // Fallback to offer.desc / offerDescMap so older favorited items
-                // (before the title/resortName fields existed) still render.
+                // Mirror the real outrigger offer card on demo-2/index.html:
+                //   <div class="card card-padding">
+                //     <img>
+                //     <div class="card-body">
+                //       <a class="card-title"><span>eyebrow</span></a>
+                //       <div class="card-value">title</div>
+                //       <div class="card-text">resort line</div>
+                //       <div class="card-cta-info"><a class="button">Check availability</a></div>
+                //     </div>
+                //   </div>
+                // Outrigger main.css already styles this markup correctly.
                 var eyebrow = offer.name || '';
-                var title = offer.title || offerDescMap[offer.name] || '';
-                var resortLine = offer.resortName || offer.desc || '';
-                html += '<div class="fav-offer-card">';
-                html += '<div class="fav-offer-card__img-wrap">';
+                var title = offer.title || offerTitleMap[offer.name] || '';
+                var resortLine = offer.resortName || offerResortMap[offer.name] || '';
+                html += '<div class="card card-padding fav-offer-tile">';
                 html += '<img src="' + offer.img + '" alt="">';
                 html += '<button class="favorite-btn is-favorited fav-overlay-heart" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + offer.id + '\')">' + heartSVG + '</button>';
-                html += '</div>';
-                html += '<div class="fav-offer-card__body">';
-                if (eyebrow) html += '<a href="' + offerUrl + '" target="_blank" class="fav-offer-card__eyebrow">' + eyebrow + '</a>';
-                if (title) html += '<div class="fav-offer-card__title">' + title + '</div>';
-                if (resortLine) html += '<div class="fav-offer-card__resort">' + resortLine + '</div>';
-                html += '<div class="fav-offer-card__cta">';
+                html += '<div class="card-body">';
+                if (eyebrow) html += '<a href="' + offerUrl + '" target="_blank" class="card-title"><span>' + eyebrow + '</span></a>';
+                if (title) html += '<div class="card-value">' + title + '</div>';
+                if (resortLine) html += '<div class="card-text">' + resortLine + '</div>';
+                html += '<div class="card-cta-info">';
                 html += '<a href="' + offerUrl + '" target="_blank" class="button">Check availability <span class="icon-arrow"><svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m4.5,3.49174l4,4l-4,4" stroke="#332926" stroke-width="2"></path></svg></span></a>';
                 html += '</div></div></div>';
             });

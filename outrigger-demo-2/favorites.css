@@ -1108,60 +1108,24 @@
             display: grid; grid-template-columns: repeat(3, 1fr);
             gap: 14px;
         }
-        /* Offer tile — mirrors the real outrigger offer card on
-           /offers: image on top, eyebrow line (discount), bold title,
-           resort line, "Check availability" button. Heart sits over
-           the image like rooms. */
-        .fav-offer-card {
-            background: #fff;
-            border: 1px solid var(--clr-border, #e8e5de);
-            border-radius: 10px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: box-shadow 0.2s;
+        /* Offer tile uses the same .card.card-padding markup as the
+           demo-2 homepage offers carousel so outrigger main.css styles
+           it automatically. We just need to reset the fixed swiper
+           width / margin that main.css sets on .card, and position
+           the heart overlay on top of the image. */
+        .offers-grid .card.card-padding {
+            position: relative;
+            width: auto !important;
+            max-width: none !important;
+            flex: 0 0 auto !important;
+            margin: 0 !important;
         }
-        .fav-offer-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
-        .fav-offer-card__img-wrap { position: relative; }
-        .fav-offer-card__img-wrap img {
-            width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block;
+        .offers-grid .card.card-padding > .favorite-btn.fav-overlay-heart {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 10;
         }
-        .fav-offer-card__body {
-            padding: 20px 24px 24px;
-            display: flex; flex-direction: column; gap: 8px; flex: 1;
-        }
-        .fav-offer-card__eyebrow {
-            font-family: 'DuplicateSans-Bold', system-ui, sans-serif;
-            font-size: 18px; font-weight: 700;
-            color: rgb(37, 37, 37);
-            text-decoration: none;
-            line-height: 1.2;
-        }
-        .fav-offer-card__eyebrow:hover { color: var(--clr-primary, #0F4A5A); }
-        .fav-offer-card__title {
-            font-family: 'DuplicateIonic-Medium', Georgia, serif;
-            font-size: 20px; line-height: 1.25;
-            color: rgb(37, 37, 37);
-        }
-        .fav-offer-card__resort {
-            font-family: 'DuplicateSans-Regular', system-ui, sans-serif;
-            font-size: 13px; color: rgb(95, 95, 95);
-        }
-        .fav-offer-card__cta {
-            margin-top: auto; padding-top: 16px;
-        }
-        .fav-offer-card__cta .button {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 12px 20px;
-            border: 1px solid rgb(37, 37, 37);
-            background: transparent;
-            font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
-            font-size: 14px; color: rgb(37, 37, 37);
-            text-decoration: none;
-            transition: background 0.2s, color 0.2s;
-        }
-        .fav-offer-card__cta .button:hover { background: rgb(37, 37, 37); color: #fff; }
-        .fav-offer-card__cta .button .icon-arrow svg path { stroke: currentColor; }
         .resort-banner__no-rooms { margin-bottom: 28px; }
 
         /* Room toggle — own line below CTAs */
