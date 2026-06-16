@@ -356,8 +356,22 @@ function loadState() {
 function onHeartClick(btn) {
     const id = btn.dataset.id;
     if (btn.classList.contains('is-favorited')) {
-        // UNFAVORITE: remove from all trips
-        state.trips.forEach(t => { t.items = t.items.filter(i => i.id !== id); });
+        // UNFAVORITE: remove from all trips.
+        // Cascade: if removing a Resort, also remove every Room
+        // saved under that resort (i.e. item.sub === resort.name).
+        var cascadeResortName = null;
+        state.trips.forEach(function(t) {
+            var found = t.items.find(function(i) { return i.id === id; });
+            if (found && found.type === 'Resort') cascadeResortName = found.name;
+        });
+        state.trips.forEach(function(t) { t.items = t.items.filter(function(i) { return i.id !== id; }); });
+        if (cascadeResortName) {
+            state.trips.forEach(function(t) {
+                t.items = t.items.filter(function(i) {
+                    return !(i.type === 'Room' && i.sub === cascadeResortName);
+                });
+            });
+        }
         btn.classList.remove('is-favorited');
         toast('Removed from favorites');
     } else {
@@ -569,7 +583,7 @@ function renderTripDetail(el) {
     if (!trip) { state.currentTripView = null; renderTripsGrid(el); return; }
     let html = '<div class="fav-page">';
     html += '<button class="trip-detail__back" onclick="backToTrips()">Back to all collections</button>';
-    html += '<div class="trip-detail__header"><div><h1 class="trip-detail__name">' + trip.name + '</h1><div class="trip-detail__count">' + trip.items.length + ' Saved Items</div></div>';
+    html += '<div class="trip-detail__header"><div><h1 class="trip-detail__name">' + trip.name + '</h1></div>';
     html += '<div class="trip-detail__actions"><button class="trip-detail__action" onclick="renameTrip(\'' + trip.id + '\')">Rename</button><button class="trip-detail__action danger" onclick="deleteTrip(\'' + trip.id + '\')">Delete collection</button></div></div>';
 
     if (trip.items.length === 0) {
@@ -829,7 +843,18 @@ function addResortToFavorites(tripId, infoJson) {
 
 function removeItemFromTrip(tripId, itemId) {
     const trip = state.trips.find(t => t.id === tripId);
-    if (trip) trip.items = trip.items.filter(i => i.id !== itemId);
+    if (trip) {
+        // Cascade: if removing a Resort, also remove every Room
+        // saved under that resort (i.e. item.sub === resort.name).
+        var removed = trip.items.find(function(i) { return i.id === itemId; });
+        var cascadeResortName = (removed && removed.type === 'Resort') ? removed.name : null;
+        trip.items = trip.items.filter(function(i) { return i.id !== itemId; });
+        if (cascadeResortName) {
+            trip.items = trip.items.filter(function(i) {
+                return !(i.type === 'Room' && i.sub === cascadeResortName);
+            });
+        }
+    }
     // Also un-heart on the page
     const btn = document.querySelector('.favorite-btn[data-id="' + itemId + '"]');
     if (btn) btn.classList.remove('is-favorited');
