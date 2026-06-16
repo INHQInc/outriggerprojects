@@ -1337,14 +1337,17 @@
         .fav-collection-rooms .promo-card {
             position: relative;
         }
-        /* Override main.css .card { width: var(--card-width) } so the
-           cards fill their grid cells instead of a fixed swiper width */
+        /* Override main.css rules that interfere with grid behavior:
+           - .card { width: var(--card-width) } sets fixed swiper width
+           - .card:not(:last-child) { margin-right: 24px } adds margin
+             that subtracts from the grid cell width. Both reset here. */
         .fav-collection-rooms .card,
         .fav-collection-rooms .promo-card {
             width: auto !important;
             max-width: none !important;
             flex: 0 0 auto !important;
             padding: 0 !important;
+            margin: 0 !important;
         }
         .fav-collection-rooms .fav-overlay-heart {
             position: absolute;
