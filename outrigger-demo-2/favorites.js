@@ -1146,7 +1146,7 @@ style.textContent = `:root {
 
         /* Fix mobile horizontal overflow */
         html, body { overflow-x: hidden !important; max-width: 100vw !important; }
-        .fav-page { overflow-x: hidden !important; max-width: 100vw; box-sizing: border-box; }
+        .fav-page { overflow-x: hidden !important; box-sizing: border-box; }
         .resort-banner, .room-rail, .room-rail-wrap, .room-rail__grid, .room-card, .offers-grid,
         .fav-dest-header, .trip-detail__header, .trip-detail__actions { max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
         .resort-banner__ctas { flex-wrap: wrap; }
