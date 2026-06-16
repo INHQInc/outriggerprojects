@@ -8,11 +8,11 @@
 // ── Hide blue rooms carousel hero on rooms.html ────────────────
 var roomsSlider = document.querySelector(".room-and-suites-slider.card-slider"); if (roomsSlider) roomsSlider.style.display = "none";
 
-// ── Rewrite logo links to point to /demo/ ────────────────
+// ── Rewrite logo links to point to /demo-2/ ────────────────
 document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('a.header-logo-dark-bg, a.header-logo-light-bg').forEach(function(a) { a.href = '/demo/'; });
+  document.querySelectorAll('a.header-logo-dark-bg, a.header-logo-light-bg').forEach(function(a) { a.href = '/demo-2/'; });
   // Also catch any other outrigger.com logo links
-  document.querySelectorAll('a[href*="outrigger.com"] img.header-logo').forEach(function(img) { img.parentElement.href = '/demo/'; });
+  document.querySelectorAll('a[href*="outrigger.com"] img.header-logo').forEach(function(img) { img.parentElement.href = '/demo-2/'; });
   // Tag rooms pages so room-card CSS overrides only apply there (not homepage)
   if (window.location.pathname.indexOf('rooms') !== -1) {
     document.body.classList.add('fav-rooms-page');
@@ -359,7 +359,16 @@ style.textContent = `:root {
         /* ============================================
            FAVORITES LISTING PAGE
            ============================================ */
-        .fav-page { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        /* Match outrigger.com rooms page Bootstrap .container max-widths
+           (xxl 1320px). Responsive boxed layout: desktop matches the live
+           rooms grid width, mobile fills viewport with side padding. */
+        .fav-page {
+            width: 100%;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
         .fav-page__header {
             display: flex; align-items: flex-start; justify-content: space-between;
             margin-bottom: 36px; padding-bottom: 24px; border-bottom: 1px solid var(--clr-border);
@@ -2108,35 +2117,36 @@ function renderTripDetail(el) {
                 }
                 html += '</div>';
 
-                /* Rooms or empty-state "+" tile */
-                if (rg.rooms.length === 0) {
-                    html += '<a class="fav-empty-room-tile" href="' + resortUrl + '" target="_blank">';
-                    html += '<div class="fav-empty-room-tile__inner">';
-                    html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
-                    html += '<div class="fav-empty-room-tile__label">Explore Rooms & Suites</div>';
-                    html += '</div></a>';
-                } else {
-                    rg.rooms.forEach(function(room) {
-                        var roomUrl = room.roomUrl || room.hotelUrl || '#';
-                        var roomDesc = room.desc || roomDescMap[room.name] || '';
-                        /* Reused rooms-page .card.loaded markup — simplified slider with one image */
-                        html += '<div class="card loaded">';
-                        html += '<div class="card-simplified-slider">';
-                        html += '<div class="carousel slide">';
-                        html += '<div class="carousel-inner">';
-                        html += '<div class="carousel-item active"><img class="d-block w-100" src="' + room.img + '" alt="' + room.name + '"></div>';
-                        html += '</div></div></div>';
-                        html += '<div class="card-body">';
-                        html += '<a class="card-title" href="' + roomUrl + '" target="_blank"><span>' + room.name + '</span></a>';
-                        if (roomDesc) html += '<div class="card-text">' + roomDesc + '</div>';
-                        html += '<div class="card-cta-info">';
-                        html += '<a href="' + roomUrl + '" target="_blank" class="button">Check Availability <span class="icon-arrow"><svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m4.5,3.49174l4,4l-4,4" stroke="#332926" stroke-width="2"></path></svg></span></a>';
-                        html += '</div></div>';
-                        /* Heart overlay */
-                        html += '<button class="favorite-btn is-favorited fav-overlay-heart" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + room.id + '\')">' + heartSVG + '</button>';
-                        html += '</div>';
-                    });
-                }
+                /* Render all favorited rooms */
+                rg.rooms.forEach(function(room) {
+                    var roomUrl = room.roomUrl || room.hotelUrl || '#';
+                    var roomDesc = room.desc || roomDescMap[room.name] || '';
+                    /* Reused rooms-page .card.loaded markup — simplified slider with one image */
+                    html += '<div class="card loaded">';
+                    html += '<div class="card-simplified-slider">';
+                    html += '<div class="carousel slide">';
+                    html += '<div class="carousel-inner">';
+                    html += '<div class="carousel-item active"><img class="d-block w-100" src="' + room.img + '" alt="' + room.name + '"></div>';
+                    html += '</div></div></div>';
+                    html += '<div class="card-body">';
+                    html += '<a class="card-title" href="' + roomUrl + '" target="_blank"><span>' + room.name + '</span></a>';
+                    if (roomDesc) html += '<div class="card-text">' + roomDesc + '</div>';
+                    html += '<div class="card-cta-info">';
+                    html += '<a href="' + roomUrl + '" target="_blank" class="button">Check Availability <span class="icon-arrow"><svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m4.5,3.49174l4,4l-4,4" stroke="#332926" stroke-width="2"></path></svg></span></a>';
+                    html += '</div></div>';
+                    /* Heart overlay */
+                    html += '<button class="favorite-btn is-favorited fav-overlay-heart" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + room.id + '\')">' + heartSVG + '</button>';
+                    html += '</div>';
+                });
+
+                /* Always-show "+" tile after the last room so the player can
+                   add more rooms to this resort regardless of how many are
+                   already favorited. */
+                html += '<a class="fav-empty-room-tile" href="' + resortUrl + '" target="_blank">';
+                html += '<div class="fav-empty-room-tile__inner">';
+                html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+                html += '<div class="fav-empty-room-tile__label">Explore Rooms & Suites</div>';
+                html += '</div></a>';
 
                 html += '</div>'; /* close .fav-collection-rooms */
             });
@@ -2514,7 +2524,7 @@ function openCollection(tripId) {
     renderFavoritesPage();
     return;
   }
-  window.location.href = '/demo/favorites.html?trip=' + encodeURIComponent(tripId);
+  window.location.href = '/demo-2/favorites.html?trip=' + encodeURIComponent(tripId);
 }
 
 function showFavoritesOverlay() {
@@ -2524,15 +2534,15 @@ function showFavoritesOverlay() {
     return;
   }
   // Navigate to the dedicated favorites page
-  window.location.href = '/demo/favorites.html';
+  window.location.href = '/demo-2/favorites.html';
 }
 
 function closeFavoritesOverlay() {
   // Go back to previous page
-  if (document.referrer && document.referrer.indexOf('/demo/') !== -1) {
+  if (document.referrer && document.referrer.indexOf('/demo-2/') !== -1) {
     window.history.back();
   } else {
-    window.location.href = '/demo/';
+    window.location.href = '/demo-2/';
   }
 }
 
