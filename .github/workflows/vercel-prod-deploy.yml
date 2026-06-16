@@ -1,0 +1,26 @@
+name: Vercel Production Deploy Backstop
+
+# Why this exists:
+# Vercel's auto-promote from main pushes has been flaky — builds happen but
+# don't always promote to production. This workflow fires on every push to
+# main and explicitly triggers Vercel's deploy hook for the production branch,
+# guaranteeing a fresh production deployment.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # Allow manual trigger from GitHub Actions UI
+
+jobs:
+  trigger-production-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel deploy hook (production)
+        run: |
+          response=$(curl -fsSL -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}")
+          echo "Vercel response: $response"
+          # Fail loudly if curl returned non-2xx
+          if [ -z "$response" ]; then
+            echo "Empty response from Vercel deploy hook"
+            exit 1
+          fi
