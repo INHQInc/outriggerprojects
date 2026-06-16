@@ -1271,6 +1271,38 @@
 .demo-nav-bar a:hover,.demo-nav-bar button:hover{background:rgba(255,255,255,.25);}
 .demo-nav-bar a.active{background:rgba(255,255,255,.3);}
 .demo-nav-bar .demo-sep{width:1px;height:20px;background:rgba(255,255,255,.35);margin:0 2px;flex-shrink:0;}
+/* Hide dev-only nav buttons (Notes inspector) on mobile */
+@media (max-width: 768px) {
+    .demo-nav-bar .demo-dev-only { display: none; }
+}
+
+/* ── CTA inspector overlays ────────────────────────────────────
+   Toggle on by adding `show-cta-notes` to <body>. Every element
+   with `data-cta-note="..."` then renders a semi-transparent orange
+   overlay containing the note text. Click-through enabled so the
+   underlying CTA can still be tested. */
+body.show-cta-notes [data-cta-note] { position: relative; }
+body.show-cta-notes [data-cta-note]::after {
+    content: attr(data-cta-note);
+    position: absolute;
+    inset: 0;
+    background: rgba(232, 93, 42, 0.78);
+    border: 2px solid rgba(160, 50, 10, 0.95);
+    color: #fff;
+    font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.35;
+    padding: 8px 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    pointer-events: none;
+    border-radius: inherit;
+    box-sizing: border-box;
+    overflow: hidden;
+}
 
         /* Make property carousel scrollable on homepage */
         .destination-selection-slider .swiper-wrapper {

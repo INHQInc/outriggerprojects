@@ -307,8 +307,14 @@ function injectDemoNav() {
   }).join("") +
   '<div class="demo-sep"></div>' +
   '<button onclick="toggleTray()">Tray<span id="favDemoCount" style="opacity:.65;font-weight:500;"></span></button>' +
+  '<button onclick="toggleCtaNotes()" class="demo-dev-only">Notes</button>' +
   '<button onclick="resetAll()">Reset</button>';
   document.body.appendChild(nav);
+}
+
+// ── Dev: toggle CTA annotation overlays ─────────────────────────
+function toggleCtaNotes() {
+  document.body.classList.toggle("show-cta-notes");
 }
 
 // ── MAIN JS LOGIC (from prototype) ──────────────────────────────
@@ -758,8 +764,8 @@ function renderTripDetail(el) {
                     html += '<div class="card-text"><p>' + resortDesc + '</p></div>';
                 }
                 html += '<div class="card-cta-info">';
-                html += '<a href="' + resortUrl + '" target="_blank" class="button">Book Now <span class="icon-arrow"><svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m4.5,3.49174l4,4l-4,4" stroke="#ffffff" stroke-width="2"></path></svg></span></a>';
-                html += '<a href="' + resortUrl + '" target="_blank" class="card-view-property">Learn More</a>';
+                html += '<a href="' + resortUrl + '" target="_blank" class="button" data-cta-note="Uses magic link field data to open the widget with the property pre populated">Book Now <span class="icon-arrow"><svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m4.5,3.49174l4,4l-4,4" stroke="#ffffff" stroke-width="2"></path></svg></span></a>';
+                html += '<a href="' + resortUrl + '" target="_blank" class="card-view-property" data-cta-note="Links to the property page">Learn More</a>';
                 html += '</div></div>';
                 /* Heart overlay on the resort card */
                 if (isFavorited) {
@@ -782,10 +788,10 @@ function renderTripDetail(el) {
                     html += '<div class="carousel-item active"><img class="d-block w-100" src="' + room.img + '" alt="' + room.name + '"></div>';
                     html += '</div></div></div>';
                     html += '<div class="card-body">';
-                    html += '<a class="card-title" href="' + roomUrl + '" target="_blank"><span>' + room.name + '</span></a>';
+                    html += '<a class="card-title" href="' + roomUrl + '" target="_blank" data-cta-note="Links to the room details page for that specific room"><span>' + room.name + '</span></a>';
                     if (roomDesc) html += '<div class="card-text">' + roomDesc + '</div>';
                     html += '<div class="card-cta-info">';
-                    html += '<a href="' + roomUrl + '" target="_blank" class="button">Check Availability <span class="icon-arrow"><svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m4.5,3.49174l4,4l-4,4" stroke="#332926" stroke-width="2"></path></svg></span></a>';
+                    html += '<a href="' + roomUrl + '" target="_blank" class="button" data-cta-note="Uses magic link field data to open the widget with the room and resort prepopulated">Check Availability <span class="icon-arrow"><svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m4.5,3.49174l4,4l-4,4" stroke="#332926" stroke-width="2"></path></svg></span></a>';
                     html += '</div></div>';
                     /* Heart overlay */
                     html += '<button class="favorite-btn is-favorited fav-overlay-heart" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + room.id + '\')">' + heartSVG + '</button>';
@@ -795,7 +801,7 @@ function renderTripDetail(el) {
                 /* Always-show search tile after the last room so the player can
                    add more rooms to this resort regardless of how many are
                    already favorited. */
-                html += '<a class="fav-empty-room-tile" href="' + resortUrl + '" target="_blank">';
+                html += '<a class="fav-empty-room-tile" href="' + resortUrl + '" target="_blank" data-cta-note="Links to the property\'s Rooms and Suites page">';
                 html += '<div class="fav-empty-room-tile__inner">';
                 html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="20" y2="20"/></svg>';
                 html += '<div class="fav-empty-room-tile__label">Explore more Rooms &amp; Suites at<br>' + resortName + '</div>';
@@ -829,16 +835,16 @@ function renderTripDetail(el) {
                 html += '<img src="' + offer.img + '" alt="">';
                 html += '<button class="favorite-btn is-favorited fav-overlay-heart" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + offer.id + '\')">' + heartSVG + '</button>';
                 html += '<div class="card-body">';
-                if (eyebrow) html += '<a href="' + offerUrl + '" target="_blank" class="card-title"><span>' + eyebrow + '</span></a>';
+                if (eyebrow) html += '<a href="' + offerUrl + '" target="_blank" class="card-title" data-cta-note="Links to the offer landing page"><span>' + eyebrow + '</span></a>';
                 if (title) html += '<div class="card-value">' + title + '</div>';
                 if (resortLine) html += '<div class="card-text">' + resortLine + '</div>';
                 html += '<div class="card-cta-info">';
-                html += '<a href="' + offerUrl + '" target="_blank" class="button">Check availability <span class="icon-arrow"><svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m4.5,3.49174l4,4l-4,4" stroke="#332926" stroke-width="2"></path></svg></span></a>';
+                html += '<a href="' + offerUrl + '" target="_blank" class="button" data-cta-note="Opens the offer link to the booking widget in a new tab (same as offers page)">Check availability <span class="icon-arrow"><svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m4.5,3.49174l4,4l-4,4" stroke="#332926" stroke-width="2"></path></svg></span></a>';
                 html += '</div></div></div>';
             });
             /* Always-show explore-offers tile after the last offer so
                the player can browse more offers from inside the collection. */
-            html += '<a class="fav-empty-room-tile" href="https://www.outrigger.com/offers" target="_blank">';
+            html += '<a class="fav-empty-room-tile" href="https://www.outrigger.com/offers" target="_blank" data-cta-note="Links to the global offers page">';
             html += '<div class="fav-empty-room-tile__inner">';
             html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="20" y2="20"/></svg>';
             html += '<div class="fav-empty-room-tile__label">Explore Offers</div>';
