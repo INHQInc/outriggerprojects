@@ -1373,6 +1373,11 @@
                no rooms share the row (e.g. when hotel has 0 rooms saved). */
             min-height: 512px;
         }
+        /* Reduce hotel-name size on the resort promo card */
+        .fav-collection-rooms .promo-card.fav-resort-card .card-title {
+            font-size: 35px !important;
+            line-height: 1.1;
+        }
         .fav-collection-rooms .card.loaded,
         .fav-collection-rooms .promo-card {
             position: relative;
