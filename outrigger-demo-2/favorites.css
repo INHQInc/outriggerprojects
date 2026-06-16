@@ -1408,6 +1408,13 @@
             color: var(--clr-primary, #19353d);
             transition: background 0.15s, border-color 0.15s;
         }
+        .fav-empty-room-tile:hover,
+        .fav-empty-room-tile:hover .fav-empty-room-tile__label,
+        .fav-empty-room-tile:focus,
+        .fav-empty-room-tile:focus .fav-empty-room-tile__label {
+            color: var(--clr-primary, #19353d) !important;
+            text-decoration: none !important;
+        }
         .fav-empty-room-tile:hover {
             background: #f3f5f3;
             border-color: var(--clr-primary, #19353d);
