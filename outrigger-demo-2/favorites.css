@@ -1129,12 +1129,13 @@
             border-radius: 10px;
         }
         /* Image goes edge-to-edge inside the card, with the card's own
-           border-radius clipping its top corners. Match .offers-slider
-           landscape 200px height so it stays wide, not square. */
+           border-radius clipping its top corners. Taller (290px) so it
+           matches the room-card image proportion and uses up empty
+           space at the bottom of the offer card. */
         .offers-grid .card img {
             width: 100% !important;
-            max-height: 200px;
-            height: 200px;
+            max-height: 290px !important;
+            height: 290px !important;
             object-fit: cover;
             display: block;
         }
