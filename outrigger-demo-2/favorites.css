@@ -1378,6 +1378,24 @@
             font-size: 35px !important;
             line-height: 1.1;
         }
+        /* Vertically center Book Now + Learn More */
+        .fav-collection-rooms .promo-card.fav-resort-card .card-cta-info {
+            align-items: center !important;
+            gap: 18px;
+        }
+        /* Learn More sits on a dark photo background — force white text
+           with underline so it's visible like the eyebrow/title above. */
+        .fav-collection-rooms .promo-card.fav-resort-card .card-view-property {
+            color: #fff !important;
+            text-decoration: underline !important;
+            text-underline-offset: 4px;
+            font-family: 'DuplicateSans-Medium', system-ui, sans-serif;
+            font-size: 15px;
+        }
+        .fav-collection-rooms .promo-card.fav-resort-card .card-view-property:hover {
+            color: #fff !important;
+            opacity: 0.85;
+        }
         .fav-collection-rooms .card.loaded,
         .fav-collection-rooms .promo-card {
             position: relative;
