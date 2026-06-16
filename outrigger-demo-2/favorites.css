@@ -343,8 +343,12 @@
             width: 100%;
             max-width: 1320px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 40px 0;
             box-sizing: border-box;
+        }
+        /* Mobile: restore side padding so content doesn't touch viewport edges */
+        @media (max-width: 1360px) {
+            .fav-page { padding-left: 20px; padding-right: 20px; }
         }
         .fav-page__header {
             display: flex; align-items: flex-start; justify-content: space-between;
