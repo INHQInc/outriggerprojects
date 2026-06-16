@@ -253,10 +253,14 @@ function injectHeartsOnCards() {
     if (card.querySelector(".favorite-btn")) return;
     if(card.closest('.food-and-drinks-slider')||card.closest('.related-articles-slider'))return;
     if(card.classList.contains('promo-card'))return;
-    // Skip if it's a promo/overlay card with no real content
-    var titleEl = card.querySelector(".card-title, span.card-title, h4, .card-body h4 a");
-    if (!titleEl) return;
-    var name = titleEl.textContent.trim();
+    // Real outrigger offer card markup uses three fields:
+    //   .card-title  → eyebrow / discount line ("Save up to 25%")
+    //   .card-value  → title ("Book direct for the best rates")
+    //   .card-text   → resort name ("at OUTRIGGER Reef Waikiki...")
+    // We capture all three so the favorites tile can mirror the live card.
+    var eyebrowEl = card.querySelector(".card-title, span.card-title");
+    if (!eyebrowEl) return;
+    var name = eyebrowEl.textContent.trim();
     if (!name) return;
     var id = "offer-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").substring(0, 50);
     var slider = card.querySelector(".card-simplified-slider");
@@ -264,8 +268,10 @@ function injectHeartsOnCards() {
     container.style.position = "relative";
     var img = card.querySelector("img");
     var imgSrc = img ? img.src : "";
-    var descEl = card.querySelector(".card-text");
-    var desc = descEl ? descEl.textContent.trim() : "";
+    var titleEl = card.querySelector(".card-value");
+    var title = titleEl ? titleEl.textContent.trim() : "";
+    var resortEl = card.querySelector(".card-text");
+    var resortName = resortEl ? resortEl.textContent.trim() : "";
     var link = card.querySelector("a[href]");
     var url = link ? link.href : "#";
     var btn = document.createElement("button");
@@ -275,7 +281,8 @@ function injectHeartsOnCards() {
     btn.setAttribute("data-name", name);
     btn.setAttribute("data-sub", "Special Offers");
     btn.setAttribute("data-img", imgSrc);
-    btn.setAttribute("data-desc", desc);
+    btn.setAttribute("data-title", title);
+    btn.setAttribute("data-resort-name", resortName);
     btn.setAttribute("data-offer-url", url);
     btn.setAttribute("onclick", "onHeartClick(this)");
     btn.innerHTML = heartSVG;
@@ -506,6 +513,9 @@ function saveToTrip() {
         sub: btn.dataset.sub,
         img: btn.dataset.img,
         desc: btn.dataset.desc || null,
+        // Offer-specific (mirror real outrigger offer card structure)
+        title: btn.dataset.title || null,
+        resortName: btn.dataset.resortName || null,
         hotelUrl: btn.dataset.hotelUrl || null,
         roomUrl: btn.dataset.roomUrl || null,
         offerUrl: btn.dataset.offerUrl || null,
@@ -788,18 +798,24 @@ function renderTripDetail(el) {
             html += '<div class="offers-grid">';
             offerItems.forEach(function(offer) {
                 var offerUrl = offer.offerUrl || '#';
-                html += '<div class="room-card">';
-                html += '<div class="room-card__img-wrap">';
+                // Real outrigger offer card has 3 lines: eyebrow / title / resort.
+                // Map onto our data: name=eyebrow, title=headline, resortName=resort.
+                // Fallback to offer.desc / offerDescMap so older favorited items
+                // (before the title/resortName fields existed) still render.
+                var eyebrow = offer.name || '';
+                var title = offer.title || offerDescMap[offer.name] || '';
+                var resortLine = offer.resortName || offer.desc || '';
+                html += '<div class="fav-offer-card">';
+                html += '<div class="fav-offer-card__img-wrap">';
                 html += '<img src="' + offer.img + '" alt="">';
-                html += '<span class="offer-card__type">Offer</span>';
-                html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + offer.id + '\')">' + heartSVG + '</button>';
+                html += '<button class="favorite-btn is-favorited fav-overlay-heart" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + offer.id + '\')">' + heartSVG + '</button>';
                 html += '</div>';
-                html += '<div class="room-card__body">';
-                html += '<div class="room-card__name"><a href="' + offerUrl + '" target="_blank">' + offer.name + '</a></div>';
-                var offerDesc = offer.desc || offerDescMap[offer.name] || '';
-                if (offerDesc) html += '<div class="room-card__desc">' + offerDesc + '</div>';
-                html += '<div class="room-card__cta">';
-                html += '<a href="' + offerUrl + '" target="_blank" class="resort-banner__cta-primary" style="font-size:14px;padding:12px 16px;">View Offer</a>';
+                html += '<div class="fav-offer-card__body">';
+                if (eyebrow) html += '<a href="' + offerUrl + '" target="_blank" class="fav-offer-card__eyebrow">' + eyebrow + '</a>';
+                if (title) html += '<div class="fav-offer-card__title">' + title + '</div>';
+                if (resortLine) html += '<div class="fav-offer-card__resort">' + resortLine + '</div>';
+                html += '<div class="fav-offer-card__cta">';
+                html += '<a href="' + offerUrl + '" target="_blank" class="button">Check availability <span class="icon-arrow"><svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m4.5,3.49174l4,4l-4,4" stroke="#332926" stroke-width="2"></path></svg></span></a>';
                 html += '</div></div></div>';
             });
             /* Always-show explore-offers tile after the last offer so
