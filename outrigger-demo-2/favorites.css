@@ -1118,9 +1118,29 @@
             position: relative;
             width: auto !important;
             max-width: none !important;
-            height: 540px !important;
+            height: 512px !important;
             flex: 0 0 auto !important;
             margin: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden;
+        }
+        /* Cap image height so the wider favorites card doesn't push
+           the button off-card. Body fills the remaining space. */
+        .offers-grid .card.card-padding > img {
+            width: 100%;
+            height: 290px;
+            object-fit: cover;
+            flex: 0 0 290px;
+        }
+        .offers-grid .card.card-padding > .card-body {
+            flex: 1 1 auto;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .offers-grid .card.card-padding > .card-body .card-cta-info {
+            margin-top: auto;
         }
         .offers-grid .card.card-padding > .favorite-btn.fav-overlay-heart {
             position: absolute;
@@ -1424,7 +1444,7 @@
            (~540px per inspector) so the explore tile lines up with the
            offer tiles in the row above. */
         .offers-grid .fav-empty-room-tile {
-            min-height: 540px;
+            min-height: 512px;
         }
         @media (max-width: 768px) {
             .fav-collection-rooms {
