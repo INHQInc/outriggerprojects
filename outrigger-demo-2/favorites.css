@@ -1047,6 +1047,13 @@
             font-family: 'DuplicateSans-Medium', system-ui, sans-serif; font-size: 20px;
             color: rgb(37, 37, 37); margin-bottom: 12px; line-height: 1.25;
         }
+        .room-card__name a {
+            color: inherit;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            text-decoration-thickness: 1.5px;
+        }
+        .room-card__name a:hover { color: var(--clr-primary, #0F4A5A); }
         .room-card__desc {
             font-family: 'DuplicateSans-Regular', system-ui, sans-serif; font-size: 14px;
             color: rgb(100, 100, 100); line-height: 1.5; margin-bottom: 12px;

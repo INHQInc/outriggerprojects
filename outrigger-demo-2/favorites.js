@@ -795,7 +795,7 @@ function renderTripDetail(el) {
                 html += '<button class="favorite-btn is-favorited" onclick="removeItemFromTrip(\'' + trip.id + '\',\'' + offer.id + '\')">' + heartSVG + '</button>';
                 html += '</div>';
                 html += '<div class="room-card__body">';
-                html += '<div class="room-card__name">' + offer.name + '</div>';
+                html += '<div class="room-card__name"><a href="' + offerUrl + '" target="_blank">' + offer.name + '</a></div>';
                 var offerDesc = offer.desc || offerDescMap[offer.name] || '';
                 if (offerDesc) html += '<div class="room-card__desc">' + offerDesc + '</div>';
                 html += '<div class="room-card__cta">';
