@@ -1332,6 +1332,9 @@
         .fav-collection-rooms .promo-card.fav-resort-card {
             grid-column: span 2;
             position: relative;
+            /* Match room-card height so the promo doesn't shrink when
+               no rooms share the row (e.g. when hotel has 0 rooms saved). */
+            min-height: 512px;
         }
         .fav-collection-rooms .card.loaded,
         .fav-collection-rooms .promo-card {
@@ -1362,7 +1365,9 @@
             background: #fafafa;
             border: 1.5px dashed #cfd6d3;
             border-radius: 12px;
-            min-height: 280px;
+            /* Match room-card height so explore tile stays consistent
+               regardless of whether the row has any room cards. */
+            min-height: 512px;
             text-decoration: none;
             color: var(--clr-primary, #19353d);
             transition: background 0.15s, border-color 0.15s;
