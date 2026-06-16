@@ -797,7 +797,7 @@ function renderTripDetail(el) {
                 html += '<a class="fav-empty-room-tile" href="' + resortUrl + '" target="_blank">';
                 html += '<div class="fav-empty-room-tile__inner">';
                 html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="20" y2="20"/></svg>';
-                html += '<div class="fav-empty-room-tile__label">Explore more Rooms &amp; Suites at ' + resortName + '</div>';
+                html += '<div class="fav-empty-room-tile__label">Explore more Rooms &amp; Suites at<br>' + resortName + '</div>';
                 html += '</div></a>';
 
                 html += '</div>'; /* close .fav-collection-rooms */
