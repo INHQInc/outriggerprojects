@@ -1341,6 +1341,15 @@ style.textContent = `:root {
         .fav-collection-rooms .promo-card {
             position: relative;
         }
+        /* Override main.css .card { width: var(--card-width) } so the
+           cards fill their grid cells instead of a fixed swiper width */
+        .fav-collection-rooms .card,
+        .fav-collection-rooms .promo-card {
+            width: auto !important;
+            max-width: none !important;
+            flex: 0 0 auto !important;
+            padding: 0 !important;
+        }
         .fav-collection-rooms .fav-overlay-heart {
             position: absolute;
             top: 12px;
